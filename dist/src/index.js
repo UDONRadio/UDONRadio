@@ -1,6 +1,7 @@
 "use strict";
-var React = require("react");
-var ReactDOM = require("react-dom");
-var Player_1 = require("./components/Player");
-ReactDOM.render(React.createElement(Player_1.Player, null), document.getElementById("root"));
+const React = require("react");
+const ReactDOM = require("react-dom");
+const Emissions_1 = require("./containers/Emissions");
+ReactDOM.render(React.createElement("div", null,
+    React.createElement(Emissions_1.Emissions, { url: "/api/emissions/" })), document.getElementById("root"));
 //# sourceMappingURL=index.js.map

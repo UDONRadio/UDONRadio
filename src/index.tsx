@@ -1,8 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {Player} from './components/Player'
+import {Emission} from './components/Emission'
+import {Emissions} from './containers/Emissions'
 
 ReactDOM.render(
-  <Player/>,
+  <div>
+    <Emissions url="/api/emissions/"/>
+  </div>,
   document.getElementById("root")
 );

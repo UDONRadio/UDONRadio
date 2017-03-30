@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import ReactAudioPlayer from 'react-audio-player';
-
+/*
 import {EventProps, Event} from './Event'
 
 interface PlayerProps {
@@ -34,3 +34,4 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     </div>
   }
 }
+*/

@@ -2,7 +2,13 @@ Frontend:
 * Window
 ** Info
 *** Shoutbox
-*** 
+*** Browser
+**** Tabview (Emissions,)
+***** Emissions [*]
+****** Emission
+******* Photo
+******* Titre
+******* Descriptif
 ** Player
 *** Pause/Play button
 *** Status
