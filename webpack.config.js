@@ -1,4 +1,4 @@
-var opts = {
+module.exports = {
     entry: "./src/index.tsx",
     output: {
         filename: "bundle.js",
@@ -10,18 +10,16 @@ var opts = {
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js", ".jsx"]
+        extensions: [".ts", ".tsx", ".js", ".json"]
     },
 
     module: {
-        loaders: [
-            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
-            { test: /\.tsx?$/, loader: "ts-loader" }
-        ],
+        rules: [
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
-        preLoaders: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: "source-map-loader" }
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
         ]
     },
 
@@ -33,9 +31,4 @@ var opts = {
         "react": "React",
         "react-dom": "ReactDOM"
     },
-
-    target: "web"
 };
-
-
-module.exports = opts;
