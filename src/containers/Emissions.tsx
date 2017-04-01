@@ -38,7 +38,7 @@ export class Emissions extends React.Component<EmissionsProps, EmissionsState> {
 
   render () {
     console.log(this.state.list)
-    const listEmissions = this.state.list.map((emission) =>
+    const listEmissions = this.state.list.slice(0,3).map((emission) =>
     <li key={emission.starts}>
       <Emission picture_link={emission.emission.picture_link} pitch={emission.emission.pitch} title={emission.emission.title}/>
     </li>

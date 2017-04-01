@@ -1,14 +1,11 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import ReactAudioPlayer from 'react-audio-player';
-/*
-import {EventProps, Event} from './Event'
 
 interface PlayerProps {
 
 }
 interface PlayerState {
-  current: EventProps
   online: boolean
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
@@ -16,7 +13,6 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
   constructor () {
     super();
     this.state = {
-      current: {title: "Offline", description: "Sorry but we're offline at the moment."},
       online: true
     };
   }
@@ -34,4 +30,3 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     </div>
   }
 }
-*/
