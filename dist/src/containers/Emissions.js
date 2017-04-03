@@ -1,6 +1,10 @@
 "use strict";
 const React = require("react");
+const styled_components_1 = require("styled-components");
 const Emission_1 = require("../components/Emission");
+const Inline = styled_components_1.default.li `
+  display: inline;
+`;
 class Emissions extends React.Component {
     constructor(props) {
         super(props);
@@ -14,10 +18,11 @@ class Emissions extends React.Component {
                 list: prevState.list.concat(json.results)
             }));
         });
+        console.log('pute');
     }
     render() {
         console.log(this.state.list);
-        const listEmissions = this.state.list.map((emission) => React.createElement("li", { key: emission.starts },
+        const listEmissions = this.state.list.slice(0, 3).map((emission) => React.createElement(Inline, { key: emission.starts },
             React.createElement(Emission_1.Emission, { picture_link: emission.emission.picture_link, pitch: emission.emission.pitch, title: emission.emission.title })));
         return React.createElement("ul", null, listEmissions);
     }

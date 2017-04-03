@@ -1,24 +1,25 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {Emissions} from '../containers/Emissions'
-import {NavBar} from './NavBar'
+import {NavBar} from '../components/NavBar'
 
 interface NavState {
-  selected = React.Component
+  selected : string
 }
-export class extends React.Component<undefined, NavState> {
+
+export class Nav extends React.Component<undefined, NavState> {
 
   constructor () {
     super();
     this.state = {
-      selected = Emissions
+      selected : 'Emissions'
     };
   }
 
   render () {
-    <div>
+    return <div>
       <NavBar/>
-      <{this.state.selected} url="http://localhost:8000/emissions/"/>
+      <Emissions url="/api/emissions/"/>
     </div>
   }
 }
