@@ -5,7 +5,7 @@ import {Emission,} from "../components/Emission";
 
 
 const Inline = styled.li`
-  display: inline;
+  display: inline-block;
 `;
 
 interface EmissionAPI {
@@ -21,28 +21,23 @@ interface EmissionAPI {
 interface EmissionsState {
   list: Array<EmissionAPI>
 }
-interface EmissionsProps {
-  url: string
-}
-export class Emissions extends React.Component<EmissionsProps, EmissionsState> {
+export class Emissions extends React.Component<undefined, EmissionsState> {
 
   constructor (props) {
     super(props);
     this.state = {
       list: []
     };
-    fetch(props.url)
+    fetch("http://localhost:8000/api/emissions/")
     .then( response => response.json() )
     .then( json => {
       this.setState((prevState, props) => ({
         list: prevState.list.concat(json.results)
       })
     )})
-    console.log('pute');
   }
 
   render () {
-    console.log(this.state.list)
     const listEmissions = this.state.list.slice(0,3).map((emission) =>
     <Inline key={emission.starts}>
       <Emission picture_link={emission.emission.picture_link} pitch={emission.emission.pitch} title={emission.emission.title}/>
