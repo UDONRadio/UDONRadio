@@ -7368,17 +7368,20 @@ const styled_components_1 = __webpack_require__(1);
 const Info_1 = __webpack_require__(6);
 const Player_1 = __webpack_require__(8);
 const WindowDIV = styled_components_1.default.div `
-  display: flex;
-  flex-flow: column;
-  background-color: #efefef;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
+  position: fixed;
   bottom: 0px;
   top: 0px;
   right: 0px;
   left: 0px;
-  position: fixed;
+
+  display: flex;
+  flex-flow: column;
+
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+
+  background-color: #efefef;
 `;
 exports.Window = (props) => (React.createElement(WindowDIV, null,
     React.createElement(Info_1.Info, null),
@@ -7437,9 +7440,11 @@ const Nav_1 = __webpack_require__(12);
 const Shoutbox_1 = __webpack_require__(10);
 exports.InfoDIV = styled_components_1.default.div `
   display: flex;
-  height: calc(100% - 80px);
-  flex: 1 1 auto;
+  justify-content: flex-start;
+  align-items:flex-start;
+
   flex-flow: row;
+  flex-grow: 1;
 `;
 exports.Info = (props) => (React.createElement(exports.InfoDIV, null,
     React.createElement(Nav_1.Nav, null),
@@ -7480,12 +7485,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
 const styled_components_1 = __webpack_require__(1);
 const PlayerDIV = styled_components_1.default.div `
+  height: 75px;
+  
   border-top-style: groove;
   border-top-width: 5px;
   border-top-color: #e5e5e5;
   background-color: inherit;
-  height: 75px;
-  width: 100%;
 `;
 class Player extends React.Component {
     constructor() {
@@ -7531,10 +7536,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
 const styled_components_1 = __webpack_require__(1);
 const ShoutboxDiv = styled_components_1.default.div `
+  flex: 0 1;
   margin-left: 160px;
   margin-right: 80px;
   width: 240px;
-  order: 2;
+  height: 100%;
   z-index: 2;
 `;
 exports.Shoutbox = (props) => (React.createElement(ShoutboxDiv, null, "Shoutbox"));
@@ -7594,7 +7600,8 @@ const NavBar_1 = __webpack_require__(7);
 const About_1 = __webpack_require__(4);
 const Replay_1 = __webpack_require__(9);
 const NavDiv = styled_components_1.default.div `
-  width: 1440px;
+  flex: 1 1;
+  max-width: 1440px;
   margin-left: 160px;
   margin-right: 160px;
 `;

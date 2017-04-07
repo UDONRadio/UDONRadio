@@ -3,10 +3,11 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 
 const ShoutboxDiv = styled.div`
+  flex: 0 1;
   margin-left: 160px;
   margin-right: 80px;
   width: 240px;
-  order: 2;
+  height: 100%;
   z-index: 2;
 `
 

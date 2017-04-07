@@ -3,12 +3,12 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 
 const PlayerDIV = styled.div`
+  height: 75px;
+  
   border-top-style: groove;
   border-top-width: 5px;
   border-top-color: #e5e5e5;
   background-color: inherit;
-  height: 75px;
-  width: 100%;
 `
 
 interface PlayerProps {

@@ -6,9 +6,11 @@ import {Shoutbox} from './Shoutbox'
 
 export const InfoDIV = styled.div`
   display: flex;
-  height: calc(100% - 80px);
-  flex: 1 1 auto;
+  justify-content: flex-start;
+  align-items:flex-start;
+
   flex-flow: row;
+  flex-grow: 1;
 `
 
 export const Info = (props) => (

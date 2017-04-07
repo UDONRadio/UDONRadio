@@ -5,17 +5,20 @@ import {Info} from './Info'
 import {Player} from './Player'
 
 const WindowDIV = styled.div`
-  display: flex;
-  flex-flow: column;
-  background-color: #efefef;
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
+  position: fixed;
   bottom: 0px;
   top: 0px;
   right: 0px;
   left: 0px;
-  position: fixed;
+
+  display: flex;
+  flex-flow: column;
+
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+
+  background-color: #efefef;
 `
 
 export const Window = (props) => (

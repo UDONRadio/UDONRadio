@@ -7,7 +7,8 @@ import {About} from '../components/About';
 import {Replay} from '../components/Replay';
 
 const NavDiv = styled.div`
-  width: 1440px;
+  flex: 1 1;
+  max-width: 1440px;
   margin-left: 160px;
   margin-right: 160px;
 `
