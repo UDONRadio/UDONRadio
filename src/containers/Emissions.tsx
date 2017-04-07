@@ -5,8 +5,13 @@ import {Emission,} from "../components/Emission";
 
 
 const Inline = styled.li`
-  display: inline-block;
+  display: inline-flex;
 `;
+
+const EmissionsUl = styled.ul`
+  display: flex;
+  min-height: 100%;
+`
 
 interface EmissionAPI {
   starts: string,
@@ -43,8 +48,8 @@ export class Emissions extends React.Component<undefined, EmissionsState> {
       <Emission picture_link={emission.emission.picture_link} pitch={emission.emission.pitch} title={emission.emission.title}/>
     </Inline>
     )
-    return <ul>
+    return <EmissionsUl>
       {listEmissions}
-    </ul>
+    </EmissionsUl>
   }
 }

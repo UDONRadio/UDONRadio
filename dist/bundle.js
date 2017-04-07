@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 12);
+/******/ 	return __webpack_require__(__webpack_require__.s = 13);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -7364,9 +7364,23 @@ var styled = _styled(_styledComponent(_ComponentStyle(generateAlphabeticName)));
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(1);
 const Info_1 = __webpack_require__(6);
 const Player_1 = __webpack_require__(8);
-exports.Window = (props) => (React.createElement("div", null,
+const WindowDIV = styled_components_1.default.div `
+  display: flex;
+  flex-flow: column;
+  background-color: #efefef;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  bottom: 0px;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  position: fixed;
+`;
+exports.Window = (props) => (React.createElement(WindowDIV, null,
     React.createElement(Info_1.Info, null),
     React.createElement(Player_1.Player, null)));
 
@@ -7396,8 +7410,16 @@ exports.About = (props) => (React.createElement("div", null, "Wow! Such empty"))
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(1);
+const EmissionImg = styled_components_1.default.img `
+  max-width: 400px;
+`;
+const EmissionDiv = styled_components_1.default.div `
+  flex: 1 1 auto;
+  margin: 160px;
+`;
 exports.Emission = (props) => (React.createElement("div", null,
-    React.createElement("img", { src: props.picture_link }),
+    React.createElement(EmissionImg, { src: props.picture_link }),
     React.createElement("h1", null, props.title),
     React.createElement("p", null, props.pitch)));
 
@@ -7410,9 +7432,16 @@ exports.Emission = (props) => (React.createElement("div", null,
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
-const Nav_1 = __webpack_require__(11);
-const Shoutbox_1 = __webpack_require__(9);
-exports.Info = (props) => (React.createElement("div", null,
+const styled_components_1 = __webpack_require__(1);
+const Nav_1 = __webpack_require__(12);
+const Shoutbox_1 = __webpack_require__(10);
+exports.InfoDIV = styled_components_1.default.div `
+  display: flex;
+  height: calc(100% - 80px);
+  flex: 1 1 auto;
+  flex-flow: row;
+`;
+exports.Info = (props) => (React.createElement(exports.InfoDIV, null,
     React.createElement(Nav_1.Nav, null),
     React.createElement(Shoutbox_1.Shoutbox, null)));
 
@@ -7426,10 +7455,15 @@ exports.Info = (props) => (React.createElement("div", null,
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
 const styled_components_1 = __webpack_require__(1);
+const NavBarDiv = styled_components_1.default.div `
+  height = 80px;
+  margin-top = 120px;
+  margin-bottom = 160px;
+`;
 const Button = styled_components_1.default.button `
   display: inline-block;
 `;
-exports.NavBar = (props) => (React.createElement("div", null,
+exports.NavBar = (props) => (React.createElement(NavBarDiv, null,
     React.createElement("h1", null, "TarlyFM"),
     React.createElement(Button, { onClick: () => (props.change_state('Emissions')) }, "Emissions"),
     React.createElement(Button, { onClick: () => (props.change_state('Replay')) }, "Replay"),
@@ -7444,7 +7478,15 @@ exports.NavBar = (props) => (React.createElement("div", null,
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
-const react_audio_player_1 = __webpack_require__(13);
+const styled_components_1 = __webpack_require__(1);
+const PlayerDIV = styled_components_1.default.div `
+  border-top-style: groove;
+  border-top-width: 5px;
+  border-top-color: #e5e5e5;
+  background-color: inherit;
+  height: 75px;
+  width: 100%;
+`;
 class Player extends React.Component {
     constructor() {
         super();
@@ -7458,9 +7500,11 @@ class Player extends React.Component {
         });
     }
     render() {
-        return React.createElement("div", null,
-            React.createElement(react_audio_player_1.default, { src: "http://musique.tombarnier.com:8000/stream", autoPlay: true, onError: this.offlineCallback.bind(this) }),
-            React.createElement("label", null, this.state.online ? "Online" : "Offline"));
+        return React.createElement(PlayerDIV, null,
+            React.createElement("div", null,
+                React.createElement("span", null)),
+            "Player",
+            React.createElement("div", null));
     }
 }
 exports.Player = Player;
@@ -7474,7 +7518,7 @@ exports.Player = Player;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
-exports.Shoutbox = (props) => (React.createElement("div", null, "Shoutbox"));
+exports.Replay = (props) => (React.createElement("div", null, "Wow! Such empty"));
 
 
 /***/ }),
@@ -7486,9 +7530,32 @@ exports.Shoutbox = (props) => (React.createElement("div", null, "Shoutbox"));
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
 const styled_components_1 = __webpack_require__(1);
+const ShoutboxDiv = styled_components_1.default.div `
+  margin-left: 160px;
+  margin-right: 80px;
+  width: 240px;
+  order: 2;
+  z-index: 2;
+`;
+exports.Shoutbox = (props) => (React.createElement(ShoutboxDiv, null, "Shoutbox"));
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(1);
 const Emission_1 = __webpack_require__(5);
 const Inline = styled_components_1.default.li `
-  display: inline-block;
+  display: inline-flex;
+`;
+const EmissionsUl = styled_components_1.default.ul `
+  display: flex;
+  min-height: 100%;
 `;
 class Emissions extends React.Component {
     constructor(props) {
@@ -7507,24 +7574,30 @@ class Emissions extends React.Component {
     render() {
         const listEmissions = this.state.list.slice(0, 3).map((emission) => React.createElement(Inline, { key: emission.starts },
             React.createElement(Emission_1.Emission, { picture_link: emission.emission.picture_link, pitch: emission.emission.pitch, title: emission.emission.title })));
-        return React.createElement("ul", null, listEmissions);
+        return React.createElement(EmissionsUl, null, listEmissions);
     }
 }
 exports.Emissions = Emissions;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(0);
-const Emissions_1 = __webpack_require__(10);
+const styled_components_1 = __webpack_require__(1);
+const Emissions_1 = __webpack_require__(11);
 const NavBar_1 = __webpack_require__(7);
 const About_1 = __webpack_require__(4);
-const Replay_1 = __webpack_require__(14);
+const Replay_1 = __webpack_require__(9);
+const NavDiv = styled_components_1.default.div `
+  width: 1440px;
+  margin-left: 160px;
+  margin-right: 160px;
+`;
 React.createElement;
 const tabs = {
     'Emissions': Emissions_1.Emissions,
@@ -7547,7 +7620,7 @@ class Nav extends React.Component {
     }
     render() {
         const CurrentTab = tabs[this.state.selected];
-        return React.createElement("div", null,
+        return React.createElement(NavDiv, null,
             React.createElement(NavBar_1.NavBar, { tabs: tabs, current: this.state.selected, change_state: this.change_state.bind(this) }),
             React.createElement(CurrentTab, null));
     }
@@ -7556,7 +7629,7 @@ exports.Nav = Nav;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7566,23 +7639,6 @@ const React = __webpack_require__(0);
 const ReactDOM = __webpack_require__(3);
 const Window_1 = __webpack_require__(2);
 ReactDOM.render(React.createElement(Window_1.Window, null), document.getElementById("root"));
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports=function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var r={};return t.m=e,t.c=r,t.p="",t(0)}([function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function s(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function a(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var p=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),l=r(1),u=n(l),i=1e4,c=function(e){function t(){return o(this,t),s(this,Object.getPrototypeOf(t).apply(this,arguments))}return a(t,e),p(t,[{key:"componentDidMount",value:function(){var e=this,t=this.audioEl;t.addEventListener("error",function(t){e.props.onError&&e.props.onError(t)}),t.addEventListener("canplay",function(t){e.props.onCanPlay&&e.props.onCanPlay(t)}),t.addEventListener("canplaythrough",function(t){e.props.onCanPlayThrough&&e.props.onCanPlayThrough(t)}),t.addEventListener("play",function(t){e.setListenTrack(),e.props.onPlay&&e.props.onPlay(t)}),t.addEventListener("abort",function(t){e.clearListenTrack(),e.props.onAbort&&e.props.onAbort(t)}),t.addEventListener("ended",function(t){e.clearListenTrack(),e.props.onEnded&&e.props.onEnded(t)}),t.addEventListener("pause",function(t){e.clearListenTrack(),e.props.onPause&&e.props.onPause(t)}),t.addEventListener("seeked",function(t){e.clearListenTrack(),e.props.onSeeked&&e.props.onSeeked(t)})}},{key:"componentWillReceiveProps",value:function(e){if(e.selectedPlayerEvent){var t=this.audioEl;t.currentTime=e.selectedPlayerEvent.playTime,t.play()}}},{key:"setListenTrack",value:function(){var e=this;if(!this.listenTracker){var t=this.props.listenInterval||i;this.listenTracker=setInterval(function(){e.props.onListen&&e.props.onListen(e.audioEl.currentTime)},t)}}},{key:"clearListenTrack",value:function(){this.listenTracker&&(clearInterval(this.listenTracker),this.listenTracker=null)}},{key:"render",value:function(){var e=this,t=this.props.children||u["default"].createElement("p",null,"Your browser does not support the ",u["default"].createElement("code",null,"audio")," element."),r=!(this.props.controls===!1);return u["default"].createElement("audio",{className:"react-audio-player "+this.props.className,style:this.props.style,src:this.props.src||"",autoPlay:this.props.autoPlay,preload:this.props.preload,controls:r,ref:function(t){e.audioEl=t},onPlay:this.onPlay},t)}}]),t}(l.Component);c.propTypes={autoPlay:u["default"].PropTypes.bool,children:u["default"].PropTypes.element,className:u["default"].PropTypes.string,listenInterval:u["default"].PropTypes.number,onAbort:u["default"].PropTypes.func,onCanPlay:u["default"].PropTypes.func,onCanPlayThrough:u["default"].PropTypes.func,onEnded:u["default"].PropTypes.func,onError:u["default"].PropTypes.func,onListen:u["default"].PropTypes.func,onPause:u["default"].PropTypes.func,onPlay:u["default"].PropTypes.func,onSeeked:u["default"].PropTypes.func,preload:u["default"].PropTypes.string,src:u["default"].PropTypes.string,controls:u["default"].PropTypes.bool,style:u["default"].PropTypes.object};var d=c;t["default"]=d;(function(){"undefined"!=typeof __REACT_HOT_LOADER__&&(__REACT_HOT_LOADER__.register(i,"DEFAULT_LISTEN_INTERVAL","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(c,"ReactAudioPlayer","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(d,"default","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"))})()},function(e,t){e.exports=__webpack_require__(0)}]);
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(0);
-exports.Replay = (props) => (React.createElement("div", null, "Wow! Such empty"));
 
 
 /***/ })

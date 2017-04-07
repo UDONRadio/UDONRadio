@@ -4,7 +4,6 @@
   "main": "dist/main.js",
   "dependencies": {
     "react": "^15.4.1",
-    "react-audio-player": "^0.3.2",
     "react-dom": "^15.4.1",
     "styled-components": "^1.4.4"
   },

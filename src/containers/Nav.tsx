@@ -1,9 +1,16 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {Emissions} from '../containers/Emissions'
-import {NavBar} from '../components/NavBar'
-import {About} from '../components/About'
-import {Replay} from '../components/Replay'
+import styled from 'styled-components';
+import {Emissions} from '../containers/Emissions';
+import {NavBar} from '../components/NavBar';
+import {About} from '../components/About';
+import {Replay} from '../components/Replay';
+
+const NavDiv = styled.div`
+  width: 1440px;
+  margin-left: 160px;
+  margin-right: 160px;
+`
 
 React.createElement
 export type Tabs = 'Emissions'
@@ -37,9 +44,9 @@ export class Nav extends React.Component<undefined, NavState> {
 
   render () {
     const CurrentTab = tabs[this.state.selected];
-    return <div>
+    return <NavDiv>
       <NavBar tabs={tabs} current={this.state.selected} change_state={this.change_state.bind(this)}/>
       <CurrentTab/>
-    </div>
+    </NavDiv>
   }
 }

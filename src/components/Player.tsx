@@ -1,6 +1,15 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import ReactAudioPlayer from 'react-audio-player';
+import styled from 'styled-components';
+
+const PlayerDIV = styled.div`
+  border-top-style: groove;
+  border-top-width: 5px;
+  border-top-color: #e5e5e5;
+  background-color: inherit;
+  height: 75px;
+  width: 100%;
+`
 
 interface PlayerProps {
 
@@ -24,9 +33,13 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
   }
 
   render () {
-    return <div>
-      <ReactAudioPlayer src="http://musique.tombarnier.com:8000/stream" autoPlay onError={this.offlineCallback.bind(this)}/>
-      <label>{this.state.online ? "Online" : "Offline"}</label>
-    </div>
+    return <PlayerDIV>
+      <div>
+        <span></span>
+      </div>
+      Player
+      <div>
+      </div>
+    </PlayerDIV>
   }
 }
