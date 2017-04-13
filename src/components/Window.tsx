@@ -1,9 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
-import {Info} from './Info'
-import {Player} from './Player'
-import {Shoutbox} from './Shoutbox'
+import {Nav} from '../containers/Nav';
+import {Player} from './Player';
+import {Shoutbox} from './Shoutbox';
 
 const WindowDIV = styled.div`
   position: fixed;
@@ -21,7 +21,7 @@ const WindowDIV = styled.div`
 
 export const Window = (props) => (
   <WindowDIV>
-    <Info/>
+    <Nav/>
     <Player/>
     <Shoutbox/>
   </WindowDIV>

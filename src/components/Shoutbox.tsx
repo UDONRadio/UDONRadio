@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 const ShoutboxDiv = styled.div`
   position: fixed;
-  margin-left: 160px;
-  margin-right: 80px;
-  width: 240px;
   right: 0px;
   top: 0px;
+  width: 240px;
   min-height: calc(100% - 80px);
+  margin-left: 160px;
+  margin-right: 80px;
 
   border-left-style: groove;
   border-left-width: 5px;

@@ -9,10 +9,10 @@ const Inline = styled.li`
 `;
 
 const EmissionsUl = styled.ul`
+  padding: 0px;
+  
   display: flex;
   flex-wrap: wrap;
-  min-height: 100%;
-  padding: 0px;
 `
 
 interface EmissionAPI {

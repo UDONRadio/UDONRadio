@@ -7,10 +7,16 @@ import {About} from '../components/About';
 import {Replay} from '../components/Replay';
 
 const NavDiv = styled.div`
-  flex: 1 1;
+  position: fixed;
   max-width: 1440px;
   margin-left: 160px;
   margin-right: 160px;
+
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items:flex-start;
 `
 
 React.createElement
