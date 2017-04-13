@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import {Info} from './Info'
 import {Player} from './Player'
+import {Shoutbox} from './Shoutbox'
 
 const WindowDIV = styled.div`
   position: fixed;
@@ -10,9 +11,6 @@ const WindowDIV = styled.div`
   top: 0px;
   right: 0px;
   left: 0px;
-
-  display: flex;
-  flex-flow: column;
 
   border: 0px;
   margin: 0px;
@@ -25,5 +23,6 @@ export const Window = (props) => (
   <WindowDIV>
     <Info/>
     <Player/>
+    <Shoutbox/>
   </WindowDIV>
 )

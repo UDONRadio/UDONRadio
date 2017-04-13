@@ -4,7 +4,11 @@ import styled from 'styled-components';
 
 const PlayerDIV = styled.div`
   height: 75px;
-  
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  left: 0px
+
   border-top-style: groove;
   border-top-width: 5px;
   border-top-color: #e5e5e5;
