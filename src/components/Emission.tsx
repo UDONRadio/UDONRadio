@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
+import {H1, P} from './Styles'
 
 const EmissionImg = styled.img`
   max-width: 400px;
@@ -19,7 +20,7 @@ export interface EmissionProps {
 export const Emission = (props: EmissionProps) => (
   <div>
     <EmissionImg src={props.picture_link}/>
-    <h1>{props.title}</h1>
-    <p>{props.pitch}</p>
+    <H1>{props.title}</H1>
+    <P>{props.pitch}</P>
   </div>
 )
