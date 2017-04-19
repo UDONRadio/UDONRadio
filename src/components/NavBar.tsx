@@ -3,11 +3,10 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import {Tabs} from '../containers/Nav';
 
-
 const NavBarDiv = styled.div`
-  height = 80px;
-  margin-top = 120px;
-  margin-bottom = 160px;
+  position: fixed;
+  top: 0px;
+  height = 200px;
 `
 const Button = styled.button`
   display: inline-block;

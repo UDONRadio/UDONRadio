@@ -10,7 +10,7 @@ const Inline = styled.li`
 
 const EmissionsUl = styled.ul`
   padding: 0px;
-  
+
   display: flex;
   flex-wrap: wrap;
 `

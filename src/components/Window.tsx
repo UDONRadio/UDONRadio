@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import {Nav} from '../containers/Nav';
 import {Player} from './Player';
-import {Shoutbox} from './Shoutbox';
+import {Shoutbox} from '../containers/Shoutbox';
 
 const WindowDIV = styled.div`
   position: fixed;

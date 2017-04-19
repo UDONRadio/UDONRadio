@@ -13,6 +13,7 @@ const PlayerDIV = styled.div`
   border-top-width: 5px;
   border-top-color: #e5e5e5;
   background-color: inherit;
+  z-index: 2;
 `
 
 interface PlayerProps {

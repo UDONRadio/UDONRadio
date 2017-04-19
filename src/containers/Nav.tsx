@@ -11,12 +11,14 @@ const NavDiv = styled.div`
   max-width: 1440px;
   margin-left: 160px;
   margin-right: 160px;
+  z-index: 1;
+`
 
-  display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items:flex-start;
+const CurrentTabDiv = styled.div`
+  position: fixed;
+  top: 300px;
+  z-index: -1;
+  overflow: auto;
 `
 
 React.createElement
@@ -53,7 +55,7 @@ export class Nav extends React.Component<undefined, NavState> {
     const CurrentTab = tabs[this.state.selected];
     return <NavDiv>
       <NavBar tabs={tabs} current={this.state.selected} change_state={this.change_state.bind(this)}/>
-      <CurrentTab/>
+      <CurrentTabDiv><CurrentTab/></CurrentTabDiv>
     </NavDiv>
   }
 }
