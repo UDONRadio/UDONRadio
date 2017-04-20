@@ -45,6 +45,7 @@ interface ShoutboxState {
     name: string,
     text: string
   }>;
+  username: string
 }
 export class Shoutbox extends React.Component<undefined, ShoutboxState> {
 
@@ -54,7 +55,13 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
       socket : io('http://localhost:3000/'),
       text: '',
       msgList: [],
+      username: '',
     };
+    this.state.socket.on('change username', function (username) {
+      this.setState({
+        username: username
+      });
+    }.bind(this));
     this.state.socket.on('chat message', function (name, text) {
       this.setState({
         msgList: this.state.msgList.concat([{name:name, text:text}])
@@ -71,10 +78,19 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
   handleSubmit(event) {
     if (this.state.text == '')
       return ;
-    this.state.socket.emit('chat message', this.state.text);
-    this.setState({
-      text: ''
-    });
+    if (this.state.username) {
+      this.state.socket.emit('chat message', this.state.text);
+      this.setState({
+        text: ''
+      });
+    }
+    else {
+      this.state.socket.emit('change username', this.state.text);
+      this.setState({
+        text: '',
+        username: this.state.text,
+      });
+    }
     event.preventDefault();
   }
 
@@ -82,10 +98,11 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
     const listMsgs = this.state.msgList.map(
       ({name, text}) => <li><Message name={name} text={text}/></li>
     );
+    const placeholder = this.state.username ? "Participer a la conversation" : "Entrer username";
     return <ShoutboxDiv>
+      <ul>{listMsgs}</ul>
       <form onSubmit={this.handleSubmit}>
-        <ul>{listMsgs}</ul>
-        <ShoutboxInput type="text" value={this.state.text} onChange={this.handleChange}/>
+        <ShoutboxInput type="text" value={this.state.text} onChange={this.handleChange} placeholder={placeholder}/>
       </form>
     </ShoutboxDiv>
   }
