@@ -102,7 +102,12 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
     return <ShoutboxDiv>
       <ul>{listMsgs}</ul>
       <form onSubmit={this.handleSubmit}>
-        <ShoutboxInput type="text" value={this.state.text} onChange={this.handleChange} placeholder={placeholder}/>
+        <ShoutboxInput
+          type="text"
+          value={this.state.text}
+          onChange={this.handleChange}
+          placeholder={placeholder}
+        />
       </form>
     </ShoutboxDiv>
   }
