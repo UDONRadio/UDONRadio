@@ -7579,7 +7579,7 @@ var keys = __webpack_require__(49);
 var hasBinary = __webpack_require__(15);
 var sliceBuffer = __webpack_require__(38);
 var after = __webpack_require__(37);
-var utf8 = __webpack_require__(64);
+var utf8 = __webpack_require__(65);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
@@ -8623,10 +8623,10 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(59)('socket.io-parser');
+var debug = __webpack_require__(60)('socket.io-parser');
 var json = __webpack_require__(52);
-var Emitter = __webpack_require__(58);
-var binary = __webpack_require__(57);
+var Emitter = __webpack_require__(59);
+var binary = __webpack_require__(58);
 var isBuf = __webpack_require__(21);
 
 /**
@@ -10125,7 +10125,7 @@ function on (obj, ev, fn) {
 
 var parser = __webpack_require__(10);
 var Emitter = __webpack_require__(5);
-var toArray = __webpack_require__(63);
+var toArray = __webpack_require__(64);
 var on = __webpack_require__(19);
 var bind = __webpack_require__(12);
 var debug = __webpack_require__(2)('socket.io-client:socket');
@@ -10747,6 +10747,7 @@ exports.NavBar = (props) => (React.createElement(NavBarDiv, null,
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(1);
 const styled_components_1 = __webpack_require__(3);
+const react_audio_player_1 = __webpack_require__(55);
 const PlayerDIV = styled_components_1.default.div `
   height: 75px;
   position: fixed;
@@ -10766,18 +10767,29 @@ class Player extends React.Component {
         this.state = {
             online: true
         };
+        this.PlayPause = this.PlayPause.bind(this);
+    }
+    componentDidMount() {
+        console.log(this.HTMLPlayer);
     }
     offlineCallback() {
         this.setState({
             online: false
         });
     }
+    PlayPause() {
+        if (this.state.online)
+            this.HTMLPlayer.pause();
+        else
+            this.HTMLPlayer.play();
+        this.setState({
+            online: !this.state.online
+        });
+    }
     render() {
         return React.createElement(PlayerDIV, null,
-            React.createElement("div", null,
-                React.createElement("span", null)),
-            "Player",
-            React.createElement("div", null));
+            React.createElement("button", { onClick: this.PlayPause }, this.state.online ? "pause" : "play"),
+            React.createElement(react_audio_player_1.default, { controls: false, autoPlay: true, ref: c => this.HTMLPlayer = c.audioEl, src: "http://tarlyfm.com:8000/_a" }));
     }
 }
 exports.Player = Player;
@@ -10922,7 +10934,7 @@ exports.Nav = Nav;
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(1);
 const styled_components_1 = __webpack_require__(3);
-const io = __webpack_require__(55);
+const io = __webpack_require__(56);
 const ShoutboxDiv = styled_components_1.default.div `
   position: fixed;
   right: 0px;
@@ -13208,7 +13220,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(65);
+    NodeWebSocket = __webpack_require__(66);
   } catch (e) { }
 }
 
@@ -14646,12 +14658,18 @@ module.exports = function parsejson(data) {
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports=function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,r),o.loaded=!0,o.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function s(e,r){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!r||"object"!=typeof r&&"function"!=typeof r?e:r}function a(e,r){if("function"!=typeof r&&null!==r)throw new TypeError("Super expression must either be null or a function, not "+typeof r);e.prototype=Object.create(r&&r.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),r&&(Object.setPrototypeOf?Object.setPrototypeOf(e,r):e.__proto__=r)}Object.defineProperty(r,"__esModule",{value:!0});var p=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e},l=function(){function e(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(r,t,n){return t&&e(r.prototype,t),n&&e(r,n),r}}(),i=t(1),u=n(i),c=1e4,d=function(e){function r(){return o(this,r),s(this,Object.getPrototypeOf(r).apply(this,arguments))}return a(r,e),l(r,[{key:"componentDidMount",value:function(){var e=this,r=this.audioEl;r.addEventListener("error",function(r){e.props.onError&&e.props.onError(r)}),r.addEventListener("canplay",function(r){e.props.onCanPlay&&e.props.onCanPlay(r)}),r.addEventListener("canplaythrough",function(r){e.props.onCanPlayThrough&&e.props.onCanPlayThrough(r)}),r.addEventListener("play",function(r){e.setListenTrack(),e.props.onPlay&&e.props.onPlay(r)}),r.addEventListener("abort",function(r){e.clearListenTrack(),e.props.onAbort&&e.props.onAbort(r)}),r.addEventListener("ended",function(r){e.clearListenTrack(),e.props.onEnded&&e.props.onEnded(r)}),r.addEventListener("pause",function(r){e.clearListenTrack(),e.props.onPause&&e.props.onPause(r)}),r.addEventListener("seeked",function(r){e.clearListenTrack(),e.props.onSeeked&&e.props.onSeeked(r)})}},{key:"componentWillReceiveProps",value:function(e){if(e.selectedPlayerEvent){var r=this.audioEl;r.currentTime=e.selectedPlayerEvent.playTime,r.play()}}},{key:"setListenTrack",value:function(){var e=this;if(!this.listenTracker){var r=this.props.listenInterval||c;this.listenTracker=setInterval(function(){e.props.onListen&&e.props.onListen(e.audioEl.currentTime)},r)}}},{key:"clearListenTrack",value:function(){this.listenTracker&&(clearInterval(this.listenTracker),this.listenTracker=null)}},{key:"render",value:function(){var e=this,r=this.props.children||u["default"].createElement("p",null,"Your browser does not support the ",u["default"].createElement("code",null,"audio")," element."),t=!(this.props.controls===!1);return u["default"].createElement("audio",p({className:"react-audio-player "+(this.props.className||""),style:this.props.style,src:this.props.src||"",autoPlay:this.props.autoPlay,preload:this.props.preload,controls:t,ref:function(r){e.audioEl=r},onPlay:this.onPlay,loop:this.props.loop},this.props),r)}}]),r}(i.Component);d.propTypes={autoPlay:u["default"].PropTypes.bool,children:u["default"].PropTypes.element,className:u["default"].PropTypes.string,listenInterval:u["default"].PropTypes.number,onAbort:u["default"].PropTypes.func,onCanPlay:u["default"].PropTypes.func,onCanPlayThrough:u["default"].PropTypes.func,onEnded:u["default"].PropTypes.func,onError:u["default"].PropTypes.func,onListen:u["default"].PropTypes.func,onPause:u["default"].PropTypes.func,onPlay:u["default"].PropTypes.func,onSeeked:u["default"].PropTypes.func,preload:u["default"].PropTypes.string,src:u["default"].PropTypes.string,controls:u["default"].PropTypes.bool,style:u["default"].PropTypes.object};var f=d;r["default"]=f;(function(){"undefined"!=typeof __REACT_HOT_LOADER__&&(__REACT_HOT_LOADER__.register(c,"DEFAULT_LISTEN_INTERVAL","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(d,"ReactAudioPlayer","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(f,"default","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"))})()},function(e,r){e.exports=__webpack_require__(1)}]);
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
 
 /**
  * Module dependencies.
  */
 
-var url = __webpack_require__(56);
+var url = __webpack_require__(57);
 var parser = __webpack_require__(10);
 var Manager = __webpack_require__(18);
 var debug = __webpack_require__(2)('socket.io-client');
@@ -14758,7 +14776,7 @@ exports.Socket = __webpack_require__(20);
 
 
 /***/ }),
-/* 56 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -14840,7 +14858,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 57 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -14849,7 +14867,7 @@ function url (uri, loc) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(61);
+var isArray = __webpack_require__(62);
 var isBuf = __webpack_require__(21);
 
 /**
@@ -14988,7 +15006,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 58 */
+/* 59 */
 /***/ (function(module, exports) {
 
 
@@ -15158,7 +15176,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 59 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -15168,7 +15186,7 @@ Emitter.prototype.hasListeners = function(event){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(60);
+exports = module.exports = __webpack_require__(61);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -15332,7 +15350,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 60 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -15348,7 +15366,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(62);
+exports.humanize = __webpack_require__(63);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -15535,7 +15553,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 61 */
+/* 62 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -15544,7 +15562,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 62 */
+/* 63 */
 /***/ (function(module, exports) {
 
 /**
@@ -15675,7 +15693,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 63 */
+/* 64 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -15694,7 +15712,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 64 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -15934,7 +15952,7 @@ function toArray(list, index) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 65 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /* (ignored) */

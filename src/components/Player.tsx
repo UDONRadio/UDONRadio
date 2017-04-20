@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
+import ReactAudioPlayer from 'react-audio-player';
 
 const PlayerDIV = styled.div`
   height: 75px;
@@ -23,12 +24,18 @@ interface PlayerState {
   online: boolean
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
+  private HTMLPlayer: HTMLAudioElement;
 
   constructor () {
     super();
     this.state = {
       online: true
     };
+    this.PlayPause = this.PlayPause.bind(this);
+  }
+
+  componentDidMount () {
+    console.log(this.HTMLPlayer);
   }
 
   offlineCallback () {
@@ -37,14 +44,26 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     })
   }
 
+  PlayPause () {
+    if (this.state.online)
+      this.HTMLPlayer.pause();
+    else
+      this.HTMLPlayer.play();
+    this.setState({
+      online: !this.state.online
+    });
+  }
+
   render () {
     return <PlayerDIV>
-      <div>
-        <span></span>
-      </div>
-      Player
-      <div>
-      </div>
+      <button onClick={this.PlayPause}>{this.state.online ? "pause" : "play"}</button>
+      <ReactAudioPlayer
+        controls={false}
+        autoPlay={true}
+        ref={c => this.HTMLPlayer = c.audioEl}
+        src="http://tarlyfm.com:8000/_a"
+      />
+
     </PlayerDIV>
   }
 }
