@@ -21,47 +21,51 @@ interface PlayerProps {
 
 }
 interface PlayerState {
-  online: boolean
+  playing: boolean
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
-  private HTMLPlayer: HTMLAudioElement;
+  private HTMLPlayer: ReactAudioPlayer;
 
   constructor () {
     super();
     this.state = {
-      online: true
+      playing: false,
     };
     this.PlayPause = this.PlayPause.bind(this);
-  }
-
-  componentDidMount () {
-    console.log(this.HTMLPlayer);
-  }
-
-  offlineCallback () {
-    this.setState({
-      online: false
-    })
+    this.onPause = this.onPause.bind(this);
+    this.onPlay = this.onPlay.bind(this);
   }
 
   PlayPause () {
-    if (this.state.online)
-      this.HTMLPlayer.pause();
+    if (this.state.playing)
+      this.HTMLPlayer.audioEl.pause();
     else
-      this.HTMLPlayer.play();
+      this.HTMLPlayer.audioEl.play();
+  }
+
+  onPause () {
     this.setState({
-      online: !this.state.online
+      playing: false
+    });
+  }
+
+  onPlay () {
+    this.setState({
+      playing: true
     });
   }
 
   render () {
     return <PlayerDIV>
-      <button onClick={this.PlayPause}>{this.state.online ? "pause" : "play"}</button>
+      <button onClick={this.PlayPause}>{this.state.playing ? "pause" : "play"}</button>
       <ReactAudioPlayer
+        onPlay={this.onPlay}
+        onPause={this.onPause}
+        onError={(e) => alert("Error while fetching audio stream...")}
         controls={false}
         autoPlay={true}
-        ref={c => this.HTMLPlayer = c.audioEl}
-        src="http://tarlyfm.com:8000/_a"
+        ref={(c) => this.HTMLPlayer = c}
+        src="http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3"
       />
 
     </PlayerDIV>
