@@ -10843,9 +10843,10 @@ class Emissions extends React.Component {
         this.state = {
             list: []
         };
-        fetch("http://localhost:8000/api/emissions/")
+        fetch("/api/emissions/")
             .then(response => response.json())
-            .then(json => {
+            .then((json) => {
+            console.log(json);
             this.setState((prevState, props) => ({
                 list: prevState.list.concat(json.results)
             }));
@@ -10962,7 +10963,7 @@ class Shoutbox extends React.Component {
     constructor() {
         super();
         this.state = {
-            socket: io('http://localhost:3000/'),
+            socket: io('/'),
             text: '',
             msgList: [],
             username: '',

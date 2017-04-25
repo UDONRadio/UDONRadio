@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react": "registry:dt/react#15.0.0+20170125182642",
-    "react-dom": "registry:dt/react-dom#0.14.0+20170123203653"
-  }
-}

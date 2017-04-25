@@ -37,7 +37,7 @@ export class Emissions extends React.Component<undefined, EmissionsState> {
     };
     fetch("http://localhost:8000/api/emissions/")
     .then( response => response.json() )
-    .then( json => {
+    .then( (json : any) => {
       this.setState((prevState, props) => ({
         list: prevState.list.concat(json.results)
       })
