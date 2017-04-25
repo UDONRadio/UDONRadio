@@ -21,7 +21,8 @@ interface PlayerProps {
 
 }
 interface PlayerState {
-  playing: boolean
+  playing: boolean,
+  volume: number,
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
   private HTMLPlayer: ReactAudioPlayer;
@@ -30,10 +31,12 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     super();
     this.state = {
       playing: false,
+      volume: -1,
     };
     this.PlayPause = this.PlayPause.bind(this);
     this.onPause = this.onPause.bind(this);
     this.onPlay = this.onPlay.bind(this);
+    this.increaseVolume = this.increaseVolume.bind(this);
   }
 
   PlayPause () {
@@ -49,10 +52,27 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     });
   }
 
+  increaseVolume () {
+    if (this.state.volume < 100) {
+      if (this.state.volume == -1)
+        this.setState({
+          volume: 0
+        });
+      else
+        this.setState({
+          volume: this.state.volume + 5
+        });
+      this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+      setTimeout(this.increaseVolume, 100);
+    }
+  }
+
   onPlay () {
     this.setState({
-      playing: true
+      playing: true,
     });
+    if (this.state.volume == -1)
+      this.increaseVolume();
   }
 
   render () {

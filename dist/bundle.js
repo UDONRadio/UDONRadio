@@ -10714,6 +10714,7 @@ exports.Emission = (props) => (React.createElement("div", null,
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __webpack_require__(1);
 const styled_components_1 = __webpack_require__(3);
+const Styles_1 = __webpack_require__(30);
 const NavBarDiv = styled_components_1.default.div `
   position: fixed;
   top: 0px;
@@ -10723,7 +10724,7 @@ const Button = styled_components_1.default.button `
   display: inline-block;
 `;
 exports.NavBar = (props) => (React.createElement(NavBarDiv, null,
-    React.createElement("h1", null, "TarlyFM"),
+    React.createElement(Styles_1.H1, null, "TarlyFM"),
     React.createElement(Button, { onClick: () => (props.change_state('Emissions')) }, "Emissions"),
     React.createElement(Button, { onClick: () => (props.change_state('Replay')) }, "Replay"),
     React.createElement(Button, { onClick: () => (props.change_state('About')) }, "About")));
@@ -10757,10 +10758,12 @@ class Player extends React.Component {
         super();
         this.state = {
             playing: false,
+            volume: -1,
         };
         this.PlayPause = this.PlayPause.bind(this);
         this.onPause = this.onPause.bind(this);
         this.onPlay = this.onPlay.bind(this);
+        this.increaseVolume = this.increaseVolume.bind(this);
     }
     PlayPause() {
         if (this.state.playing)
@@ -10773,10 +10776,26 @@ class Player extends React.Component {
             playing: false
         });
     }
+    increaseVolume() {
+        if (this.state.volume < 100) {
+            if (this.state.volume == -1)
+                this.setState({
+                    volume: 0
+                });
+            else
+                this.setState({
+                    volume: this.state.volume + 5
+                });
+            this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+            setTimeout(this.increaseVolume, 100);
+        }
+    }
     onPlay() {
         this.setState({
-            playing: true
+            playing: true,
         });
+        if (this.state.volume == -1)
+            this.increaseVolume();
     }
     render() {
         return React.createElement(PlayerDIV, null,
@@ -10843,10 +10862,9 @@ class Emissions extends React.Component {
         this.state = {
             list: []
         };
-        fetch("/api/emissions/")
+        fetch("http://localhost:8000/api/emissions/")
             .then(response => response.json())
             .then((json) => {
-            console.log(json);
             this.setState((prevState, props) => ({
                 list: prevState.list.concat(json.results)
             }));
@@ -10963,7 +10981,7 @@ class Shoutbox extends React.Component {
     constructor() {
         super();
         this.state = {
-            socket: io('/'),
+            socket: io('http://localhost:3000/'),
             text: '',
             msgList: [],
             username: '',
