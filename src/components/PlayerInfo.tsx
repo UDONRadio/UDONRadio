@@ -1,10 +1,25 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {H1, P} from './';
+import styled from 'styled-components';
+import {H1, P} from './Styles';
+
+const PlayerInfoDiv = styled.div`
+  display: inline-block;
+`
+
+const Title = styled(H1)`
+  display: inline-block;
+  vertical-align: middle;
+`
+
+const Description = styled(P)`
+  display: inline-block;
+  vertical-align: middle;
+`
 
 export const PlayerInfo = (props: {title: string, description: string}) => (
-  <div>
-    <H1>{props.title}</H1>
-    <P>{props.description}</P>
-  </div>
+  <PlayerInfoDiv>
+    <Title>{props.title}</Title>
+    <Description>{props.description}</Description>
+  </PlayerInfoDiv>
 )

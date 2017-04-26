@@ -1,10 +1,11 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import styled from 'styled-components';
 
-interface VolumeSliderProps {
-  value: number
-  onChange: (value: number) => any
-}
+const VolumeSliderDiv = styled.div`
+  display: inline-block;
+  vertical-align: middle;
+`
 
 const adjustVolume = (value: number) => {
   if (value < 0)
@@ -15,6 +16,10 @@ const adjustVolume = (value: number) => {
     return (value);
 };
 
+interface VolumeSliderProps {
+  value: number
+  onChange: (value: number) => any
+}
 export const VolumeSlider = (props) => (
   <input
     type="range"
