@@ -62,7 +62,6 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         this.setState({
           volume: this.state.volume + 5
         });
-      this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
       setTimeout(this.increaseVolume, 100);
     }
   }
@@ -76,6 +75,8 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
   }
 
   render () {
+    if (this.HTMLPlayer)
+      this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
     return <PlayerDIV>
       <button onClick={this.PlayPause}>{this.state.playing ? "pause" : "play"}</button>
       <ReactAudioPlayer
