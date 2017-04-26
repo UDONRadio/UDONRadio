@@ -1,9 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
-import {Nav} from '../containers/Nav';
-import {Player} from './Player';
-import {Shoutbox} from '../containers/Shoutbox';
+import {Nav, Player, Shoutbox} from '../containers';
 
 const WindowDIV = styled.div`
   position: fixed;

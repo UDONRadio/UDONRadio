@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
-import {H1, P} from './Styles'
+import {H1, P} from './'
 
 const EmissionImg = styled.img`
   max-width: 400px;

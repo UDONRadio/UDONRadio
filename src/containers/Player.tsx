@@ -2,8 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import ReactAudioPlayer from 'react-audio-player';
-import {VolumeSlider} from './VolumeSlider';
-import {H1, P} from './Styles'
+import {VolumeSlider, PlayerInfo, PlayerButton} from '../components';
 
 const PlayerDIV = styled.div`
   height: 75px;
@@ -40,9 +39,11 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     this.PlayPause = this.PlayPause.bind(this);
     this.onPause = this.onPause.bind(this);
     this.onPlay = this.onPlay.bind(this);
-    this.increaseVolume = this.increaseVolume.bind(this);
-    this.onChange = this.onChange.bind(this);
+    this.fadeInVolume = this.fadeInVolume.bind(this);
+    this.onVolumeChange = this.onVolumeChange.bind(this);
   }
+
+  /* BUTTON */
 
   PlayPause () {
     if (this.state.playing)
@@ -51,13 +52,29 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
       this.HTMLPlayer.audioEl.play();
   }
 
+  onPlay () {
+    this.setState({
+      playing: true,
+    });
+    if (this.state.volume == -1)
+      this.fadeInVolume();
+  }
+
   onPause () {
     this.setState({
       playing: false
     });
   }
 
-  increaseVolume () {
+  /* SLIDER */
+
+  onVolumeChange (value: number) {
+    this.setState({
+      volume: value
+    });
+  }
+
+  fadeInVolume () {
     if (this.state.volume < 100) {
       if (this.state.volume == -1)
         this.setState({
@@ -67,31 +84,16 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         this.setState({
           volume: this.state.volume + 5
         });
-      setTimeout(this.increaseVolume, 100);
+      setTimeout(this.fadeInVolume, 100);
     }
-  }
-
-  onPlay () {
-    this.setState({
-      playing: true,
-    });
-    if (this.state.volume == -1)
-      this.increaseVolume();
-  }
-
-  onChange (value: number) {
-    this.setState({
-      volume: value
-    });
   }
 
   render () {
     if (this.HTMLPlayer)
       this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
     return <PlayerDIV>
-      <button onClick={this.PlayPause}>{this.state.playing ? "pause" : "play"}</button>
-      <H1>En direct</H1>
-      <P>Titre d'emission vraiment beaucoup trop archi-super long</P>
+      <PlayerButton onClick={this.PlayPause} playing={this.state.playing}/>
+      <PlayerInfo title="En direct" description="Titre d'emission vraiment beaucoup trop archi-super long"/>
       <ReactAudioPlayer
         onPlay={this.onPlay}
         onPause={this.onPause}
@@ -101,7 +103,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         ref={(c) => this.HTMLPlayer = c}
         src={"http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3?cache-buster=" + this.state.cachebust}
       />
-      <VolumeSlider value={this.state.volume} onChange={this.onChange}/>
+      <VolumeSlider value={this.state.volume} onChange={this.onVolumeChange}/>
     </PlayerDIV>
   }
 }

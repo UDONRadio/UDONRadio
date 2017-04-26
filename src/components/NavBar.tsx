@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
-import {P, H1} from './Styles';
-import {Tabs} from '../containers/Nav';
+import {Tabs} from '../containers/';
+import {P, H1} from './';
 
 const Title = styled(H1)`
   font-size: 5.85em;

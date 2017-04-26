@@ -21,7 +21,6 @@ const CurrentTabDiv = styled.div`
   overflow: auto;
 `
 
-React.createElement
 export type Tabs = 'Emissions'
                  | 'Replay'
                  | 'About';
