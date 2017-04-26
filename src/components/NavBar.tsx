@@ -4,6 +4,11 @@ import styled from 'styled-components';
 import {P, H1} from './Styles';
 import {Tabs} from '../containers/Nav';
 
+const Title = styled(H1)`
+  font-size: 5.85em;
+  color: #000000;
+`
+
 const NavBarDiv = styled.div`
   position: fixed;
   top: 0px;
@@ -20,7 +25,7 @@ interface NavBarProps {
 }
 export const NavBar = (props: NavBarProps) => (
   <NavBarDiv>
-    <H1>TarlyFM</H1>
+    <Title>TarlyFM</Title>
     <Button onClick={() => (props.change_state('Emissions'))}>Emissions</Button>
     <Button onClick={() => (props.change_state('Replay'))}>Replay</Button>
     <Button onClick={() => (props.change_state('About'))}>About</Button>
