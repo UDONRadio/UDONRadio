@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import ReactAudioPlayer from 'react-audio-player';
 import {VolumeSlider} from './VolumeSlider';
+import {H1, P} from './Styles'
 
 const PlayerDIV = styled.div`
   height: 75px;
@@ -24,6 +25,7 @@ interface PlayerProps {
 interface PlayerState {
   playing: boolean,
   volume: number,
+  cachebust: number
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
   private HTMLPlayer: ReactAudioPlayer;
@@ -33,6 +35,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     this.state = {
       playing: false,
       volume: -1,
+      cachebust: new Date().getTime(),
     };
     this.PlayPause = this.PlayPause.bind(this);
     this.onPause = this.onPause.bind(this);
@@ -87,6 +90,8 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
       this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
     return <PlayerDIV>
       <button onClick={this.PlayPause}>{this.state.playing ? "pause" : "play"}</button>
+      <H1>En direct</H1>
+      <P>Titre d'emission vraiment beaucoup trop archi-super long</P>
       <ReactAudioPlayer
         onPlay={this.onPlay}
         onPause={this.onPause}
@@ -94,7 +99,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         controls={false}
         autoPlay={true}
         ref={(c) => this.HTMLPlayer = c}
-        src="http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3"
+        src={"http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3?cache-buster=" + this.state.cachebust}
       />
       <VolumeSlider value={this.state.volume} onChange={this.onChange}/>
     </PlayerDIV>
