@@ -76,6 +76,7 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
     if (this.state.text == '')
       return ;
     if (this.state.username) {
@@ -91,7 +92,6 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
         username: this.state.text,
       });
     }
-    event.preventDefault();
   }
 
   render () {
