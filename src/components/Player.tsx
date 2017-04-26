@@ -2,6 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import ReactAudioPlayer from 'react-audio-player';
+import {VolumeSlider} from './VolumeSlider';
 
 const PlayerDIV = styled.div`
   height: 75px;
@@ -37,6 +38,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     this.onPause = this.onPause.bind(this);
     this.onPlay = this.onPlay.bind(this);
     this.increaseVolume = this.increaseVolume.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   PlayPause () {
@@ -74,6 +76,12 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
       this.increaseVolume();
   }
 
+  onChange (value: number) {
+    this.setState({
+      volume: value
+    });
+  }
+
   render () {
     if (this.HTMLPlayer)
       this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
@@ -88,7 +96,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         ref={(c) => this.HTMLPlayer = c}
         src="http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3"
       />
-
+      <VolumeSlider value={this.state.volume} onChange={this.onChange}/>
     </PlayerDIV>
   }
 }
