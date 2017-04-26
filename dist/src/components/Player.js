@@ -1,6 +1,7 @@
 "use strict";
 const React = require("react");
 const styled_components_1 = require("styled-components");
+const react_audio_player_1 = require("react-audio-player");
 const PlayerDIV = styled_components_1.default.div `
   height: 75px;
   position: fixed;
@@ -18,20 +19,50 @@ class Player extends React.Component {
     constructor() {
         super();
         this.state = {
-            online: true
+            playing: false,
+            volume: -1,
         };
+        this.PlayPause = this.PlayPause.bind(this);
+        this.onPause = this.onPause.bind(this);
+        this.onPlay = this.onPlay.bind(this);
+        this.increaseVolume = this.increaseVolume.bind(this);
     }
-    offlineCallback() {
+    PlayPause() {
+        if (this.state.playing)
+            this.HTMLPlayer.audioEl.pause();
+        else
+            this.HTMLPlayer.audioEl.play();
+    }
+    onPause() {
         this.setState({
-            online: false
+            playing: false
         });
+    }
+    increaseVolume() {
+        if (this.state.volume < 100) {
+            if (this.state.volume == -1)
+                this.setState({
+                    volume: 0
+                });
+            else
+                this.setState({
+                    volume: this.state.volume + 5
+                });
+            this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+            setTimeout(this.increaseVolume, 100);
+        }
+    }
+    onPlay() {
+        this.setState({
+            playing: true,
+        });
+        if (this.state.volume == -1)
+            this.increaseVolume();
     }
     render() {
         return React.createElement(PlayerDIV, null,
-            React.createElement("div", null,
-                React.createElement("span", null)),
-            "Player",
-            React.createElement("div", null));
+            React.createElement("button", { onClick: this.PlayPause }, this.state.playing ? "pause" : "play"),
+            React.createElement(react_audio_player_1.default, { onPlay: this.onPlay, onPause: this.onPause, onError: (e) => alert("Error while fetching audio stream..."), controls: false, autoPlay: true, ref: (c) => this.HTMLPlayer = c, src: "http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3" }));
     }
 }
 exports.Player = Player;

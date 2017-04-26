@@ -19,7 +19,7 @@ class Emissions extends React.Component {
         };
         fetch("http://localhost:8000/api/emissions/")
             .then(response => response.json())
-            .then(json => {
+            .then((json) => {
             this.setState((prevState, props) => ({
                 list: prevState.list.concat(json.results)
             }));

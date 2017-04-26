@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
+import {P, H1} from './Styles';
 import {Tabs} from '../containers/Nav';
 
 const NavBarDiv = styled.div`
@@ -19,7 +20,7 @@ interface NavBarProps {
 }
 export const NavBar = (props: NavBarProps) => (
   <NavBarDiv>
-    <h1>TarlyFM</h1>
+    <H1>TarlyFM</H1>
     <Button onClick={() => (props.change_state('Emissions'))}>Emissions</Button>
     <Button onClick={() => (props.change_state('Replay'))}>Replay</Button>
     <Button onClick={() => (props.change_state('About'))}>About</Button>

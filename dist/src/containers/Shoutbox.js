@@ -40,7 +40,13 @@ class Shoutbox extends React.Component {
             socket: io('http://localhost:3000/'),
             text: '',
             msgList: [],
+            username: '',
         };
+        this.state.socket.on('change username', function (username) {
+            this.setState({
+                username: username
+            });
+        }.bind(this));
         this.state.socket.on('chat message', function (name, text) {
             this.setState({
                 msgList: this.state.msgList.concat([{ name: name, text: text }])
@@ -56,19 +62,29 @@ class Shoutbox extends React.Component {
     handleSubmit(event) {
         if (this.state.text == '')
             return;
-        this.state.socket.emit('chat message', this.state.text);
-        this.setState({
-            text: ''
-        });
+        if (this.state.username) {
+            this.state.socket.emit('chat message', this.state.text);
+            this.setState({
+                text: ''
+            });
+        }
+        else {
+            this.state.socket.emit('change username', this.state.text);
+            this.setState({
+                text: '',
+                username: this.state.text,
+            });
+        }
         event.preventDefault();
     }
     render() {
         const listMsgs = this.state.msgList.map(({ name, text }) => React.createElement("li", null,
             React.createElement(Message, { name: name, text: text })));
+        const placeholder = this.state.username ? "Participer a la conversation" : "Enter username";
         return React.createElement(ShoutboxDiv, null,
+            React.createElement("ul", null, listMsgs),
             React.createElement("form", { onSubmit: this.handleSubmit },
-                React.createElement("ul", null, listMsgs),
-                React.createElement(ShoutboxInput, { type: "text", value: this.state.text, onChange: this.handleChange })));
+                React.createElement(ShoutboxInput, { type: "text", value: this.state.text, onChange: this.handleChange, placeholder: placeholder })));
     }
 }
 exports.Shoutbox = Shoutbox;

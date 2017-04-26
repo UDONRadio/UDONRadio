@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
+import ReactAudioPlayer from 'react-audio-player';
 
 const PlayerDIV = styled.div`
   height: 75px;
@@ -20,31 +21,73 @@ interface PlayerProps {
 
 }
 interface PlayerState {
-  online: boolean
+  playing: boolean,
+  volume: number,
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
+  private HTMLPlayer: ReactAudioPlayer;
 
   constructor () {
     super();
     this.state = {
-      online: true
+      playing: false,
+      volume: -1,
     };
+    this.PlayPause = this.PlayPause.bind(this);
+    this.onPause = this.onPause.bind(this);
+    this.onPlay = this.onPlay.bind(this);
+    this.increaseVolume = this.increaseVolume.bind(this);
   }
 
-  offlineCallback () {
+  PlayPause () {
+    if (this.state.playing)
+      this.HTMLPlayer.audioEl.pause();
+    else
+      this.HTMLPlayer.audioEl.play();
+  }
+
+  onPause () {
     this.setState({
-      online: false
-    })
+      playing: false
+    });
+  }
+
+  increaseVolume () {
+    if (this.state.volume < 100) {
+      if (this.state.volume == -1)
+        this.setState({
+          volume: 0
+        });
+      else
+        this.setState({
+          volume: this.state.volume + 5
+        });
+      this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+      setTimeout(this.increaseVolume, 100);
+    }
+  }
+
+  onPlay () {
+    this.setState({
+      playing: true,
+    });
+    if (this.state.volume == -1)
+      this.increaseVolume();
   }
 
   render () {
     return <PlayerDIV>
-      <div>
-        <span></span>
-      </div>
-      Player
-      <div>
-      </div>
+      <button onClick={this.PlayPause}>{this.state.playing ? "pause" : "play"}</button>
+      <ReactAudioPlayer
+        onPlay={this.onPlay}
+        onPause={this.onPause}
+        onError={(e) => alert("Error while fetching audio stream...")}
+        controls={false}
+        autoPlay={true}
+        ref={(c) => this.HTMLPlayer = c}
+        src="http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3"
+      />
+
     </PlayerDIV>
   }
 }

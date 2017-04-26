@@ -98,7 +98,7 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
     const listMsgs = this.state.msgList.map(
       ({name, text}) => <li><Message name={name} text={text}/></li>
     );
-    const placeholder = this.state.username ? "Participer a la conversation" : "Entrer username";
+    const placeholder = this.state.username ? "Participer a la conversation" : "Enter username";
     return <ShoutboxDiv>
       <ul>{listMsgs}</ul>
       <form onSubmit={this.handleSubmit}>
