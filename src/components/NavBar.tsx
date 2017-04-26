@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import {Tabs} from '../containers/';
-import {P, H1} from './';
+import {P, H1} from './Styles'; //NOTE: bug in styled-components ? cannot import from './'
 
 const Title = styled(H1)`
   font-size: 5.85em;
