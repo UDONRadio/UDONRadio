@@ -24,6 +24,7 @@ interface PlayerProps {
 interface PlayerState {
   playing: boolean,
   volume: number,
+  muted: boolean,
   cachebust: number
 }
 export class Player extends React.Component<PlayerProps, PlayerState> {
@@ -34,6 +35,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     this.state = {
       playing: false,
       volume: -1,
+      muted: false,
       cachebust: new Date().getTime(),
     };
     this.PlayPause = this.PlayPause.bind(this);
@@ -41,6 +43,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     this.onPlay = this.onPlay.bind(this);
     this.fadeInVolume = this.fadeInVolume.bind(this);
     this.onVolumeChange = this.onVolumeChange.bind(this);
+    this.onMuteToggle = this.onMuteToggle.bind(this);
   }
 
   /* BUTTON */
@@ -70,7 +73,14 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
 
   onVolumeChange (value: number) {
     this.setState({
-      volume: value
+      volume: value,
+      muted: false,
+    });
+  }
+
+  onMuteToggle () {
+    this.setState({
+      muted: !this.state.muted
     });
   }
 
@@ -88,9 +98,17 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     }
   }
 
+  updateVolume () {
+    if (this.HTMLPlayer) {
+      if (this.state.muted)
+        this.HTMLPlayer.audioEl.volume = 0;
+      else
+        this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+    }
+  }
+
   render () {
-    if (this.HTMLPlayer)
-      this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+    this.updateVolume();
     return <PlayerDIV>
       <PlayerButton onClick={this.PlayPause} playing={this.state.playing}/>
       <PlayerInfo title="En direct" description="Titre d'emission vraiment beaucoup trop archi-super long"/>
@@ -103,7 +121,12 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         ref={(c) => this.HTMLPlayer = c}
         src={"http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3?cache-buster=" + this.state.cachebust}
       />
-      <VolumeSlider value={this.state.volume} onChange={this.onVolumeChange}/>
+      <VolumeSlider
+        value={this.state.volume}
+        muted={this.state.muted}
+        onChange={this.onVolumeChange}
+        onClick={this.onMuteToggle}
+      />
     </PlayerDIV>
   }
 }
