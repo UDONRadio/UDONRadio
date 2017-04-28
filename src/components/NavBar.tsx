@@ -9,7 +9,7 @@ const Title = styled(H1)`
   color: #000000;
 `
 
-const NavBarDiv = styled.div`
+const NavStyle = styled.nav`
   position: fixed;
   top: 0px;
   height = 200px;
@@ -24,10 +24,10 @@ interface NavBarProps {
   current: Tabs
 }
 export const NavBar = (props: NavBarProps) => (
-  <NavBarDiv>
+  <NavStyle>
     <Title>TarlyFM</Title>
     <Button onClick={() => (props.change_state('Emissions'))}>Emissions</Button>
     <Button onClick={() => (props.change_state('Replay'))}>Replay</Button>
     <Button onClick={() => (props.change_state('About'))}>About</Button>
-  </NavBarDiv>
+  </NavStyle>
 )

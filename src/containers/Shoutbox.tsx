@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 import * as io from 'socket.io-client';
 
-const ShoutboxDiv = styled.div`
+const ShoutboxAside = styled.aside`
   position: fixed;
   right: 0px;
   top: 0px;
@@ -99,7 +99,7 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
       ({name, text}) => <li><Message name={name} text={text}/></li>
     );
     const placeholder = this.state.username ? "Participer a la conversation" : "Enter username";
-    return <ShoutboxDiv>
+    return <ShoutboxAside>
       <ul>{listMsgs}</ul>
       <form onSubmit={this.handleSubmit}>
         <ShoutboxInput
@@ -109,6 +109,6 @@ export class Shoutbox extends React.Component<undefined, ShoutboxState> {
           placeholder={placeholder}
         />
       </form>
-    </ShoutboxDiv>
+    </ShoutboxAside>
   }
 }

@@ -14,7 +14,7 @@ const NavDiv = styled.div`
   z-index: 1;
 `
 
-const CurrentTabDiv = styled.div`
+const MainTab = styled.main`
   position: fixed;
   top: 300px;
   z-index: -1;
@@ -54,7 +54,7 @@ export class Nav extends React.Component<undefined, NavState> {
     const CurrentTab = tabs[this.state.selected];
     return <NavDiv>
       <NavBar tabs={tabs} current={this.state.selected} change_state={this.change_state.bind(this)}/>
-      <CurrentTabDiv><CurrentTab/></CurrentTabDiv>
+      <MainTab><CurrentTab/></MainTab>
     </NavDiv>
   }
 }

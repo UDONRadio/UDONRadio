@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 import styled from 'styled-components';
 
 const VolumeSliderDiv = styled.div`
+  float: right;
   display: inline-block;
   vertical-align: middle;
 `

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import ReactAudioPlayer from 'react-audio-player';
 import {VolumeSlider, PlayerInfo, PlayerButton} from '../components';
 
-const PlayerDIV = styled.div`
+const PlayerFooter = styled.footer`
   height: 75px;
   position: fixed;
   bottom: 0px;
@@ -109,7 +109,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
 
   render () {
     this.updateVolume();
-    return <PlayerDIV>
+    return <PlayerFooter>
       <PlayerButton onClick={this.PlayPause} playing={this.state.playing}/>
       <PlayerInfo title="En direct" description="Titre d'emission vraiment beaucoup trop archi-super long"/>
       <ReactAudioPlayer
@@ -127,6 +127,6 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
         onChange={this.onVolumeChange}
         onClick={this.onMuteToggle}
       />
-    </PlayerDIV>
+    </PlayerFooter>
   }
 }

@@ -3,15 +3,18 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 
 const PlayerButtonDiv = styled.div`
-  height: 75px;
+  position: relative;
+  max-height: 75px;
   width: 160px;
   display: inline-block;
   vertical-align: middle;
+  margin: auto;
 `;
 
 const PlayerButtonStyle = styled.button`
   cursor: pointer;
   border: none;
+  padding: 0px;
 `;
 
 export const PlayerButton = (props : {onClick: () => void, playing: boolean}) => (
