@@ -3,12 +3,11 @@ import * as ReactDOM from "react-dom";
 import styled from 'styled-components';
 
 const PlayerButtonDiv = styled.div`
-  position: relative;
-  max-height: 75px;
-  width: 160px;
   display: inline-block;
-  vertical-align: middle;
-  margin: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 `;
 
 const PlayerButtonStyle = styled.button`

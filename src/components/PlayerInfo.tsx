@@ -10,11 +10,13 @@ const PlayerInfoDiv = styled.div`
 const Title = styled(H1)`
   display: inline-block;
   vertical-align: middle;
+  margin: 0px;
 `
 
 const Description = styled(P)`
   display: inline-block;
   vertical-align: middle;
+  margin: 0px;
 `
 
 export const PlayerInfo = (props: {title: string, description: string}) => (

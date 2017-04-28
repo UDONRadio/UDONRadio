@@ -15,6 +15,7 @@ const WindowDIV = styled.div`
   padding: 0px;
 
   background-color: #efefef;
+  font-size: 32px;
 `
 
 export const Window = (props) => (

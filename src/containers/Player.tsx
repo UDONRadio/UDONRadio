@@ -85,6 +85,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
   }
 
   fadeInVolume () {
+    console.log(this.state.volume);
     if (this.state.volume < 100) {
       if (this.state.volume == -1)
         this.setState({

@@ -5,7 +5,7 @@ import {Tabs} from '../containers/';
 import {P, H1} from './Styles'; //NOTE: bug in styled-components ? cannot import from './'
 
 const Title = styled(H1)`
-  font-size: 5.85em;
+  font-size: 3em;
   color: #000000;
 `
 
