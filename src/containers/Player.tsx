@@ -44,6 +44,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     this.fadeInVolume = this.fadeInVolume.bind(this);
     this.onVolumeChange = this.onVolumeChange.bind(this);
     this.onMuteToggle = this.onMuteToggle.bind(this);
+    this.updateVolume = this.updateVolume.bind(this);
   }
 
   /* BUTTON */
@@ -85,7 +86,6 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
   }
 
   fadeInVolume () {
-    console.log(this.state.volume);
     if (this.state.volume < 100) {
       if (this.state.volume == -1)
         this.setState({
@@ -103,7 +103,7 @@ export class Player extends React.Component<PlayerProps, PlayerState> {
     if (this.HTMLPlayer) {
       if (this.state.muted)
         this.HTMLPlayer.audioEl.volume = 0;
-      else
+      else if (this.state.volume >= 0)
         this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
     }
   }

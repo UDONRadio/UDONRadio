@@ -63,11 +63,17 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 36);
+/******/ 	return __webpack_require__(__webpack_require__.s = 39);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+module.exports = React;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports) {
 
 var g;
@@ -94,202 +100,12 @@ module.exports = g;
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-module.exports = React;
-
-/***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(process) {
-/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = __webpack_require__(43);
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (window.console && (console.firebug || (console.exception && console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  try {
-    return JSON.stringify(v);
-  } catch (err) {
-    return '[UnexpectedJSONParseError]: ' + err.message;
-  }
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs() {
-  var args = arguments;
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return args;
-
-  var c = 'color: ' + this.color;
-  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-  return args;
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    return exports.storage.debug;
-  } catch(e) {}
-
-  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (typeof process !== 'undefined' && 'env' in process) {
-    return process.env.DEBUG;
-  }
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage(){
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(37)))
-
-/***/ }),
-/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "css", function() { return css; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "keyframes", function() { return keyframes; });
@@ -7568,6 +7384,190 @@ var styled = _styled(_styledComponent(_ComponentStyle(generateAlphabeticName)));
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(process) {
+/**
+ * This is the web browser implementation of `debug()`.
+ *
+ * Expose `debug()` as the module.
+ */
+
+exports = module.exports = __webpack_require__(45);
+exports.log = log;
+exports.formatArgs = formatArgs;
+exports.save = save;
+exports.load = load;
+exports.useColors = useColors;
+exports.storage = 'undefined' != typeof chrome
+               && 'undefined' != typeof chrome.storage
+                  ? chrome.storage.local
+                  : localstorage();
+
+/**
+ * Colors.
+ */
+
+exports.colors = [
+  'lightseagreen',
+  'forestgreen',
+  'goldenrod',
+  'dodgerblue',
+  'darkorchid',
+  'crimson'
+];
+
+/**
+ * Currently only WebKit-based Web Inspectors, Firefox >= v31,
+ * and the Firebug extension (any Firefox version) are known
+ * to support "%c" CSS customizations.
+ *
+ * TODO: add a `localStorage` variable to explicitly enable/disable colors
+ */
+
+function useColors() {
+  // is webkit? http://stackoverflow.com/a/16459606/376773
+  // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
+  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
+    // is firebug? http://stackoverflow.com/a/398120/376773
+    (window.console && (console.firebug || (console.exception && console.table))) ||
+    // is firefox >= v31?
+    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
+    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
+}
+
+/**
+ * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
+ */
+
+exports.formatters.j = function(v) {
+  try {
+    return JSON.stringify(v);
+  } catch (err) {
+    return '[UnexpectedJSONParseError]: ' + err.message;
+  }
+};
+
+
+/**
+ * Colorize log arguments if enabled.
+ *
+ * @api public
+ */
+
+function formatArgs() {
+  var args = arguments;
+  var useColors = this.useColors;
+
+  args[0] = (useColors ? '%c' : '')
+    + this.namespace
+    + (useColors ? ' %c' : ' ')
+    + args[0]
+    + (useColors ? '%c ' : ' ')
+    + '+' + exports.humanize(this.diff);
+
+  if (!useColors) return args;
+
+  var c = 'color: ' + this.color;
+  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
+
+  // the final "%c" is somewhat tricky, because there could be other
+  // arguments passed either before or after the %c, so we need to
+  // figure out the correct index to insert the CSS into
+  var index = 0;
+  var lastC = 0;
+  args[0].replace(/%[a-z%]/g, function(match) {
+    if ('%%' === match) return;
+    index++;
+    if ('%c' === match) {
+      // we only are interested in the *last* %c
+      // (the user may have provided their own)
+      lastC = index;
+    }
+  });
+
+  args.splice(lastC, 0, c);
+  return args;
+}
+
+/**
+ * Invokes `console.log()` when available.
+ * No-op when `console.log` is not a "function".
+ *
+ * @api public
+ */
+
+function log() {
+  // this hackery is required for IE8/9, where
+  // the `console.log` function doesn't have 'apply'
+  return 'object' === typeof console
+    && console.log
+    && Function.prototype.apply.call(console.log, console, arguments);
+}
+
+/**
+ * Save `namespaces`.
+ *
+ * @param {String} namespaces
+ * @api private
+ */
+
+function save(namespaces) {
+  try {
+    if (null == namespaces) {
+      exports.storage.removeItem('debug');
+    } else {
+      exports.storage.debug = namespaces;
+    }
+  } catch(e) {}
+}
+
+/**
+ * Load `namespaces`.
+ *
+ * @return {String} returns the previously persisted debug modes
+ * @api private
+ */
+
+function load() {
+  var r;
+  try {
+    return exports.storage.debug;
+  } catch(e) {}
+
+  // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
+  if (typeof process !== 'undefined' && 'env' in process) {
+    return process.env.DEBUG;
+  }
+}
+
+/**
+ * Enable namespaces listed in `localStorage.debug` initially.
+ */
+
+exports.enable(load());
+
+/**
+ * Localstorage attempts to return the localstorage.
+ *
+ * This is necessary because safari throws
+ * when a user disables cookies/localstorage
+ * and you attempt to access it.
+ *
+ * @return {LocalStorage}
+ * @api private
+ */
+
+function localstorage(){
+  try {
+    return window.localStorage;
+  } catch (e) {}
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(69)))
+
+/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -7575,15 +7575,15 @@ var styled = _styled(_styledComponent(_ComponentStyle(generateAlphabeticName)));
  * Module dependencies.
  */
 
-var keys = __webpack_require__(50);
-var hasBinary = __webpack_require__(16);
-var sliceBuffer = __webpack_require__(39);
-var after = __webpack_require__(38);
-var utf8 = __webpack_require__(66);
+var keys = __webpack_require__(52);
+var hasBinary = __webpack_require__(22);
+var sliceBuffer = __webpack_require__(41);
+var after = __webpack_require__(40);
+var utf8 = __webpack_require__(68);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(41);
+  base64encoder = __webpack_require__(43);
 }
 
 /**
@@ -7641,7 +7641,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(42);
+var Blob = __webpack_require__(44);
 
 /**
  * Encodes a packet.
@@ -8181,7 +8181,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 5 */
@@ -8371,15 +8371,15 @@ module.exports = function(a, b){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const styled_components_1 = __webpack_require__(3);
+const styled_components_1 = __webpack_require__(2);
 exports.P = styled_components_1.default.p `
   font-family: 'Open Sans';
-  font-size: 2em;
+  font-size: 1em;
   color: #a3a3a3;
 `;
 exports.H1 = styled_components_1.default.h1 `
   font-family: 'Open Sans';
-  font-size: 2em;
+  font-size: 1em;
   color: #5e5e5e;
 `;
 
@@ -8553,7 +8553,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(52);
+var hasCORS = __webpack_require__(54);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -8589,7 +8589,7 @@ module.exports = function (opts) {
   }
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 10 */
@@ -8643,11 +8643,11 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(61)('socket.io-parser');
-var json = __webpack_require__(53);
-var Emitter = __webpack_require__(60);
-var binary = __webpack_require__(59);
-var isBuf = __webpack_require__(22);
+var debug = __webpack_require__(63)('socket.io-parser');
+var json = __webpack_require__(55);
+var Emitter = __webpack_require__(62);
+var binary = __webpack_require__(61);
+var isBuf = __webpack_require__(28);
 
 /**
  * Protocol version.
@@ -9046,34 +9046,180 @@ function error(data){
 
 /***/ }),
 /* 12 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function(module) {
-	if(!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if(!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const containers_1 = __webpack_require__(38);
+const WindowDIV = styled_components_1.default.div `
+  position: fixed;
+  bottom: 0px;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+
+  background-color: #efefef;
+  font-size: 32px;
+`;
+exports.Window = (props) => (React.createElement(WindowDIV, null,
+    React.createElement(containers_1.Nav, null),
+    React.createElement(containers_1.Player, null),
+    React.createElement(containers_1.Shoutbox, null)));
 
 
 /***/ }),
 /* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+exports.About = (props) => (React.createElement("div", null, "Wow! Such empty"));
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const _1 = __webpack_require__(17);
+const EmissionImg = styled_components_1.default.img `
+  max-width: 400px;
+`;
+const EmissionDiv = styled_components_1.default.div `
+  flex: 1 1 auto;
+  margin: 160px;
+`;
+exports.Emission = (props) => (React.createElement("div", null,
+    React.createElement(EmissionImg, { src: props.picture_link }),
+    React.createElement(_1.H1, null, props.title),
+    React.createElement(_1.P, null, props.pitch)));
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const Styles_1 = __webpack_require__(7); //NOTE: bug in styled-components ? cannot import from './'
+const Title = styled_components_1.default(Styles_1.H1) `
+  font-size: 3em;
+  color: #000000;
+`;
+const NavStyle = styled_components_1.default.nav `
+  position: fixed;
+  top: 0px;
+  height = 200px;
+`;
+const Button = styled_components_1.default.button `
+  display: inline-block;
+`;
+exports.NavBar = (props) => (React.createElement(NavStyle, null,
+    React.createElement(Title, null, "TarlyFM"),
+    React.createElement(Button, { onClick: () => (props.change_state('Emissions')) }, "Emissions"),
+    React.createElement(Button, { onClick: () => (props.change_state('Replay')) }, "Replay"),
+    React.createElement(Button, { onClick: () => (props.change_state('About')) }, "About")));
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+exports.Replay = (props) => (React.createElement("div", null, "Wow! Such empty"));
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var About_1 = __webpack_require__(13);
+exports.About = About_1.About;
+var Emission_1 = __webpack_require__(14);
+exports.Emission = Emission_1.Emission;
+var NavBar_1 = __webpack_require__(15);
+exports.NavBar = NavBar_1.NavBar;
+var PlayerButton_1 = __webpack_require__(32);
+exports.PlayerButton = PlayerButton_1.PlayerButton;
+var PlayerInfo_1 = __webpack_require__(33);
+exports.PlayerInfo = PlayerInfo_1.PlayerInfo;
+var Replay_1 = __webpack_require__(16);
+exports.Replay = Replay_1.Replay;
+var Styles_1 = __webpack_require__(7);
+exports.H1 = Styles_1.H1;
+exports.P = Styles_1.P;
+var VolumeSlider_1 = __webpack_require__(34);
+exports.VolumeSlider = VolumeSlider_1.VolumeSlider;
+var Window_1 = __webpack_require__(12);
+exports.Window = Window_1.Window;
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const Emission_1 = __webpack_require__(14);
+const Inline = styled_components_1.default.li `
+  display: inline-flex;
+`;
+const EmissionsUl = styled_components_1.default.ul `
+  padding: 0px;
+
+  display: flex;
+  flex-wrap: wrap;
+`;
+class Emissions extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            list: []
+        };
+        fetch("http://localhost:8000/api/emissions/")
+            .then(response => response.json())
+            .then((json) => {
+            this.setState((prevState, props) => ({
+                list: prevState.list.concat(json.results)
+            }));
+        });
+    }
+    render() {
+        const listEmissions = this.state.list.slice(0, 3).map((emission) => React.createElement(Inline, { key: emission.starts },
+            React.createElement(Emission_1.Emission, { picture_link: emission.emission.picture_link, pitch: emission.emission.pitch, title: emission.emission.title })));
+        return React.createElement(EmissionsUl, null, listEmissions);
+    }
+}
+exports.Emissions = Emissions;
+
+
+/***/ }),
+/* 19 */
 /***/ (function(module, exports) {
 
 /**
@@ -9102,7 +9248,7 @@ module.exports = function(obj, fn){
 
 
 /***/ }),
-/* 14 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -9110,9 +9256,9 @@ module.exports = function(obj, fn){
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var XHR = __webpack_require__(48);
-var JSONP = __webpack_require__(47);
-var websocket = __webpack_require__(49);
+var XHR = __webpack_require__(50);
+var JSONP = __webpack_require__(49);
+var websocket = __webpack_require__(51);
 
 /**
  * Export transports.
@@ -9159,10 +9305,10 @@ function polling (opts) {
   }
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 15 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -9173,8 +9319,8 @@ var Transport = __webpack_require__(8);
 var parseqs = __webpack_require__(10);
 var parser = __webpack_require__(4);
 var inherit = __webpack_require__(6);
-var yeast = __webpack_require__(23);
-var debug = __webpack_require__(2)('engine.io-client:polling');
+var yeast = __webpack_require__(29);
+var debug = __webpack_require__(3)('engine.io-client:polling');
 
 /**
  * Module exports.
@@ -9413,7 +9559,7 @@ Polling.prototype.uri = function () {
 
 
 /***/ }),
-/* 16 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -9421,7 +9567,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(51);
+var isArray = __webpack_require__(53);
 
 /**
  * Module exports.
@@ -9476,10 +9622,10 @@ function hasBinary(data) {
   return _hasBinary(data);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 17 */
+/* 23 */
 /***/ (function(module, exports) {
 
 
@@ -9494,7 +9640,7 @@ module.exports = function(arr, obj){
 };
 
 /***/ }),
-/* 18 */
+/* 24 */
 /***/ (function(module, exports) {
 
 /**
@@ -9539,7 +9685,7 @@ module.exports = function parseuri(str) {
 
 
 /***/ }),
-/* 19 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -9547,15 +9693,15 @@ module.exports = function parseuri(str) {
  * Module dependencies.
  */
 
-var eio = __webpack_require__(44);
-var Socket = __webpack_require__(21);
+var eio = __webpack_require__(46);
+var Socket = __webpack_require__(27);
 var Emitter = __webpack_require__(5);
 var parser = __webpack_require__(11);
-var on = __webpack_require__(20);
-var bind = __webpack_require__(13);
-var debug = __webpack_require__(2)('socket.io-client:manager');
-var indexOf = __webpack_require__(17);
-var Backoff = __webpack_require__(40);
+var on = __webpack_require__(26);
+var bind = __webpack_require__(19);
+var debug = __webpack_require__(3)('socket.io-client:manager');
+var indexOf = __webpack_require__(23);
+var Backoff = __webpack_require__(42);
 
 /**
  * IE6+ hasOwnProperty
@@ -10105,7 +10251,7 @@ Manager.prototype.onreconnect = function () {
 
 
 /***/ }),
-/* 20 */
+/* 26 */
 /***/ (function(module, exports) {
 
 
@@ -10135,7 +10281,7 @@ function on (obj, ev, fn) {
 
 
 /***/ }),
-/* 21 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -10145,11 +10291,11 @@ function on (obj, ev, fn) {
 
 var parser = __webpack_require__(11);
 var Emitter = __webpack_require__(5);
-var toArray = __webpack_require__(65);
-var on = __webpack_require__(20);
-var bind = __webpack_require__(13);
-var debug = __webpack_require__(2)('socket.io-client:socket');
-var hasBin = __webpack_require__(16);
+var toArray = __webpack_require__(67);
+var on = __webpack_require__(26);
+var bind = __webpack_require__(19);
+var debug = __webpack_require__(3)('socket.io-client:socket');
+var hasBin = __webpack_require__(22);
 
 /**
  * Module exports.
@@ -10560,7 +10706,7 @@ Socket.prototype.compress = function (compress) {
 
 
 /***/ }),
-/* 22 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -10577,10 +10723,10 @@ function isBuf(obj) {
          (global.ArrayBuffer && obj instanceof ArrayBuffer);
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 23 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10655,123 +10801,38 @@ module.exports = yeast;
 
 
 /***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 30 */
+/***/ (function(module, exports) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const containers_1 = __webpack_require__(72);
-const WindowDIV = styled_components_1.default.div `
-  position: fixed;
-  bottom: 0px;
-  top: 0px;
-  right: 0px;
-  left: 0px;
-
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-
-  background-color: #efefef;
-`;
-exports.Window = (props) => (React.createElement(WindowDIV, null,
-    React.createElement(containers_1.Nav, null),
-    React.createElement(containers_1.Player, null),
-    React.createElement(containers_1.Shoutbox, null)));
+module.exports = function(module) {
+	if(!module.webpackPolyfill) {
+		module.deprecate = function() {};
+		module.paths = [];
+		// module.parent = undefined by default
+		if(!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
 
 
 /***/ }),
-/* 25 */
+/* 31 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
-module.exports = __webpack_amd_options__;
-
-/* WEBPACK VAR INJECTION */}.call(exports, {}))
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-exports.About = (props) => (React.createElement("div", null, "Wow! Such empty"));
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const _1 = __webpack_require__(71);
-const EmissionImg = styled_components_1.default.img `
-  max-width: 400px;
-`;
-const EmissionDiv = styled_components_1.default.div `
-  flex: 1 1 auto;
-  margin: 160px;
-`;
-exports.Emission = (props) => (React.createElement("div", null,
-    React.createElement(EmissionImg, { src: props.picture_link }),
-    React.createElement(_1.H1, null, props.title),
-    React.createElement(_1.P, null, props.pitch)));
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const _1 = __webpack_require__(71);
-const Title = styled_components_1.default(_1.H1) `
-  font-size: 5.85em;
-  color: #000000;
-`;
-const NavBarDiv = styled_components_1.default.div `
-  position: fixed;
-  top: 0px;
-  height = 200px;
-`;
-const Button = styled_components_1.default.button `
-  display: inline-block;
-`;
-exports.NavBar = (props) => (React.createElement(NavBarDiv, null,
-    React.createElement(Title, null, "TarlyFM"),
-    React.createElement(Button, { onClick: () => (props.change_state('Emissions')) }, "Emissions"),
-    React.createElement(Button, { onClick: () => (props.change_state('Replay')) }, "Replay"),
-    React.createElement(Button, { onClick: () => (props.change_state('About')) }, "About")));
-
-
-/***/ }),
-/* 30 */,
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-exports.Replay = (props) => (React.createElement("div", null, "Wow! Such empty"));
-
 
 /***/ }),
 /* 32 */
@@ -10780,16 +10841,23 @@ exports.Replay = (props) => (React.createElement("div", null, "Wow! Such empty")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const adjustVolume = (value) => {
-    if (value < 0)
-        return (0);
-    else if (value > 100)
-        return (100);
-    else
-        return (value);
-};
-exports.VolumeSlider = (props) => (React.createElement("input", { type: "range", min: "0", max: "100", value: adjustVolume(props.value), onChange: (event) => props.onChange(event.target.value) }));
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const PlayerButtonDiv = styled_components_1.default.div `
+  display: inline-block;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+`;
+const PlayerButtonStyle = styled_components_1.default.button `
+  cursor: pointer;
+  border: none;
+  padding: 0px;
+`;
+exports.PlayerButton = (props) => (React.createElement(PlayerButtonDiv, null,
+    React.createElement(PlayerButtonStyle, { onClick: props.onClick },
+        React.createElement("img", { src: props.playing ? "assets/img/BTPause.png" : "assets/img/BTPlay.png" }))));
 
 
 /***/ }),
@@ -10799,39 +10867,25 @@ exports.VolumeSlider = (props) => (React.createElement("input", { type: "range",
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const Emission_1 = __webpack_require__(28);
-const Inline = styled_components_1.default.li `
-  display: inline-flex;
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const Styles_1 = __webpack_require__(7);
+const PlayerInfoDiv = styled_components_1.default.div `
+  display: inline-block;
 `;
-const EmissionsUl = styled_components_1.default.ul `
-  padding: 0px;
-
-  display: flex;
-  flex-wrap: wrap;
+const Title = styled_components_1.default(Styles_1.H1) `
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0px;
 `;
-class Emissions extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            list: []
-        };
-        fetch("http://localhost:8000/api/emissions/")
-            .then(response => response.json())
-            .then((json) => {
-            this.setState((prevState, props) => ({
-                list: prevState.list.concat(json.results)
-            }));
-        });
-    }
-    render() {
-        const listEmissions = this.state.list.slice(0, 3).map((emission) => React.createElement(Inline, { key: emission.starts },
-            React.createElement(Emission_1.Emission, { picture_link: emission.emission.picture_link, pitch: emission.emission.pitch, title: emission.emission.title })));
-        return React.createElement(EmissionsUl, null, listEmissions);
-    }
-}
-exports.Emissions = Emissions;
+const Description = styled_components_1.default(Styles_1.P) `
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0px;
+`;
+exports.PlayerInfo = (props) => (React.createElement(PlayerInfoDiv, null,
+    React.createElement(Title, null, props.title),
+    React.createElement(Description, null, props.description)));
 
 
 /***/ }),
@@ -10841,12 +10895,52 @@ exports.Emissions = Emissions;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const Emissions_1 = __webpack_require__(33);
-const NavBar_1 = __webpack_require__(29);
-const About_1 = __webpack_require__(27);
-const Replay_1 = __webpack_require__(31);
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const VolumeSliderDiv = styled_components_1.default.div `
+  float: right;
+  display: inline-block;
+  vertical-align: middle;
+`;
+const getBackgroundURL = (volume, muted) => {
+    if (volume <= 0 || muted)
+        return ("assets/img/SND_No_sml.png");
+    else if (volume > 75)
+        return ("assets/img/SND_Loud_sml.png");
+    else
+        return ("assets/img/SND_Mid_sml.png");
+};
+const VolumeButtonStyle = styled_components_1.default.div `
+  cursor: pointer;
+  border: none;
+`;
+const adjustVolume = (value) => {
+    if (value < 0)
+        return (0);
+    else if (value > 100)
+        return (100);
+    else
+        return (value);
+};
+exports.VolumeSlider = (props) => (React.createElement(VolumeSliderDiv, null,
+    React.createElement(VolumeButtonStyle, { onClick: props.onClick },
+        React.createElement("img", { src: getBackgroundURL(props.value, props.muted) })),
+    React.createElement("input", { type: "range", min: "0", max: "100", value: adjustVolume(props.muted ? 0 : props.value), onChange: (event) => props.onChange(event.target.value) })));
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const Emissions_1 = __webpack_require__(18);
+const NavBar_1 = __webpack_require__(15);
+const About_1 = __webpack_require__(13);
+const Replay_1 = __webpack_require__(16);
 const NavDiv = styled_components_1.default.div `
   position: fixed;
   max-width: 1440px;
@@ -10854,7 +10948,7 @@ const NavDiv = styled_components_1.default.div `
   margin-right: 160px;
   z-index: 1;
 `;
-const CurrentTabDiv = styled_components_1.default.div `
+const MainTab = styled_components_1.default.main `
   position: fixed;
   top: 300px;
   z-index: -1;
@@ -10883,7 +10977,7 @@ class Nav extends React.Component {
         const CurrentTab = tabs[this.state.selected];
         return React.createElement(NavDiv, null,
             React.createElement(NavBar_1.NavBar, { tabs: tabs, current: this.state.selected, change_state: this.change_state.bind(this) }),
-            React.createElement(CurrentTabDiv, null,
+            React.createElement(MainTab, null,
                 React.createElement(CurrentTab, null)));
     }
 }
@@ -10891,16 +10985,121 @@ exports.Nav = Nav;
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const io = __webpack_require__(57);
-const ShoutboxDiv = styled_components_1.default.div `
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const react_audio_player_1 = __webpack_require__(58);
+const components_1 = __webpack_require__(17);
+const PlayerFooter = styled_components_1.default.footer `
+  height: 75px;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  left: 0px
+
+  border-top-style: groove;
+  border-top-width: 5px;
+  border-top-color: #e5e5e5;
+  background-color: inherit;
+  z-index: 2;
+`;
+class Player extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            playing: false,
+            volume: -1,
+            muted: false,
+            cachebust: new Date().getTime(),
+        };
+        this.PlayPause = this.PlayPause.bind(this);
+        this.onPause = this.onPause.bind(this);
+        this.onPlay = this.onPlay.bind(this);
+        this.fadeInVolume = this.fadeInVolume.bind(this);
+        this.onVolumeChange = this.onVolumeChange.bind(this);
+        this.onMuteToggle = this.onMuteToggle.bind(this);
+        this.updateVolume = this.updateVolume.bind(this);
+    }
+    /* BUTTON */
+    PlayPause() {
+        if (this.state.playing)
+            this.HTMLPlayer.audioEl.pause();
+        else
+            this.HTMLPlayer.audioEl.play();
+    }
+    onPlay() {
+        this.setState({
+            playing: true,
+        });
+        if (this.state.volume == -1)
+            this.fadeInVolume();
+    }
+    onPause() {
+        this.setState({
+            playing: false
+        });
+    }
+    /* SLIDER */
+    onVolumeChange(value) {
+        this.setState({
+            volume: value,
+            muted: false,
+        });
+    }
+    onMuteToggle() {
+        this.setState({
+            muted: !this.state.muted
+        });
+    }
+    fadeInVolume() {
+        if (this.state.volume < 100) {
+            if (this.state.volume == -1)
+                this.setState({
+                    volume: 0
+                });
+            else
+                this.setState({
+                    volume: this.state.volume + 5
+                });
+            setTimeout(this.fadeInVolume, 100);
+        }
+    }
+    updateVolume() {
+        if (this.HTMLPlayer) {
+            if (this.state.muted)
+                this.HTMLPlayer.audioEl.volume = 0;
+            else if (this.state.volume >= 0)
+                this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+        }
+    }
+    render() {
+        this.updateVolume();
+        return React.createElement(PlayerFooter, null,
+            React.createElement(components_1.PlayerButton, { onClick: this.PlayPause, playing: this.state.playing }),
+            React.createElement(components_1.PlayerInfo, { title: "En direct", description: "Titre d'emission vraiment beaucoup trop archi-super long" }),
+            React.createElement(react_audio_player_1.default, { onPlay: this.onPlay, onPause: this.onPause, onError: (e) => alert("Error while fetching audio stream..."), controls: false, autoPlay: true, ref: (c) => this.HTMLPlayer = c, src: "http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3?cache-buster=" + this.state.cachebust }),
+            React.createElement(components_1.VolumeSlider, { value: this.state.volume, muted: this.state.muted, onChange: this.onVolumeChange, onClick: this.onMuteToggle }));
+    }
+}
+exports.Player = Player;
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const styled_components_1 = __webpack_require__(2);
+const io = __webpack_require__(59);
+const ShoutboxAside = styled_components_1.default.aside `
   position: fixed;
   right: 0px;
   top: 0px;
@@ -10979,7 +11178,7 @@ class Shoutbox extends React.Component {
         const listMsgs = this.state.msgList.map(({ name, text }) => React.createElement("li", null,
             React.createElement(Message, { name: name, text: text })));
         const placeholder = this.state.username ? "Participer a la conversation" : "Enter username";
-        return React.createElement(ShoutboxDiv, null,
+        return React.createElement(ShoutboxAside, null,
             React.createElement("ul", null, listMsgs),
             React.createElement("form", { onSubmit: this.handleSubmit },
                 React.createElement(ShoutboxInput, { type: "text", value: this.state.text, onChange: this.handleChange, placeholder: placeholder })));
@@ -10989,206 +11188,37 @@ exports.Shoutbox = Shoutbox;
 
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const ReactDOM = __webpack_require__(25);
-const Window_1 = __webpack_require__(24);
+var Emissions_1 = __webpack_require__(18);
+exports.Emissions = Emissions_1.Emissions;
+var Nav_1 = __webpack_require__(35); // should move Tabs away from this
+exports.Nav = Nav_1.Nav;
+var Player_1 = __webpack_require__(36);
+exports.Player = Player_1.Player;
+var Shoutbox_1 = __webpack_require__(37);
+exports.Shoutbox = Shoutbox_1.Shoutbox;
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = __webpack_require__(0);
+const ReactDOM = __webpack_require__(31);
+const Window_1 = __webpack_require__(12);
 ReactDOM.render(React.createElement(Window_1.Window, null), document.getElementById("root"));
 
 
 /***/ }),
-/* 37 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports) {
 
 module.exports = after
@@ -11222,7 +11252,7 @@ function noop() {}
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports) {
 
 /**
@@ -11257,7 +11287,7 @@ module.exports = function(arraybuffer, start, end) {
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports) {
 
 
@@ -11348,7 +11378,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, exports) {
 
 /*
@@ -11421,7 +11451,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -11521,10 +11551,10 @@ module.exports = (function() {
   }
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -11540,7 +11570,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(54);
+exports.humanize = __webpack_require__(56);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -11730,19 +11760,19 @@ function coerce(val) {
 
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(45);
+module.exports = __webpack_require__(47);
 
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(46);
+module.exports = __webpack_require__(48);
 
 /**
  * Exports parser
@@ -11754,20 +11784,20 @@ module.exports.parser = __webpack_require__(4);
 
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var transports = __webpack_require__(14);
+var transports = __webpack_require__(20);
 var Emitter = __webpack_require__(5);
-var debug = __webpack_require__(2)('engine.io-client:socket');
-var index = __webpack_require__(17);
+var debug = __webpack_require__(3)('engine.io-client:socket');
+var index = __webpack_require__(23);
 var parser = __webpack_require__(4);
-var parseuri = __webpack_require__(18);
-var parsejson = __webpack_require__(55);
+var parseuri = __webpack_require__(24);
+var parsejson = __webpack_require__(57);
 var parseqs = __webpack_require__(10);
 
 /**
@@ -11901,7 +11931,7 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(8);
-Socket.transports = __webpack_require__(14);
+Socket.transports = __webpack_require__(20);
 Socket.parser = __webpack_require__(4);
 
 /**
@@ -12496,10 +12526,10 @@ Socket.prototype.filterUpgrades = function (upgrades) {
   return filteredUpgrades;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -12507,7 +12537,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(15);
+var Polling = __webpack_require__(21);
 var inherit = __webpack_require__(6);
 
 /**
@@ -12734,10 +12764,10 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
   }
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -12745,10 +12775,10 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(15);
+var Polling = __webpack_require__(21);
 var Emitter = __webpack_require__(5);
 var inherit = __webpack_require__(6);
-var debug = __webpack_require__(2)('engine.io-client:polling-xhr');
+var debug = __webpack_require__(3)('engine.io-client:polling-xhr');
 
 /**
  * Module exports.
@@ -13165,10 +13195,10 @@ function unloadHandler () {
   }
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -13179,13 +13209,13 @@ var Transport = __webpack_require__(8);
 var parser = __webpack_require__(4);
 var parseqs = __webpack_require__(10);
 var inherit = __webpack_require__(6);
-var yeast = __webpack_require__(23);
-var debug = __webpack_require__(2)('engine.io-client:websocket');
+var yeast = __webpack_require__(29);
+var debug = __webpack_require__(3)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(67);
+    NodeWebSocket = __webpack_require__(71);
   } catch (e) { }
 }
 
@@ -13457,10 +13487,10 @@ WS.prototype.check = function () {
   return !!WebSocket && !('__initialize' in WebSocket && this.name === WS.prototype.name);
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports) {
 
 
@@ -13485,7 +13515,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -13494,7 +13524,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, exports) {
 
 
@@ -13517,14 +13547,14 @@ try {
 
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(26);
+  var isLoader = "function" === "function" && __webpack_require__(70);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -14424,10 +14454,10 @@ try {
   }
 }).call(this);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)(module), __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(1)))
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports) {
 
 /**
@@ -14582,7 +14612,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -14617,16 +14647,16 @@ module.exports = function parsejson(data) {
     return (new Function('return ' + data))();
   }
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports=function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,r),o.loaded=!0,o.exports}var t={};return r.m=e,r.c=t,r.p="",r(0)}([function(e,r,t){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,r){if(!(e instanceof r))throw new TypeError("Cannot call a class as a function")}function s(e,r){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!r||"object"!=typeof r&&"function"!=typeof r?e:r}function a(e,r){if("function"!=typeof r&&null!==r)throw new TypeError("Super expression must either be null or a function, not "+typeof r);e.prototype=Object.create(r&&r.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),r&&(Object.setPrototypeOf?Object.setPrototypeOf(e,r):e.__proto__=r)}Object.defineProperty(r,"__esModule",{value:!0});var p=Object.assign||function(e){for(var r=1;r<arguments.length;r++){var t=arguments[r];for(var n in t)Object.prototype.hasOwnProperty.call(t,n)&&(e[n]=t[n])}return e},l=function(){function e(e,r){for(var t=0;t<r.length;t++){var n=r[t];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(r,t,n){return t&&e(r.prototype,t),n&&e(r,n),r}}(),i=t(1),u=n(i),c=1e4,d=function(e){function r(){return o(this,r),s(this,Object.getPrototypeOf(r).apply(this,arguments))}return a(r,e),l(r,[{key:"componentDidMount",value:function(){var e=this,r=this.audioEl;r.addEventListener("error",function(r){e.props.onError&&e.props.onError(r)}),r.addEventListener("canplay",function(r){e.props.onCanPlay&&e.props.onCanPlay(r)}),r.addEventListener("canplaythrough",function(r){e.props.onCanPlayThrough&&e.props.onCanPlayThrough(r)}),r.addEventListener("play",function(r){e.setListenTrack(),e.props.onPlay&&e.props.onPlay(r)}),r.addEventListener("abort",function(r){e.clearListenTrack(),e.props.onAbort&&e.props.onAbort(r)}),r.addEventListener("ended",function(r){e.clearListenTrack(),e.props.onEnded&&e.props.onEnded(r)}),r.addEventListener("pause",function(r){e.clearListenTrack(),e.props.onPause&&e.props.onPause(r)}),r.addEventListener("seeked",function(r){e.clearListenTrack(),e.props.onSeeked&&e.props.onSeeked(r)})}},{key:"componentWillReceiveProps",value:function(e){if(e.selectedPlayerEvent){var r=this.audioEl;r.currentTime=e.selectedPlayerEvent.playTime,r.play()}}},{key:"setListenTrack",value:function(){var e=this;if(!this.listenTracker){var r=this.props.listenInterval||c;this.listenTracker=setInterval(function(){e.props.onListen&&e.props.onListen(e.audioEl.currentTime)},r)}}},{key:"clearListenTrack",value:function(){this.listenTracker&&(clearInterval(this.listenTracker),this.listenTracker=null)}},{key:"render",value:function(){var e=this,r=this.props.children||u["default"].createElement("p",null,"Your browser does not support the ",u["default"].createElement("code",null,"audio")," element."),t=!(this.props.controls===!1);return u["default"].createElement("audio",p({className:"react-audio-player "+(this.props.className||""),style:this.props.style,src:this.props.src||"",autoPlay:this.props.autoPlay,preload:this.props.preload,controls:t,ref:function(r){e.audioEl=r},onPlay:this.onPlay,loop:this.props.loop},this.props),r)}}]),r}(i.Component);d.propTypes={autoPlay:u["default"].PropTypes.bool,children:u["default"].PropTypes.element,className:u["default"].PropTypes.string,listenInterval:u["default"].PropTypes.number,onAbort:u["default"].PropTypes.func,onCanPlay:u["default"].PropTypes.func,onCanPlayThrough:u["default"].PropTypes.func,onEnded:u["default"].PropTypes.func,onError:u["default"].PropTypes.func,onListen:u["default"].PropTypes.func,onPause:u["default"].PropTypes.func,onPlay:u["default"].PropTypes.func,onSeeked:u["default"].PropTypes.func,preload:u["default"].PropTypes.string,src:u["default"].PropTypes.string,controls:u["default"].PropTypes.bool,style:u["default"].PropTypes.object};var f=d;r["default"]=f;(function(){"undefined"!=typeof __REACT_HOT_LOADER__&&(__REACT_HOT_LOADER__.register(c,"DEFAULT_LISTEN_INTERVAL","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(d,"ReactAudioPlayer","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(f,"default","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"))})()},function(e,r){e.exports=__webpack_require__(1)}]);
+module.exports=function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var r={};return t.m=e,t.c=r,t.p="",t(0)}([function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function s(e,t){if(!e)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return!t||"object"!=typeof t&&"function"!=typeof t?e:t}function a(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var p=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),l=r(1),u=n(l),i=1e4,c=function(e){function t(){return o(this,t),s(this,Object.getPrototypeOf(t).apply(this,arguments))}return a(t,e),p(t,[{key:"componentDidMount",value:function(){var e=this,t=this.audioEl;t.addEventListener("error",function(t){e.props.onError&&e.props.onError(t)}),t.addEventListener("canplay",function(t){e.props.onCanPlay&&e.props.onCanPlay(t)}),t.addEventListener("canplaythrough",function(t){e.props.onCanPlayThrough&&e.props.onCanPlayThrough(t)}),t.addEventListener("play",function(t){e.setListenTrack(),e.props.onPlay&&e.props.onPlay(t)}),t.addEventListener("abort",function(t){e.clearListenTrack(),e.props.onAbort&&e.props.onAbort(t)}),t.addEventListener("ended",function(t){e.clearListenTrack(),e.props.onEnded&&e.props.onEnded(t)}),t.addEventListener("pause",function(t){e.clearListenTrack(),e.props.onPause&&e.props.onPause(t)}),t.addEventListener("seeked",function(t){e.clearListenTrack(),e.props.onSeeked&&e.props.onSeeked(t)})}},{key:"componentWillReceiveProps",value:function(e){if(e.selectedPlayerEvent){var t=this.audioEl;t.currentTime=e.selectedPlayerEvent.playTime,t.play()}}},{key:"setListenTrack",value:function(){var e=this;if(!this.listenTracker){var t=this.props.listenInterval||i;this.listenTracker=setInterval(function(){e.props.onListen&&e.props.onListen(e.audioEl.currentTime)},t)}}},{key:"clearListenTrack",value:function(){this.listenTracker&&(clearInterval(this.listenTracker),this.listenTracker=null)}},{key:"render",value:function(){var e=this,t=this.props.children||u["default"].createElement("p",null,"Your browser does not support the ",u["default"].createElement("code",null,"audio")," element."),r=!(this.props.controls===!1);return u["default"].createElement("audio",{className:"react-audio-player "+this.props.className,style:this.props.style,src:this.props.src||"",autoPlay:this.props.autoPlay,preload:this.props.preload,controls:r,ref:function(t){e.audioEl=t},onPlay:this.onPlay},t)}}]),t}(l.Component);c.propTypes={autoPlay:u["default"].PropTypes.bool,children:u["default"].PropTypes.element,className:u["default"].PropTypes.string,listenInterval:u["default"].PropTypes.number,onAbort:u["default"].PropTypes.func,onCanPlay:u["default"].PropTypes.func,onCanPlayThrough:u["default"].PropTypes.func,onEnded:u["default"].PropTypes.func,onError:u["default"].PropTypes.func,onListen:u["default"].PropTypes.func,onPause:u["default"].PropTypes.func,onPlay:u["default"].PropTypes.func,onSeeked:u["default"].PropTypes.func,preload:u["default"].PropTypes.string,src:u["default"].PropTypes.string,controls:u["default"].PropTypes.bool,style:u["default"].PropTypes.object};var d=c;t["default"]=d;(function(){"undefined"!=typeof __REACT_HOT_LOADER__&&(__REACT_HOT_LOADER__.register(i,"DEFAULT_LISTEN_INTERVAL","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(c,"ReactAudioPlayer","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"),__REACT_HOT_LOADER__.register(d,"default","/Users/mccandj/Documents/Projects/react-audio-player/src/index.jsx"))})()},function(e,t){e.exports=__webpack_require__(0)}]);
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -14634,10 +14664,10 @@ module.exports=function(e){function r(n){if(t[n])return t[n].exports;var o=t[n]=
  * Module dependencies.
  */
 
-var url = __webpack_require__(58);
+var url = __webpack_require__(60);
 var parser = __webpack_require__(11);
-var Manager = __webpack_require__(19);
-var debug = __webpack_require__(2)('socket.io-client');
+var Manager = __webpack_require__(25);
+var debug = __webpack_require__(3)('socket.io-client');
 
 /**
  * Module exports.
@@ -14736,12 +14766,12 @@ exports.connect = lookup;
  * @api public
  */
 
-exports.Manager = __webpack_require__(19);
-exports.Socket = __webpack_require__(21);
+exports.Manager = __webpack_require__(25);
+exports.Socket = __webpack_require__(27);
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -14749,8 +14779,8 @@ exports.Socket = __webpack_require__(21);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(18);
-var debug = __webpack_require__(2)('socket.io-client:url');
+var parseuri = __webpack_require__(24);
+var debug = __webpack_require__(3)('socket.io-client:url');
 
 /**
  * Module exports.
@@ -14820,10 +14850,10 @@ function url (uri, loc) {
   return obj;
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -14832,8 +14862,8 @@ function url (uri, loc) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(63);
-var isBuf = __webpack_require__(22);
+var isArray = __webpack_require__(65);
+var isBuf = __webpack_require__(28);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -14968,10 +14998,10 @@ exports.removeBlobs = function(data, callback) {
   }
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports) {
 
 
@@ -15141,7 +15171,7 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -15151,7 +15181,7 @@ Emitter.prototype.hasListeners = function(event){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(62);
+exports = module.exports = __webpack_require__(64);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -15315,7 +15345,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -15331,7 +15361,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(64);
+exports.humanize = __webpack_require__(66);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -15518,7 +15548,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -15527,7 +15557,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports) {
 
 /**
@@ -15658,7 +15688,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -15677,7 +15707,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -15914,172 +15944,208 @@ function toArray(list, index) {
 
 }(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)(module), __webpack_require__(0)))
-
-/***/ }),
-/* 67 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 68 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const _1 = __webpack_require__(71);
-exports.PlayerInfo = (props) => (React.createElement("div", null,
-    React.createElement(_1.H1, null, props.title),
-    React.createElement(_1.P, null, props.description)));
-
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module), __webpack_require__(1)))
 
 /***/ }),
 /* 69 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
+// shim for using process in browser
+var process = module.exports = {};
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-exports.PlayerButton = (props) => (React.createElement("button", { onClick: props.onClick }, props.playing ? "pause" : "play"));
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
 
 
 /***/ }),
 /* 70 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
+/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
+module.exports = __webpack_amd_options__;
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(1);
-const styled_components_1 = __webpack_require__(3);
-const react_audio_player_1 = __webpack_require__(56);
-const components_1 = __webpack_require__(71);
-const PlayerDIV = styled_components_1.default.div `
-  height: 75px;
-  position: fixed;
-  bottom: 0px;
-  right: 0px;
-  left: 0px
-
-  border-top-style: groove;
-  border-top-width: 5px;
-  border-top-color: #e5e5e5;
-  background-color: inherit;
-  z-index: 2;
-`;
-class Player extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            playing: false,
-            volume: -1,
-            cachebust: new Date().getTime(),
-        };
-        this.PlayPause = this.PlayPause.bind(this);
-        this.onPause = this.onPause.bind(this);
-        this.onPlay = this.onPlay.bind(this);
-        this.fadeInVolume = this.fadeInVolume.bind(this);
-        this.onVolumeChange = this.onVolumeChange.bind(this);
-    }
-    /* BUTTON */
-    PlayPause() {
-        if (this.state.playing)
-            this.HTMLPlayer.audioEl.pause();
-        else
-            this.HTMLPlayer.audioEl.play();
-    }
-    onPlay() {
-        this.setState({
-            playing: true,
-        });
-        if (this.state.volume == -1)
-            this.fadeInVolume();
-    }
-    onPause() {
-        this.setState({
-            playing: false
-        });
-    }
-    /* SLIDER */
-    onVolumeChange(value) {
-        this.setState({
-            volume: value
-        });
-    }
-    fadeInVolume() {
-        if (this.state.volume < 100) {
-            if (this.state.volume == -1)
-                this.setState({
-                    volume: 0
-                });
-            else
-                this.setState({
-                    volume: this.state.volume + 5
-                });
-            setTimeout(this.fadeInVolume, 100);
-        }
-    }
-    render() {
-        if (this.HTMLPlayer)
-            this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
-        return React.createElement(PlayerDIV, null,
-            React.createElement(components_1.PlayerButton, { onClick: this.PlayPause, playing: this.state.playing }),
-            React.createElement(components_1.PlayerInfo, { title: "En direct", description: "Titre d'emission vraiment beaucoup trop archi-super long" }),
-            React.createElement(react_audio_player_1.default, { onPlay: this.onPlay, onPause: this.onPause, onError: (e) => alert("Error while fetching audio stream..."), controls: false, autoPlay: true, ref: (c) => this.HTMLPlayer = c, src: "http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3?cache-buster=" + this.state.cachebust }),
-            React.createElement(components_1.VolumeSlider, { value: this.state.volume, onChange: this.onVolumeChange }));
-    }
-}
-exports.Player = Player;
-
+/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
 /* 71 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var About_1 = __webpack_require__(27);
-exports.About = About_1.About;
-var Emission_1 = __webpack_require__(28);
-exports.Emission = Emission_1.Emission;
-var NavBar_1 = __webpack_require__(29);
-exports.NavBar = NavBar_1.NavBar;
-var PlayerButton_1 = __webpack_require__(69);
-exports.PlayerButton = PlayerButton_1.PlayerButton;
-var PlayerInfo_1 = __webpack_require__(68);
-exports.PlayerInfo = PlayerInfo_1.PlayerInfo;
-var Replay_1 = __webpack_require__(31);
-exports.Replay = Replay_1.Replay;
-var Styles_1 = __webpack_require__(7);
-exports.H1 = Styles_1.H1;
-exports.P = Styles_1.P;
-var VolumeSlider_1 = __webpack_require__(32);
-exports.VolumeSlider = VolumeSlider_1.VolumeSlider;
-var Window_1 = __webpack_require__(24);
-exports.Window = Window_1.Window;
-
-
-/***/ }),
-/* 72 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Emissions_1 = __webpack_require__(33);
-exports.Emissions = Emissions_1.Emissions;
-var Nav_1 = __webpack_require__(34); // should move Tabs away from this
-exports.Nav = Nav_1.Nav;
-var Player_1 = __webpack_require__(70);
-exports.Player = Player_1.Player;
-var Shoutbox_1 = __webpack_require__(35);
-exports.Shoutbox = Shoutbox_1.Shoutbox;
-
+/* (ignored) */
 
 /***/ })
 /******/ ]);
