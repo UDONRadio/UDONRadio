@@ -40,6 +40,7 @@ export class Nav extends React.Component<undefined, NavState> {
     this.state = {
       selected : 'Emissions'
     };
+    this.change_state = this.change_state.bind(this);
   }
 
   change_state (selected : Tabs) {
@@ -53,7 +54,7 @@ export class Nav extends React.Component<undefined, NavState> {
   render () {
     const CurrentTab = tabs[this.state.selected];
     return <NavDiv>
-      <NavBar tabs={tabs} current={this.state.selected} change_state={this.change_state.bind(this)}/>
+      <NavBar tabs={tabs} current={this.state.selected} change_state={this.change_state}/>
       <MainTab><CurrentTab/></MainTab>
     </NavDiv>
   }

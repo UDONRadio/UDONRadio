@@ -20,7 +20,7 @@ const Button = styled.button`
 
 interface NavBarProps {
   tabs: any,
-  change_state: (selected: Tabs) => undefined,
+  change_state: (selected: Tabs) => void,
   current: Tabs
 }
 export const NavBar = (props: NavBarProps) => (
