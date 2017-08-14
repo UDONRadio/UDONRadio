@@ -1,0 +1,41 @@
+* Stack Radio
+** Module pour interagir avec Liquidsoap
+*** Implementation basique <2017-08-21 Mon>
+   Systeme simple push-on-stack. Les chansons doivent juste fade-in/fade-out.
+*** Support de jingles entre les playlists
+*** Support des livestreams avec fallback
+** System de sync des chansons pour sauver de l espace disque
+   Architecture a preciser
+** Gestion des vides dans les chansons <2017-08-21 Mon>
+   Un peu comme Libretime utilisait Silen. Il est necessaire de supporter
+   plusieurs formats musicaux. Doit etre hook apres l'upload d'une chanson.
+   Une chanson ne doit pas pouvoir etre jouee sans avoir ete processed.
+** Recuperer les stats d ecoute icecast
+   Afin de pouvoir ameliorer l'algorithme et pouvoir faire des jolies stats
+   graphiques a terme :)
+** Bots Slack
+*** Playlist
+    Annonce les playlists a suivre
+
+* Stack WEB
+** Upload et tag des chansons <2017-08-21 Mon>
+   Systeme de permalinks pour upload des chansons (pour eviter d avoir
+   a implementer des comptes utilisateurs et trop de front) envoyes par email.
+** Systeme creatif de gestion des lectures intelligent
+*** Implementation basique <2017-08-21 Mon>
+    Pour l'instant du random suffira
+** Site web joli
+   "I don't do CSS"™
+** Page admin
+*** Tweak algorithme de selection des chansons
+*** Gestion des creneaux d'emissions
+*** Stats
+*** Gestion des chansons, tags, et vides.
+** Live chat
+*** Implementation basique <2017-08-21 Mon>
+    Un live chat, quoi.
+*** Reactions
+    Un petit peu a la periscope ?
+*** Signalements
+**** Mauvaise qualite de fichier
+**** Mauvaise transition
