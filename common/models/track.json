@@ -1,0 +1,59 @@
+{
+  "name": "Track",
+	"strict": true,
+  "plural": "tracks",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "is_podcast": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "uploaded_on": {
+      "type": "date",
+      "required": true
+    },
+    "play_count": {
+      "type": "number",
+      "required": true,
+      "default": 0
+    },
+    "artist": {
+      "type": "string",
+      "required": true
+    },
+    "album": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "tags": {
+      "type": "hasAndBelongsToMany",
+      "model": "Tag",
+      "foreignKey": ""
+    },
+    "audio": {
+      "type": "hasOne",
+      "model": "Audio",
+      "foreignKey": ""
+    }
+  },
+  "acls": [
+			{
+					"permission": "DENY",
+					"principalType": "ROLE",
+					"principalId": "$everyone",
+					"property": "*"
+			}
+	],
+  "methods": {}
+}

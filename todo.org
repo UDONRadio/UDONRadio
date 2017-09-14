@@ -1,0 +1,8 @@
+* BACK
+** Comprendre la validation des modeles
+*** Empecher la modification de certains champs et la remplacer par un ajout auto
+*** Valider les fichiers audio corrects
+** Gerer les ACLs
+** restreindre la visibilite des proprietes des modeles
+** ajouter un hook avant l upload d une chanson pour la valider, l enregistrer en
+filesystem et la linker au modele.

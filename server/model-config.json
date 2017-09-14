@@ -39,5 +39,17 @@
   "TUser": {
     "dataSource": "db",
     "public": true
-  }
+  },
+  "Audio": {
+    "dataSource": "Filesystem",
+    "public": false
+  },
+  "Track": {
+    "dataSource": "db",
+      "public": true
+  },
+  "Tag": {
+    "dataSource": "db",
+    "public": true
+	}
 }
