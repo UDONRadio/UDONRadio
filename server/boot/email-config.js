@@ -8,18 +8,19 @@ var dsSendGrid = new DataSource('loopback-connector-sendgrid', {
 
 module.exports = function(app) {
 
-	app.models.Email.attachTo(dsSendGrid);		
-	setTimeout(function () {app.models.Email.send({
-			to: "theophile759@gmail.com",
-			from: "webmaster@theof.fr",
-			subject: "Test",
-			text: "Text message",
-			html: "html <b>message</b>"
-	}, function(err, result) {
-	    if(err) {
-			        console.log('Upppss something crash', err);
-			        return;
-			    }
-	    console.log(result);
-	});}, 5000);
+	app.models.Email.attachTo(dsSendGrid);
+	if (process.env.TEST_EMAIL)
+		setTimeout(function () {app.models.Email.send({
+				to: "theophile759@gmail.com",
+				from: "webmaster@theof.fr",
+				subject: "Test",
+				text: "Text message",
+				html: "html <b>message</b>"
+		}, function(err, result) {
+		    if(err) {
+					console.log('Upppss something crash', err);
+					return;
+				    }
+		    console.log(result);
+		});}, 5000);
 };
