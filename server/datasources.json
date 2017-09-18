@@ -9,5 +9,9 @@
     "provider": "filesystem",
     "maxFileSize": 268435455,
     "root": "./storage"
-  }
+  },
+	"sendgrid": {
+	  "connector": "loopback-connector-sendgrid",
+		"api_key": "[your api key here]"
+	}
 }

@@ -11,12 +11,6 @@
   "validations": [],
   "relations": {},
   "acls": [
-			{
-					"permission": "DENY",
-					"principalType": "ROLE",
-					"principalId": "$everyone",
-					"property": "*"
-			}
 	],
   "methods": {}
 }
