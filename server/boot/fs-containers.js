@@ -10,12 +10,12 @@ module.exports = function(app) {
    */
    app.models.Audio.createContainer({"name": "podcasts"}, function (err, container) {
 
-     if (err.code != 'EEXIST')
+     if (err && err.code != 'EEXIST')
         throw err;
    });
    app.models.Audio.createContainer({"name": "songs"}, function (err, container) {
 
-     if (err.code != 'EEXIST')
+     if (err && err.code != 'EEXIST')
         throw err;
    });
 };
