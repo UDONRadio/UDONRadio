@@ -1,0 +1,5 @@
+NOTES
+* customizing stylesheets
+  http://getbootstrap.com/customize/
+* bundle size
+  import from 'react-bootstrap/lib' each component
