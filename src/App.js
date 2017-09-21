@@ -72,7 +72,7 @@ class FullScreen extends React.Component {
       dropzoneActive: false
     });
   }
-  
+
   render() {
     const { accept, files, dropzoneActive } = this.state;
     const overlayStyle = {
@@ -90,7 +90,7 @@ class FullScreen extends React.Component {
       <Dropzone
         disableClick
         style={{}}
-        accept="audio/mpeg, audio/ogg"
+        //accept="audio/mpeg, audio/ogg"
         onDrop={this.onDrop.bind(this)}
         onDragEnter={this.onDragEnter.bind(this)}
         onDragLeave={this.onDragLeave.bind(this)}
