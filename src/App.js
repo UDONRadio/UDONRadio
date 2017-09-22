@@ -7,6 +7,7 @@ class App extends Component {
     return (
       <div>
           <PlayerPanel/>
+          Truc
           <UserManager/>
       </div>
     );
