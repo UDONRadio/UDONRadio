@@ -201,6 +201,8 @@ const temp_messages = [
   },
 ];
 
+const grid_style = {'paddingTop': '60px', 'height': '100%', 'marginBottom': '0px'}
+
 class UserManager extends Component {
 
   constructor (props) {
@@ -208,11 +210,12 @@ class UserManager extends Component {
   }
 
   render () {
-    return <Grid padded='vertically' divided style={{'paddingTop': '60px', 'height': '100%', 'marginBottom': '0px'}}>
+    return <Grid divided style={this.grid_style}>
       <Grid.Column floated='left' width={4} color='grey' >
+      Left
       </Grid.Column>
-      <Grid.Column width={8} color='violet' ></Grid.Column>
-      <Grid.Column floated='right' width={4} color='grey' >
+      <Grid.Column width={8} color='violet' >Middle</Grid.Column>
+      <Grid.Column floated='right' width={4} color='grey' style={{'height':'100%'}}>
         <LiveChatPanel messages={temp_messages}/>
       </Grid.Column>
     </Grid>

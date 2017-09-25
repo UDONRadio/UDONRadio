@@ -4,7 +4,7 @@ import { Container, Form, Button, TextArea, Divider, List} from 'semantic-ui-rea
 const ChatMessages = (props) => {
 
   const makeMessage = (msg) => (
-    <List.Item>
+    <List.Item >
       <List.Content>
         <List.Header>{msg.user}</List.Header>
         <List.Description>{msg.content}</List.Description>
@@ -25,16 +25,16 @@ const ChatInput = (props) => {
 
   const getPlaceholder = (logged_in) => {
     if (logged_in)
-      return "Come chat !";
+      return "Allez, viens tchatcher !";
     else
       return "Register to start chatting !";
   };
 
   //TODO: Hitting enter while focusing TextArea sends the form
-  return <div style={{'bottom': '0px', 'width':'100%', 'position':'absolute', 'paddingRight':'inherit'}}>
+  return <div style={{'bottom': '0px', 'width':'100%', 'position':'absolute'}}>
     <Form>
     <Form.Field>
-      <TextArea placeholder={getPlaceholder(props.logged_in)} style={{'resize':'none'}} />
+      <TextArea placeholder={getPlaceholder(props.logged_in)} style={{'resize':'none', 'paddingRight':'14px'}} />
     </Form.Field>
     <Button>Like</Button>
     <Button type='submit' style={{'float':'right'}}>Envoyer</Button>
@@ -43,7 +43,7 @@ const ChatInput = (props) => {
 }
 
 const LiveChatPanel = (props) => (
-  <div style={{'paddingRight': 'inherit', 'height':'100%', 'position': 'relative'}}>
+  <div style={{'height':'100%', 'position': 'relative'}}>
     <ChatMessages messages={props.messages}></ChatMessages>
     <ChatInput logged_in/>
   </div>
