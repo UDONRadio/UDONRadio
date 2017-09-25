@@ -1,31 +1,51 @@
 import React, { Component } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
-import { Icon, Menu, Button, Container} from 'semantic-ui-react';
+import { Icon, Menu, Button, Container, Input, Header} from 'semantic-ui-react';
 
-const PlayPauseButton = (props) => (
+const getVolumeIconName = (volume, muted) => {
+  if (volume <= 0 || muted)
+    return ("volume off");
+  else if (volume > 75)
+    return ("volume up");
+  else
+    return ("volume down");
+}
+
+const IconButton = (props) => (
   <Button style={{"background": "transparent"}} onClick={props.onClick}>
-    <Icon name={props.playing ? 'pause': 'play'} size='big'/>
+    <Icon name={props.name} size={props.size}/>
   </Button>
 )
 
-const VolumeControl = (props) => (
-  <div>Not Implemented.</div>
+const PlayPauseButton = (props) => (
+  <IconButton
+    name={props.playing ? 'pause': 'play'}
+    size='big'
+    onClick={props.onClick}
+  />
 )
 
-/*
-  render () {
-    return <PlayerFooter>
-      <PlayerButton onClick={this.PlayPause} playing={this.state.playing}/>
-      <PlayerInfo title="En direct" description="Titre d'emission vraiment beaucoup trop archi-super long"/>
-      <VolumeSlider
-        value={this.state.volume}
-        muted={this.state.muted}
-        onChange={this.onVolumeChange}
-        onClick={this.onMuteToggle}
-      />
-    </PlayerFooter>
-  }
-*/
+const VolumeControl = (props) => (
+  <div>
+    <IconButton
+      onClick={props.onMuteToggle}
+      size='big'
+      name={getVolumeIconName(props.volume, props.muted)}
+    />
+    <Input type='range' min='0' max='100'
+      value={props.muted ? 0 : props.volume}
+      onChange={(event) => props.onChange(event.target.value)}
+    />
+  </div>
+)
+
+const DisplayMetadata = (props) => (
+  <inline>
+    <Header>Titre</Header>
+    Nom de l artiste ou autre...
+  </inline>
+)
+
 class PlayerPanel extends Component {
 
   constructor () {
@@ -46,6 +66,29 @@ class PlayerPanel extends Component {
   }
 
 
+  updateVolume () {
+    if (this.HTMLPlayer) {
+      if (this.state.muted)
+        this.HTMLPlayer.audioEl.volume = 0;
+      else if (this.state.volume >= 0)
+        this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+    }
+  }
+
+  fadeInVolume () {
+    if (this.state.volume < 100) {
+      if (this.state.volume === -1)
+        this.setState({
+          volume: 0
+        });
+      else
+        this.setState({
+          volume: this.state.volume + 5
+        });
+      setTimeout(this.fadeInVolume, 100);
+    }
+  }
+
   PlayPause () {
     if (this.state.playing)
       this.HTMLPlayer.audioEl.pause();
@@ -57,7 +100,7 @@ class PlayerPanel extends Component {
     this.setState({
       playing: true,
     });
-    if (this.state.volume == -1)
+    if (this.state.volume === -1)
       this.fadeInVolume();
   }
 
@@ -66,7 +109,6 @@ class PlayerPanel extends Component {
       playing: false
     });
   }
-
 
   onVolumeChange (value: number) {
     this.setState({
@@ -80,30 +122,6 @@ class PlayerPanel extends Component {
       muted: !this.state.muted
     });
   }
-
-  fadeInVolume () {
-    if (this.state.volume < 100) {
-      if (this.state.volume == -1)
-        this.setState({
-          volume: 0
-        });
-      else
-        this.setState({
-          volume: this.state.volume + 5
-        });
-      setTimeout(this.fadeInVolume, 100);
-    }
-  }
-
-  updateVolume () {
-    if (this.HTMLPlayer) {
-      if (this.state.muted)
-        this.HTMLPlayer.audioEl.volume = 0;
-      else if (this.state.volume >= 0)
-        this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
-    }
-  }
-
 
   render () {
     this.updateVolume();
@@ -122,6 +140,13 @@ class PlayerPanel extends Component {
         playing={this.state.playing}
         onClick={this.PlayPause}
       />
+      <VolumeControl
+        onChange={this.onVolumeChange}
+        onMuteToggle={this.onMuteToggle}
+        volume={this.state.volume}
+        muted={this.state.muted}
+      />
+      <DisplayMetadata/>
     </Container>
     </Menu>
   }
