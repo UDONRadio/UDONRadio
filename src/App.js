@@ -5,9 +5,8 @@ import UserManager from './UserManager';
 class App extends Component {
   render() {
     return (
-      <div>
+      <div style={{'height': '100%'}}>
           <PlayerPanel/>
-          Truc
           <UserManager/>
       </div>
     );
