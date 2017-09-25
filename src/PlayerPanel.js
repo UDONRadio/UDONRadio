@@ -140,13 +140,13 @@ class PlayerPanel extends Component {
         playing={this.state.playing}
         onClick={this.PlayPause}
       />
+      <DisplayMetadata/>
       <VolumeControl
         onChange={this.onVolumeChange}
         onMuteToggle={this.onMuteToggle}
         volume={this.state.volume}
         muted={this.state.muted}
       />
-      <DisplayMetadata/>
     </Container>
     </Menu>
   }
