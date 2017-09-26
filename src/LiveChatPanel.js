@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Button, TextArea, Divider, List} from 'semantic-ui-react';
+import { Button, TextArea, List} from 'semantic-ui-react';
 import * as io from 'socket.io-client';
 
 const temp_messages = [
@@ -35,8 +35,8 @@ const temp_messages = [
 
 const ChatMessages = (props) => {
 
-  const makeMessage = (msg) => (
-    <List.Item >
+  const makeMessage = (msg, index) => (
+    <List.Item key={index}>
       <List.Content>
         <List.Header>{msg.user}</List.Header>
         <List.Description>{msg.content}</List.Description>
@@ -102,7 +102,7 @@ class LiveChatPanel extends Component {
 
   handleSubmit (event) {
     event.preventDefault();
-    if (this.state.text == '')
+    if (this.state.text === '')
       return ;
     if (this.state.username) {
       this.state.socket.emit('chat message', this.state.text);
@@ -123,7 +123,7 @@ class LiveChatPanel extends Component {
     return <div style={{'height':'100%', 'position': 'relative'}}>
       <ChatMessages messages={this.state.messages}></ChatMessages>
       <ChatInput
-        logged_in={this.state.username != ''}
+        logged_in={this.state.username !== ''}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         value={this.state.text}
