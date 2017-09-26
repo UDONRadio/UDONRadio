@@ -23,18 +23,16 @@ const ChatInput = (props) => {
     console.log(value);
   };
 
-  const getPlaceholder = (logged_in) => {
-    if (logged_in)
-      return "Allez, viens tchatcher !";
-    else
-      return "Register to start chatting !";
-  };
+  if (props.logged_in)
+    var placeholder = "Allez, viens tchatcher !";
+  else
+    var placeholder = "Register to start chatting !";
 
   //TODO: Hitting enter while focusing TextArea sends the form
   return <div style={{'bottom': '0px', 'width':'100%', 'position':'absolute'}}>
     <Form>
     <Form.Field>
-      <TextArea placeholder={getPlaceholder(props.logged_in)} style={{'resize':'none', 'paddingRight':'14px'}} />
+      <TextArea placeholder={placeholder} style={{'resize':'none', 'paddingRight':'14px'}} />
     </Form.Field>
     <Button>Like</Button>
     <Button type='submit' style={{'float':'right'}}>Envoyer</Button>

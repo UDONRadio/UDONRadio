@@ -201,7 +201,7 @@ const temp_messages = [
   },
 ];
 
-const grid_style = {'paddingTop': '60px', 'height': '100%', 'marginBottom': '0px'}
+const grid_style = {'position': 'absolute', 'top': '60px', 'height': 'calc(100% - 60px)', 'paddingTop':'0px'}
 
 class UserManager extends Component {
 
@@ -210,7 +210,7 @@ class UserManager extends Component {
   }
 
   render () {
-    return <Grid divided style={this.grid_style}>
+    return <Grid divided padded style={grid_style}>
       <Grid.Column floated='left' width={4} color='grey' >
       Left
       </Grid.Column>

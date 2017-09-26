@@ -125,7 +125,7 @@ class PlayerPanel extends Component {
 
   render () {
     this.updateVolume();
-    return <Menu fixed='top'>
+    return <Menu fixed='top' style={{'height':'60px'}}>
     <Container>
       <ReactAudioPlayer
         onPlay={this.onPlay}
