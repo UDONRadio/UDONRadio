@@ -102,3 +102,6 @@ ENV/
 
 #sqlite db
 db.sqlite3
+
+#Django migrations
+tarlyfm_back/*/migrations

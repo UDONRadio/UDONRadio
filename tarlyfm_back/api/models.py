@@ -7,12 +7,21 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
 	pass
 
+class Audio(models.Model):
+	title = models.CharField(max_length=128)
+	artist = models.CharField(max_length=128)
+#	emission =
+	owner = models.ForeignKey(
+		User,
+		on_delete=models.DO_NOTHING,
+		related_name='audios'
+	)
+	pass
+
 class Emission(models.Model):
-	
 	title = models.CharField(max_length=64)
 	pitch = models.CharField(max_length=128)
-	airtime_id = models.IntegerField(unique=True)
-	host = models.ForeignKey(
+	owner = models.ForeignKey(
 		User,
 		on_delete=models.DO_NOTHING,
 		related_name='emissions'
@@ -22,6 +31,7 @@ class Emission(models.Model):
 		blank=True
 	)
 
+
 	@property
 	def picture_link(self):
 		return self.picture.url if self.picture else '/404.jpg'
@@ -29,6 +39,7 @@ class Emission(models.Model):
 	def __unicode__(self):
 		return self.title
 
+'''
 class EmissionInstance(models.Model):
 	starts = models.DateTimeField()
 	ends = models.DateTimeField()
@@ -46,3 +57,4 @@ class EmissionInstance(models.Model):
 
 	def __unicode__(self):
 		return str(self.airtime_id)
+'''
