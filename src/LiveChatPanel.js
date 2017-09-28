@@ -2,37 +2,6 @@ import React, { Component } from 'react';
 import { Button, TextArea, List} from 'semantic-ui-react';
 import * as io from 'socket.io-client';
 
-const temp_messages = [
-  {
-    'user': 'dodokilleurz',
-    'content': '<alert>Haha g hacker votre site 2 merd on va voir qui c le plu fort</alert>'
-  },
-  {
-    'user': 'theof',
-    'content': 'salut'
-  },
-  {
-    'user': 'remi',
-    'content': 'TECHNO (toujours pareil)...'
-  },
-  {
-    'user': 'remi',
-    'content': 'TECHNO (toujours pareil)...'
-  },
-  {
-    'user': 'remi',
-    'content': 'TECHNO (toujours pareil)...'
-  },
-  {
-    'user': 'remi',
-    'content': 'TECHNO (toujours pareil)...'
-  },
-  {
-    'user': 'remi',
-    'content': 'TECHNO (toujours pareil)...'
-  },
-];
-
 const ChatMessages = (props) => {
 
   const makeMessage = (msg, index) => (
@@ -51,6 +20,14 @@ const ChatMessages = (props) => {
 
 const ChatInput = (props) => {
 
+  function onKeyPress (event) {
+    if (event.key === 'Enter' && event.shiftKey == false)
+    {
+      event.preventDefault();
+      props.onSubmit(event);
+    }
+  }
+
   if (props.logged_in)
     var placeholder = "Allez, viens tchatcher !";
   else
@@ -63,8 +40,9 @@ const ChatInput = (props) => {
       value={props.value}
       onChange={props.onChange}
       style={{'resize':'none', 'padding':'14px', 'width':'100%'}}
+      onKeyPress={onKeyPress}
     />
-    <Button>Like</Button>
+    <Button type='button' disabled>Like</Button>
     <Button type='submit' style={{'float':'right'}}>Envoyer</Button>
     </form>
   </div>
@@ -76,7 +54,7 @@ class LiveChatPanel extends Component {
     super(props);
 
     this.state = {
-      'messages' : temp_messages,
+      'messages' : [],
       'socket': io('http://localhost:3001/'),
       'username': '',
       'text': '',
@@ -95,9 +73,8 @@ class LiveChatPanel extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  //TODO: Hitting enter while focusing TextArea sends the form
   handleChange (event) {
-    this.setState({text: event.target.value});
+      this.setState({text: event.target.value});
   }
 
   handleSubmit (event) {

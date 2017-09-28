@@ -23,7 +23,6 @@ class UserManager extends Component {
   }
 
   changeCurrentView (new_view) {
-      console.log(this.setState);
       this.setState({'current_view': new_view});
   }
 

@@ -16,6 +16,7 @@ const Nav = (props) => {
       name={name}
       active={name === props.CurrentView}
       onClick={makeOnClickHandler(name)}
+      key={name}
     />
   }
   return <div>
