@@ -6,14 +6,14 @@ from rest_framework import routers
 from tarlyfm_back.api import views
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^api/', include(router.urls)),
 	url(r'^admin/', include(admin.site.urls)),
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^auth/', include('djoser.urls.authtoken'))
 ]
 
 urlpatterns += static('media/', document_root=settings.MEDIA_ROOT)

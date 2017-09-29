@@ -4,3 +4,4 @@ requests
 Pillow
 pytz
 django-cors-headers
+djoser

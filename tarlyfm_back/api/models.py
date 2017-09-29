@@ -7,16 +7,10 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
 	pass
 
-class Audio(models.Model):
-	title = models.CharField(max_length=128)
-	artist = models.CharField(max_length=128)
-#	emission =
-	owner = models.ForeignKey(
-		User,
-		on_delete=models.DO_NOTHING,
-		related_name='audios'
-	)
-	pass
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'audio/user_{0}/{1}'.format(instance.owner.id, filename)
+
 
 class Emission(models.Model):
 	title = models.CharField(max_length=64)
@@ -31,7 +25,6 @@ class Emission(models.Model):
 		blank=True
 	)
 
-
 	@property
 	def picture_link(self):
 		return self.picture.url if self.picture else '/404.jpg'
@@ -39,22 +32,25 @@ class Emission(models.Model):
 	def __unicode__(self):
 		return self.title
 
-'''
-class EmissionInstance(models.Model):
-	starts = models.DateTimeField()
-	ends = models.DateTimeField()
-	airtime_id = models.IntegerField(unique=True)
-	recorded = models.BooleanField(default=False)
+
+class Audio(models.Model):
+	title = models.CharField(max_length=128)
+	artist = models.CharField(max_length=128)
+	duration = models.DurationField(blank=True)
 	emission = models.ForeignKey(
 		Emission,
-		on_delete=models.CASCADE,
-		related_name='instances'
+		on_delete=models.DO_NOTHING,
+		related_name='instances',
+		blank=True
 	)
-
-	@property
-	def has_played(self):
-		return self.ends < timezone.now()
-
-	def __unicode__(self):
-		return str(self.airtime_id)
-'''
+	owner = models.ForeignKey(
+		User,
+		on_delete=models.DO_NOTHING,
+		related_name='audios'
+	)
+	uploaded_on = models.DateTimeField(auto_now_add=True)
+	last_edited_on = models.DateTimeField(auto_now=True)
+	last_played_on = models.DateTimeField(blank=True)
+	path = models.FileField(upload_to=user_directory_path)
+	processed = models.BooleanField(default=False)
+	patched = models.BooleanField(default=False)
