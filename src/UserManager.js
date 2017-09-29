@@ -1,51 +1,43 @@
 import React, { Component } from 'react';
-import { Grid } from 'semantic-ui-react';
-import LiveChatPanel from './LiveChatPanel';
-import OnAirView from './OnAirView';
-import AboutView from './AboutView';
-import AdmView from './AdmView';
-import ReplayView from './ReplayView';
-import UploadView from './UploadView'
-import Nav from './Nav';
-
-const grid_style = {'position': 'absolute', 'top': '60px', 'height': 'calc(100% - 60px)', 'paddingTop':'0px'}
-
-var fake_user = {'name': 'theof', 'role': 'admin'}
+import { Grid, Modal, Header, Image, Divider} from 'semantic-ui-react';
+import Tmp from './MainWindow';
 
 class UserManager extends Component {
 
   constructor (props) {
     super(props);
+    this.showLoginRegisterModal = this.showLoginRegisterModal.bind(this);
+    this.hideLoginRegisterModal = this.hideLoginRegisterModal.bind(this);
     this.state = {
-      current_view: 'On Air',
-    }
-    this.changeCurrentView = this.changeCurrentView.bind(this);
+      showLoginRegisterModal: this.showLoginRegisterModal,
+      logged_in: false,
+      __showModal: false,
+    };
   }
 
-  changeCurrentView (new_view) {
-      this.setState({'current_view': new_view});
+  showLoginRegisterModal () {
+    this.setState({__showModal: true});
+  }
+
+  hideLoginRegisterModal () {
+    this.setState({__showModal: false});
   }
 
   render () {
-    const tabs = {
-      'On Air': OnAirView,
-      'About': AboutView,
-      'Adm': AdmView,
-      'Replay': ReplayView,
-      'Upload': UploadView
-    };
-    const CurrentView = tabs[this.state.current_view];
-    return <Grid divided padded style={grid_style}>
-      <Grid.Column floated='left' width={4} color='grey' >
-        <Nav current={this.state.current_view} onClick={this.changeCurrentView} user={fake_user}/>
-      </Grid.Column>
-      <Grid.Column width={8} color='violet'>
-        <CurrentView/>
-      </Grid.Column>
-      <Grid.Column floated='right' width={4} color='grey' style={{'height':'100%'}}>
-        <LiveChatPanel />
-      </Grid.Column>
-    </Grid>
+      return <div>
+        <Tmp user={this.state}/>
+        <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
+          <Modal.Content>
+              <Header>Default Profile Image</Header>
+              <p>We ve found the following gravatar image associated with your e-mail address.</p>
+              <p>Is it okay to use this photo?</p>
+              <Divider vertical />
+              <Header>Default Profile Image</Header>
+              <p>We ve found the following gravatar image associated with your e-mail address.</p>
+              <p>Is it okay to use this photo?</p>
+          </Modal.Content>
+        </Modal>
+      </div>
   }
 }
 

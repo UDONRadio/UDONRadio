@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { Menu, Label, Image } from 'semantic-ui-react';
 
+const UserInfo = (props) => {
+  if (props.user.logged_in)
+    return <label><i>Bienvenue, {props.user.name}</i></label>
+  else
+    return <a onClick={props.user.showLoginRegisterModal}>
+      Sign in / register
+    </a>
+}
 
 const Nav = (props) => {
 
@@ -27,7 +35,7 @@ const Nav = (props) => {
       ['On Air', 'Replay', 'About', 'Upload', 'Adm'].map(makeMenuItem)
     }
   </Menu>
-  <label><i>Bienvenue, {props.user.name}</i></label>
+  <UserInfo user={props.user}/>
   </div>
 };
 
