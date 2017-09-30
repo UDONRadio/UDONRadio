@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Modal, Header, Image, Divider, Menu} from 'semantic-ui-react';
+import { Modal, Menu } from 'semantic-ui-react';
 import Logo from './Logo';
 import Tmp from './MainWindow';
 
@@ -69,12 +69,12 @@ class UserManager extends Component {
             <Menu pointing secondary>
               <Menu.Item
                 name='log in'
-                active={this.state.__activeModalForm == 'log in'}
+                active={this.state.__activeModalForm === 'log in'}
                 onClick={() => {this.changeModalForm('log in')}}
               />
               <Menu.Item
                 name='register'
-                active={this.state.__activeModalForm == 'register'}
+                active={this.state.__activeModalForm === 'register'}
                 onClick={() => {this.changeModalForm('register')}}
               />
             </Menu>

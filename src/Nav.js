@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Menu, Label } from 'semantic-ui-react';
+import React from 'react';
+import { Menu } from 'semantic-ui-react';
 import Logo from './Logo';
 
 const UserInfo = (props) => {
@@ -26,7 +26,7 @@ const Nav = (props) => {
       active={name === props.CurrentView}
       onClick={makeOnClickHandler(name)}
       key={name}
-      style={{'text-align':'center'}}
+      style={{'textAlign':'center'}}
     />
   }
   return <div>

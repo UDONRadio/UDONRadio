@@ -21,17 +21,14 @@ const ChatMessages = (props) => {
 const ChatInput = (props) => {
 
   function onKeyPress (event) {
-    if (event.key === 'Enter' && event.shiftKey == false)
+    if (event.key === 'Enter' && event.shiftKey === false)
     {
       event.preventDefault();
       props.onSubmit(event);
     }
   }
 
-  if (props.logged_in)
-    var placeholder = "Allez, viens tchatcher !";
-  else
-    var placeholder = "Register to start chatting !";
+  var placeholder = (props.logged_in) ? "Allez, viens tchatcher !" : "Register to start chatting !";
 
   return <div style={{'bottom': '0px', 'width':'100%', 'position':'absolute',}}>
     <form onSubmit={props.onSubmit}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
-import { Icon, Menu, Button, Container, Input, Header} from 'semantic-ui-react';
+import { Icon, Menu, Button, Input, Header} from 'semantic-ui-react';
 
 const getVolumeIconName = (volume, muted) => {
   if (volume <= 0 || muted)
@@ -26,7 +26,7 @@ const PlayPauseButton = (props) => (
 )
 
 const VolumeControl = (props) => (
-  <div style={{'position':'absolute', 'top':'0','right':'0', 'margin-right':'20px'}}>
+  <div style={{'position':'absolute', 'top':'0','right':'0', 'marginRight':'20px'}}>
     <IconButton
       onClick={props.onMuteToggle}
       size='big'
