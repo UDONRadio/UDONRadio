@@ -26,7 +26,7 @@ const PlayPauseButton = (props) => (
 )
 
 const VolumeControl = (props) => (
-  <div>
+  <div style={{'position':'absolute', 'top':'0','right':'0', 'margin-right':'20px'}}>
     <IconButton
       onClick={props.onMuteToggle}
       size='big'
@@ -126,7 +126,6 @@ class PlayerPanel extends Component {
   render () {
     this.updateVolume();
     return <Menu fixed='top' style={{'height':'60px'}}>
-    <Container>
       <ReactAudioPlayer
         onPlay={this.onPlay}
         onPause={this.onPause}
@@ -147,7 +146,6 @@ class PlayerPanel extends Component {
         volume={this.state.volume}
         muted={this.state.muted}
       />
-    </Container>
     </Menu>
   }
 }

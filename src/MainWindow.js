@@ -36,13 +36,13 @@ class MainWindow extends Component {
     };
     const CurrentView = tabs[this.state.current_view];
     return <Grid divided padded style={grid_style}>
-      <Grid.Column floated='left' width={4} color='grey' >
+      <Grid.Column floated='left' width={4} >
         <Nav current={this.state.current_view} onClick={this.changeCurrentView} user={this.props.user}/>
       </Grid.Column>
-      <Grid.Column width={8} color='violet'>
+      <Grid.Column width={8} >
         <CurrentView/>
       </Grid.Column>
-      <Grid.Column floated='right' width={4} color='grey' style={{'height':'100%'}}>
+      <Grid.Column floated='right' width={4} style={{'height':'100%'}}>
         <LiveChatPanel user={this.props.user}/>
       </Grid.Column>
     </Grid>
