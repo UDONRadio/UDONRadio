@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Menu, Label, Image } from 'semantic-ui-react';
+import { Menu, Label } from 'semantic-ui-react';
+import Logo from './Logo';
 
 const UserInfo = (props) => {
   if (props.user.logged_in)
@@ -25,11 +26,11 @@ const Nav = (props) => {
       active={name === props.CurrentView}
       onClick={makeOnClickHandler(name)}
       key={name}
+      style={{'text-align':'center'}}
     />
   }
   return <div>
-  <Image src="/logo.png">
-  </Image>
+  <Logo/>
   <Menu secondary vertical>
     {
       ['On Air', 'Replay', 'About', 'Upload', 'Adm'].map(makeMenuItem)
