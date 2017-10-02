@@ -3,9 +3,27 @@ import { Modal, Menu } from 'semantic-ui-react';
 import Logo from './Logo';
 import Tmp from './MainWindow';
 
-const LoginForm = (props) => (
-  <a onClick={props.toggleRecover}>mot de passe oublie ?</a>
-)
+class LoginForm extends Component {
+
+  constructor (props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {}
+  }
+
+  handleChange () {
+    return ;
+  }
+
+  handleSubmit () {
+    return ;
+  }
+
+  render () {
+    return <a onClick={this.props.toggleRecover}>mot de passe oublie ?</a>
+  }
+}
 
 const RegisterForm = (props) => (
   <label>cocu</label>
@@ -25,7 +43,7 @@ class UserManager extends Component {
     this.state = {
       showLoginRegisterModal: this.showLoginRegisterModal,
       logged_in: false,
-      __showModal: true,
+      __showModal: false,
       __activeModalForm: 'log in'
     };
   }
