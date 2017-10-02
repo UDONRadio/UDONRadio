@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, TextArea, List} from 'semantic-ui-react';
+import { Button, TextArea, List } from 'semantic-ui-react';
 import * as io from 'socket.io-client';
+
 
 const ChatMessages = (props) => {
 
@@ -17,6 +18,7 @@ const ChatMessages = (props) => {
     {props.messages.map(makeMessage)}
   </List>
 }
+
 
 const ChatInput = (props) => {
 
@@ -44,6 +46,7 @@ const ChatInput = (props) => {
     </form>
   </div>
 }
+
 
 class LiveChatPanel extends Component {
 

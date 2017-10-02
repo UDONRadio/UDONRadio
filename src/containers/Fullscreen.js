@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 
 class FullScreen extends React.Component {
+
   constructor() {
     super()
     this.state = {
@@ -48,7 +49,7 @@ class FullScreen extends React.Component {
       <Dropzone
         disableClick
         style={{}}
-        //accept="audio/mpeg, audio/ogg"
+        accept={accept}
         onDrop={this.onDrop.bind(this)}
         onDragEnter={this.onDragEnter.bind(this)}
         onDragLeave={this.onDragLeave.bind(this)}
@@ -67,3 +68,5 @@ class FullScreen extends React.Component {
     );
   }
 }
+
+export default FullScreen;

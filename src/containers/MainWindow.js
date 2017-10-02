@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
-
-import LiveChatPanel from './LiveChatPanel';
-import OnAirView from './OnAirView';
-import AboutView from './AboutView';
-import AdmView from './AdmView';
-import ReplayView from './ReplayView';
-import UploadView from './UploadView'
-import Nav from './Nav';
+import { LiveChatPanel } from './';
+import { OnAirView, AboutView, AdmView, ReplayView, UploadView, Nav } from '../components';
 
 
 const grid_style = {'position': 'absolute', 'top': '60px', 'height': 'calc(100% - 60px)', 'paddingTop':'0px'}

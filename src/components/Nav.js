@@ -2,6 +2,7 @@ import React from 'react';
 import { Menu } from 'semantic-ui-react';
 import Logo from './Logo';
 
+
 const UserInfo = (props) => {
   if (props.user.logged_in)
     return <label><i>Bienvenue, {props.user.name}</i></label>
@@ -10,6 +11,7 @@ const UserInfo = (props) => {
       Sign in / register
     </a>
 }
+
 
 const Nav = (props) => {
 

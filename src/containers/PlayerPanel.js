@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ReactAudioPlayer from 'react-audio-player';
 import { Icon, Menu, Button, Input, Header} from 'semantic-ui-react';
+import ReactAudioPlayer from 'react-audio-player';
+
 
 const getVolumeIconName = (volume, muted) => {
   if (volume <= 0 || muted)
@@ -11,11 +12,13 @@ const getVolumeIconName = (volume, muted) => {
     return ("volume down");
 }
 
+
 const IconButton = (props) => (
   <Button style={{"background": "transparent"}} onClick={props.onClick}>
     <Icon name={props.name} size={props.size}/>
   </Button>
 )
+
 
 const PlayPauseButton = (props) => (
   <IconButton
@@ -24,6 +27,7 @@ const PlayPauseButton = (props) => (
     onClick={props.onClick}
   />
 )
+
 
 const VolumeControl = (props) => (
   <div style={{'position':'absolute', 'top':'0','right':'0', 'marginRight':'20px'}}>
@@ -39,12 +43,14 @@ const VolumeControl = (props) => (
   </div>
 )
 
+
 const DisplayMetadata = (props) => (
   <inline>
     <Header>Titre</Header>
     Nom de l artiste ou autre...
   </inline>
 )
+
 
 class PlayerPanel extends Component {
 
@@ -64,7 +70,6 @@ class PlayerPanel extends Component {
     this.onMuteToggle = this.onMuteToggle.bind(this);
     this.updateVolume = this.updateVolume.bind(this);
   }
-
 
   updateVolume () {
     if (this.HTMLPlayer) {
