@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextArea, List } from 'semantic-ui-react';
 import * as io from 'socket.io-client';
 
+import { SERVER } from '../networkGenerics';
 
 const ChatMessages = (props) => {
 
@@ -55,22 +56,35 @@ class LiveChatPanel extends Component {
 
     this.state = {
       'messages' : [],
-      'socket': io('http://localhost:3001/'),
-      'username': '',
+      'username': null,
       'text': '',
     };
-    this.state.socket.on('change username', function (username) {
+    this.socket = io(SERVER.chat_url);
+    this.socket.on('change username', function (username) {
       this.setState({
         username: username
       });
     }.bind(this));
-    this.state.socket.on('chat message', function (name, text) {
+    this.socket.on('chat message', function (name, text) {
       this.setState({
         messages: this.state.messages.concat([{user:name, content:text}])
       })
     }.bind(this))
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.user.username !== this.state.username) {
+      /*
+      ** NOTE: Might need to trigger a disconnect or something similar on node
+      ** side when new username is empty
+      */
+      this.socket.emit('change username', nextProps.user.username);
+      this.setState({
+        username: nextProps.user.username
+      });
+    }
   }
 
   handleChange (event) {
@@ -82,13 +96,13 @@ class LiveChatPanel extends Component {
     if (this.state.text === '')
       return ;
     if (this.state.username) {
-      this.state.socket.emit('chat message', this.state.text);
+      this.socket.emit('chat message', this.state.text);
       this.setState({
         text: ''
       });
     }
     else {
-      this.state.socket.emit('change username', this.state.text);
+      this.socket.emit('change username', this.state.text);
       this.setState({
         text: '',
         username: this.state.text,
@@ -100,7 +114,7 @@ class LiveChatPanel extends Component {
     return <div style={{'height':'100%', 'position': 'relative'}}>
       <ChatMessages messages={this.state.messages}></ChatMessages>
       <ChatInput
-        logged_in={this.state.username !== ''}
+        logged_in={this.props.user.logged_in}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         value={this.state.text}

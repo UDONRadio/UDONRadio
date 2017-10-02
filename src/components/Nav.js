@@ -5,7 +5,7 @@ import Logo from './Logo';
 
 const UserInfo = (props) => {
   if (props.user.logged_in)
-    return <label><i>Bienvenue, {props.user.name}</i></label>
+    return <label><i>Bienvenue, {props.user.username}</i></label>
   else
     return <a onClick={props.user.showLoginRegisterModal}>
       Sign in / register

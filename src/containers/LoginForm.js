@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Form } from 'semantic-ui-react';
 
 
+/*
+** TODO: handle form submission errors
+*/
+
 class LoginForm extends Component {
 
   constructor (props) {
@@ -22,7 +26,6 @@ class LoginForm extends Component {
     this.props.login(this.state, (data) => {
       alert(data);
     });
-    return ;
   }
 
   render () {

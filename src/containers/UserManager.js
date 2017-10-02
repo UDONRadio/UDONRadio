@@ -4,8 +4,14 @@ import 'whatwg-fetch';
 
 import { LoginForm, MainWindow } from './';
 import { Logo, RegisterForm, RecoverForm } from '../components';
-import { checkStatus, parseJSON } from '../networkGenerics';
+import { checkStatus, parseJSON, SERVER } from '../networkGenerics';
 
+/*
+** TODO: wrap api calls with error handling on authenticated requests in case
+** token expired for instance.
+** TODO: logout
+** TODO: register
+*/
 
 class UserManager extends Component {
 
@@ -14,10 +20,13 @@ class UserManager extends Component {
     this.showLoginRegisterModal = this.showLoginRegisterModal.bind(this);
     this.hideLoginRegisterModal = this.hideLoginRegisterModal.bind(this);
     this.changeModalForm = this.changeModalForm.bind(this);
+    this.getUserInfo = this.getUserInfo.bind(this);
     this.fetch = this.fetch.bind(this);
+    this.login = this.login.bind(this);
     this.state = {
       showLoginRegisterModal: this.showLoginRegisterModal,
       logged_in: false,
+      username: null,
       __showModal: true,
       __activeModalForm: 'log in'
     };
@@ -42,11 +51,25 @@ class UserManager extends Component {
   }
 
   getUserInfo() {
-    this.fetch('http://localhost', {});
+    this.fetch(SERVER.api_url + '/auth/me/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+      .then(checkStatus)
+      .then(parseJSON)
+      .then(({ username }) => {
+        this.setState({
+          logged_in: true,
+          username: username
+        })
+      })
+      .catch((err) => alert(err));
   }
 
   login ({ username, password }, onError) {
-    fetch('http://localhost:8000/auth/login/', {
+    fetch(SERVER.api_url + '/auth/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
