@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 	'corsheaders',
     'djoser',
 
-	'tarlyfm_back.api',
+    'api',
 ]
 
 REST_FRAMEWORK = {
