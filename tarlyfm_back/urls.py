@@ -8,7 +8,8 @@ from django.contrib import admin
 urlpatterns = [
 	url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^auth/', include('djoser.urls.authtoken'))
+    url(r'^auth/', include('djoser.urls.authtoken')),
+	url(r'^auth/', include('djoser.urls.base')),
 ]
 
 urlpatterns += static('media/', document_root=settings.MEDIA_ROOT)
