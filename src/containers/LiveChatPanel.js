@@ -61,6 +61,7 @@ class LiveChatPanel extends Component {
     };
     this.socket = io(SERVER.chat_url);
     this.socket.on('change username', function (username) {
+      console.log('im blue dabubidabuda')
       this.setState({
         username: username
       });
@@ -80,7 +81,10 @@ class LiveChatPanel extends Component {
       ** NOTE: Might need to trigger a disconnect or something similar on node
       ** side when new username is empty
       */
-      this.socket.emit('change username', nextProps.user.username);
+      if (nextProps.user.username !== null)
+        this.socket.emit('change username', nextProps.user.username);
+      else
+        this.socket.emit('logout');
       this.setState({
         username: nextProps.user.username
       });

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Form, Message } from 'semantic-ui-react';
 
-class LoginForm extends Component {
+
+class RegisterForm extends Component {
 
   constructor (props) {
     super(props);
@@ -12,16 +13,17 @@ class LoginForm extends Component {
     this.state = {
       'username':'',
       'password':'',
+      'email': '',
       'loading': false,
       'form_errors': {},
     }
   }
 
   onError (response) {
+    console.log(response)
     this.setState({'loading':false})
     if (response.status === 400) {
       this.setState({'form_errors': response.json})
-      console.log(response.json);
     }
   }
 
@@ -31,7 +33,7 @@ class LoginForm extends Component {
 
   handleSubmit () {
     this.setState({'loading': true})
-    this.props.login(this.state, this.onError);
+    this.props.register(this.state, this.onError);
   }
 
   genErrors() {
@@ -43,16 +45,16 @@ class LoginForm extends Component {
   }
 
   render () {
-    const { username, password } = this.state;
+    const { username, password, email } = this.state;
 
     return <Form onSubmit={this.handleSubmit} loading={this.state.loading} error={this.state.form_errors !== {}}>
           <Form.Input placeholder='Username' name='username' value={username} onChange={this.handleChange}/>
           <Form.Input type='password' placeholder='Password' name='password' value={password} onChange={this.handleChange}/>
+          <Form.Input type='email' placeholder='Email' name='email' value={email} onChange={this.handleChange}/>
           <Form.Button content='Sign In'/>
           {this.genErrors()}
-        <a onClick={ (e) => {this.props.toggleRecover();} } style={{'cursor': 'pointer'}}>mot de passe oublie ?</a>
       </Form>
   }
 }
 
-export default LoginForm;
+export default RegisterForm;
