@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid } from 'semantic-ui-react';
-import { LiveChatPanel } from './';
-import { OnAirView, AboutView, AdmView, ReplayView, UploadView, Nav } from '../components';
+import { LiveChatPanel, UploadView } from './';
+import { OnAirView, AboutView, AdmView, ReplayView, Nav } from '../components';
 
 
 const grid_style = {'position': 'absolute', 'top': '60px', 'height': 'calc(100% - 60px)', 'paddingTop':'0px'}
@@ -11,7 +11,7 @@ class MainWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current_view: 'On Air',
+      current_view: 'Upload'/*'On Air'*/,
     }
     this.changeCurrentView = this.changeCurrentView.bind(this);
   }

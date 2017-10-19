@@ -5,6 +5,7 @@ import RegisterForm from './RegisterForm';
 import MainWindow from './MainWindow';
 import PlayerPanel from './PlayerPanel';
 import UserManager from './UserManager';
+import UploadView from './UploadView';
 
 export {
   Fullscreen,
@@ -13,5 +14,6 @@ export {
   RegisterForm,
   MainWindow,
   PlayerPanel,
-  UserManager
+  UserManager,
+  UploadView,
 };

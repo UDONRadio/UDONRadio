@@ -51,7 +51,7 @@ class RegisterForm extends Component {
           <Form.Input placeholder='Username' name='username' value={username} onChange={this.handleChange}/>
           <Form.Input type='password' placeholder='Password' name='password' value={password} onChange={this.handleChange}/>
           <Form.Input type='email' placeholder='Email' name='email' value={email} onChange={this.handleChange}/>
-          <Form.Button content='Sign In'/>
+          <Form.Button content='Register'/>
           {this.genErrors()}
       </Form>
   }

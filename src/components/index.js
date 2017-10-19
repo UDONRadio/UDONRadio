@@ -5,7 +5,6 @@ import Nav from './Nav';
 import OnAirView from './OnAirView';
 import RecoverForm from './RecoverForm';
 import ReplayView from './ReplayView';
-import UploadView from './UploadView';
 
 
 export {
@@ -16,5 +15,4 @@ export {
   OnAirView,
   RecoverForm,
   ReplayView,
-  UploadView
 };
