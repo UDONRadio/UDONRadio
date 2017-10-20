@@ -23,20 +23,21 @@ class FileUploader extends Component {
       <Dropzone onDrop={this.onDrop} accept="audio/*">
         <Icon name='upload' size='massive'/>
       </Dropzone>
-      <Message warning visible={this.state.last_rejected.length} list={
-        this.state.last_rejected
-      } header='Some files were ommited'/>
+      {this.state.last_rejected.length !== 0 && <Message warning list={
+          this.state.last_rejected.map((file) => (file.name + ': is not an audio file'))
+        } header='Some files were ommited'/>
+      }
     </div>
   }
 }
 
 
 const UploadStatus = (props) => (
-  <a></a>
+  <a>salam</a>
 )
 
 const SongMaker = (props) => (
-  <a></a>
+  <a>wesh</a>
 )
 
 class UploadView extends Component {
