@@ -1,9 +1,9 @@
 [submodule "chat"]
 	path = chat
-	url = https://github.com/tarlyfm/tarlyfm_chat
+	url = https://github.com/udonradio/UDON_chat
 [submodule "front"]
 	path = front
-	url = https://github.com/tarlyfm/tarlyfm_front
+	url = https://github.com/udonradio/UDON_front
 [submodule "back"]
 	path = back
-	url = https://github.com/tarlyfm/tarlyfm_back
+	url = https://github.com/udonradio/UDON_back
