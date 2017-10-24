@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, TextArea, List } from 'semantic-ui-react';
-import * as io from 'socket.io-client';
+import SocketIO from 'socket.io-client';
 
 import { SERVER } from '../networkGenerics';
 
@@ -48,7 +48,6 @@ const ChatInput = (props) => {
   </div>
 }
 
-
 class LiveChatPanel extends Component {
 
   constructor (props) {
@@ -59,9 +58,8 @@ class LiveChatPanel extends Component {
       'username': null,
       'text': '',
     };
-    this.socket = io(SERVER.chat_url);
+    this.socket = SocketIO(SERVER.chat_url);
     this.socket.on('change username', function (username) {
-      console.log('im blue dabubidabuda')
       this.setState({
         username: username
       });
