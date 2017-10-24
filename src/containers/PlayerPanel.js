@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Icon, Menu, Button, Input, Header} from 'semantic-ui-react';
 import ReactAudioPlayer from 'react-audio-player';
 
+import { SERVER } from '../networkGenerics';
+
 
 const getVolumeIconName = (volume, muted) => {
   if (volume <= 0 || muted)
@@ -138,7 +140,7 @@ class PlayerPanel extends Component {
         controls={false}
         autoPlay={true}
         ref={(c) => this.HTMLPlayer = c}
-        src={"http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3?cache-buster=" + this.state.cachebust}
+        src={ SERVER.stream_url + "?cache-buster=" + this.state.cachebust}
       />
       <PlayPauseButton
         playing={this.state.playing}

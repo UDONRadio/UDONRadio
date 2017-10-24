@@ -1,8 +1,9 @@
 import 'whatwg-fetch';
 
 const SERVER = {
-  api_url: 'http://localhost:8000',
-  chat_url: 'http://localhost:3001',
+  api_url: process.env.REACT_APP_API_URL || 'http://localhost:8000',
+  chat_url: process.env.REACT_APP_CHAT_URL || 'http://localhost:3001',
+  stream_url: process.env.REACT_APP_STREAM_URL || 'http://radiomeuh.ice.infomaniak.ch/radiomeuh-128.mp3',
 };
 
 /**
