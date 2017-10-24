@@ -1,4 +1,4 @@
-# tarlyfm_front
+# udon_radio
 requires: nodejs, npm
 
 run:
