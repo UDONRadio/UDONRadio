@@ -1,5 +1,5 @@
 """
-WSGI config for tarlyfm_back project.
+WSGI config for udon_back project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tarlyfm_back.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "udon_back.settings")
 
 application = get_wsgi_application()
