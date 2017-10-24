@@ -3,19 +3,33 @@ version: '3'
 services:
   db:
     image: postgres
+    volumes:
+      - dbstorage:/var/lib/postgresql/data
   back:
     build: back
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: uwsgi --chdir=/usr/src/app --module=tarlyfm_back.wsgi:application --socket=0.0.0.0:8000
     volumes: 
       - ./back:/usr/src/app
     ports:
-      - "8000"
+      - "127.0.0.1:8000:8000"
     depends_on:
       - db
+    environment:
+      - "DJANGO_HOSTS=radio.theof.fr"
+      - "PRODUCTION=True"
   chat:
     build: chat
+    ports:
+      - "127.0.0.1:3000:3000"
   front:
     image: node:latest
     volumes:
       - ./front:/usr/src/app
     command: sh -c "cd /usr/src/app && npm install && npm run build --production"
+    environment:
+      - "REACT_APP_STREAM_URL=http://localhost"
+      - "REACT_APP_API_URL=http://radio.theof.fr"
+      - "REACT_APP_CHAT_URL=http://radio.theof.fr/socketio"
+
+volumes:
+  dbstorage:
