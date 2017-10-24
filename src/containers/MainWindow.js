@@ -11,7 +11,7 @@ class MainWindow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      current_view: 'Upload'/*'On Air'*/,
+      current_view: 'On Air',
     }
     this.changeCurrentView = this.changeCurrentView.bind(this);
   }
