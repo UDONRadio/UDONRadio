@@ -2,7 +2,7 @@
 This repository contains the http server configuration for
 UdonRadio webstack and its underlying dependencies.
 
-It also contains scripts for easy deployment, database 
+It also contains scripts for easy deployment, database
 configuration and initialization
 
 Install Notes:
@@ -14,7 +14,7 @@ Install Notes:
 
 - `docker-compose exec back bash`
 ```
-   python3 manage.py makemigrations radio upload tarlyfm_back
+   python3 manage.py makemigrations radio upload udon_back
 # make migrations accordingly
    python3 manage.py migrate
    python3 manage.py collectstatic

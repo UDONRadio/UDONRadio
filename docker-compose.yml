@@ -7,7 +7,7 @@ services:
       - dbstorage:/var/lib/postgresql/data
   back:
     build: back
-    command: uwsgi --chdir=/usr/src/app --module=tarlyfm_back.wsgi:application --socket=0.0.0.0:8000
+    command: uwsgi --chdir=/usr/src/app --module=udon_back.wsgi:application --socket=0.0.0.0:8000
     volumes: 
       - ./back:/usr/src/app
     ports:
