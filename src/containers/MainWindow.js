@@ -16,29 +16,35 @@ class MainWindow extends Component {
     this.changeCurrentView = this.changeCurrentView.bind(this);
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (!nextProps.user.logged_in && (this.state.current_view === 'Upload' || this.state.current_view === 'Adm'))
+      this.setState({
+        current_view: 'On Air',
+      });
+  }
+
   changeCurrentView (new_view) {
-      this.setState({'current_view': new_view});
+    this.setState({'current_view': new_view});
   }
 
   render () {
     const base_tabs = {
-      'On Air': OnAirView,
-      'About': AboutView,
-      'Replay': ReplayView,
+        'On Air': OnAirView,
+        'About': AboutView,
+        'Replay': ReplayView,
     };
     const adherent_tabs = {
-      'Upload': UploadView
-    }
+        'Upload': UploadView
+    };
     const staff_tabs = {
-      'Upload': UploadView,
-      'Adm': AdmView,
+        'Adm': AdmView,
+    };
+
+    const tabs = {
+      ...base_tabs,
+      ...((this.props.user.is_adherent) ? adherent_tabs : {}),
+      ...((this.props.user.is_staff) ? staff_tabs : {}),
     }
-    const tabs = Object.assign(
-      base_tabs,
-      ((this.props.user.is_adherent) ? adherent_tabs : {}),
-      ((this.props.user.is_staff) ? staff_tabs : {}),
-    )
-    console.log(this.props);
     const CurrentView = tabs[this.state.current_view];
     return <Grid divided padded style={grid_style}>
       <Grid.Column floated='left' width={4} >
