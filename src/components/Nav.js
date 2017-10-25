@@ -38,7 +38,7 @@ const Nav = (props) => {
   <Logo/>
   <Menu secondary vertical>
     {
-      ['On Air', 'Replay', 'About', 'Upload', 'Adm'].map(makeMenuItem)
+      Object.keys(props.tabs).map(makeMenuItem)
     }
   </Menu>
   <UserInfo user={props.user}/>

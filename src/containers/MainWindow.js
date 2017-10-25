@@ -21,17 +21,33 @@ class MainWindow extends Component {
   }
 
   render () {
-    const tabs = {
+    const base_tabs = {
       'On Air': OnAirView,
       'About': AboutView,
-      'Adm': AdmView,
       'Replay': ReplayView,
-      'Upload': UploadView
     };
+    const adherent_tabs = {
+      'Upload': UploadView
+    }
+    const staff_tabs = {
+      'Upload': UploadView,
+      'Adm': AdmView,
+    }
+    const tabs = Object.assign(
+      base_tabs,
+      ((this.props.user.is_adherent) ? adherent_tabs : {}),
+      ((this.props.user.is_staff) ? staff_tabs : {}),
+    )
+    console.log(this.props);
     const CurrentView = tabs[this.state.current_view];
     return <Grid divided padded style={grid_style}>
       <Grid.Column floated='left' width={4} >
-        <Nav current={this.state.current_view} onClick={this.changeCurrentView} user={this.props.user}/>
+        <Nav
+          current={this.state.current_view}
+          onClick={this.changeCurrentView}
+          user={this.props.user}
+          tabs={tabs}
+        />
       </Grid.Column>
       <Grid.Column width={8} >
         <CurrentView/>

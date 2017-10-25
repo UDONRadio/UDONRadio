@@ -23,6 +23,8 @@ class UserManager extends Component {
     this.state = {
       showLoginRegisterModal: this.showLoginRegisterModal,
       logged_in: false,
+      is_staff: false,
+      is_adherent: false,
       auth_token: auth_token,
       username: null,
       __showModal: false,
@@ -57,10 +59,12 @@ class UserManager extends Component {
         'Content-Type': 'application/json'
       },
     })
-      .then(({ username }) => {
+      .then(({ username, is_staff, is_adherent }) => {
         this.setState({
           logged_in: true,
-          username: username
+          username: username,
+          is_staff: is_staff,
+          is_adherent: is_adherent,
         })
       })
       .catch((err) => {
@@ -123,7 +127,9 @@ class UserManager extends Component {
       if (response.ok) {
         this.setState({
           'logged_in' : false,
-          'username': null
+          'username': null,
+          'is_adherent': false,
+          'is_staff': false,
         })
       }
     }) // XXX: Need error handling
@@ -137,7 +143,11 @@ class UserManager extends Component {
     };
     const CurrentForm = forms[this.state.__activeModalForm];
     return <div>
-      <MainWindow user={{'logout': this.logout, ...this.state}}/>
+      <MainWindow
+        user={{
+          'logout': this.logout, ...this.state,
+        }}
+      />
       <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
         <Modal.Content>
           <Logo/>
