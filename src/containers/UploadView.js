@@ -10,6 +10,7 @@ const UploadPadding = (props) => (
   </div>
 )
 
+
 class FileUploader extends Component {
 
   constructor (props) {
@@ -28,18 +29,18 @@ class FileUploader extends Component {
     });
   }
 
-  onDrop = (acceptedFiles, rejectedFiles) => {
-    this.setState({last_rejected: rejectedFiles})
-    acceptedFiles.map(this.props.uploadFile)
-  }
-
   isValidLink = (url) => {
     return /((http|https):\/\/)?(www\.)?(youtube\.com)(\/)?([a-zA-Z0-9-.]+)\/?/.test(url)
   }
 
   onLinkUpload = () => {
     if (this.isValidLink(this.state.url_value))
-      this.props.uploadLink(this.state.url_value)
+      this.props.upload(this.state.url_value, null)
+  }
+
+  onDrop = (acceptedFiles, rejectedFiles) => {
+    this.setState({last_rejected: rejectedFiles})
+    acceptedFiles.map((file) => this.props.upload('', file))
   }
 
   render () {
@@ -69,20 +70,30 @@ class FileUploader extends Component {
 }
 
 
-const UploadStatus = (props) => (
-  <List celled relaxed>
-  {
-    props.pending.map((pending) => (
-      <List.Item
-        key={pending.id}
-        header={pending.up_from || pending.audio}
-        icon='loading'
-        description='Waiting for server processing'
-      />
-    ))
-  }
-  </List>
-)
+const UploadStatus = (props) => {
+
+  return (props.uploads || props.pending ) && <Segment.Group>
+    {
+      props.pending.map((id) => (
+        <Segment key={id}>
+          <Icon name='circle notched' loading/>
+          {id}
+        </Segment>
+      ))
+    }
+    {
+      props.uploads && props.uploads.map((upload) => (
+        <Segment key={upload.id}>
+          <List.Icon name={upload.up_from ? 'youtube' : 'file audio outline'}/>
+          <List.Content>
+            <List.Header content={upload.up_from || upload.audio}/>
+            <List.Description content='Waiting for server processing'/>
+          </List.Content>
+        </Segment>
+      ))
+    }
+  </Segment.Group>
+}
 
 
 class UploadView extends Component {
@@ -91,26 +102,34 @@ class UploadView extends Component {
     super(props)
     this.state = {
       pending: [],
+      uploads: [],
+      loaded_uploads: false
     }
-    this.getPending()
+    this.getUploads()
   }
 
-  uploadFile = (file) => {
-    console.log('accepted: ' + file.name)
-  }
-
-  uploadLink = (url) => {
-    console.log('accepted: ' + url)
-  }
-
-  getPending = () => {
+  getUploads = () => {
     this.props.user.request(SERVER.api_url + '/upload/files/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     }).then((data) => {
-      this.setState({pending: data})
+      this.setState({
+        uploads: this.state.uploads.concat(data)
+      })
+    })
+  }
+
+  pendingToUpload = (pending, upload) => {
+    var new_pending = []
+    this.state.pending.forEach((elem) => {
+      if (pending !== elem)
+        new_pending.push(elem)
+    });
+    this.setState({
+      uploads: this.state.uploads.concat(upload),
+      pending: new_pending,
     })
   }
 
@@ -118,15 +137,39 @@ class UploadView extends Component {
     this.setState({pending: this.state.pending.concat(pending)})
   }
 
+  upload = (url, file) => {
+
+    const pending = (url) ? url : file.name
+
+    this.addPending(pending)
+    var data = new FormData()
+    if (url)
+      data.append('up_from', url)
+    else
+      data.append('audio', file)
+    this.props.user.request(SERVER.api_url + '/upload/files/', {
+      method: 'POST',
+      headers: {
+      },
+      body: data
+    }).then((data) => {
+      this.pendingToUpload(pending, data)
+    }).catch((err) => alert(err))
+  }
+
   render () {
-    return <Container style={{'marginTop': '2em'}}>
+    return <Container style={{'height':'100%'}}>
       <Header dividing> Nouvel Upload </Header>
       <UploadPadding>
-        <FileUploader uploadFile={this.uploadFile} uploadLink={this.uploadLink}/>
+        <FileUploader upload={this.upload}/>
       </UploadPadding>
-      <Divider horizontal> Uploads en cours </Divider>
+      <Header dividing> Uploads en cours </Header>
       <UploadPadding>
-        <UploadStatus pending={this.state.pending}/>
+        <UploadStatus
+          pending={this.state.pending}
+          uploads={this.state.uploads}
+          loaded_uploads={this.state.loaded_uploads}
+        />
       </UploadPadding>
     </Container>
   };

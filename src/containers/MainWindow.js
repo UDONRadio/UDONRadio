@@ -4,7 +4,13 @@ import { LiveChatPanel, UploadView } from './';
 import { OnAirView, AboutView, AdmView, ReplayView, Nav } from '../components';
 
 
-const grid_style = {'position': 'absolute', 'top': '60px', 'height': 'calc(100% - 60px)', 'paddingTop':'0px'}
+const grid_style = {
+  'position': 'absolute',
+  'top': '60px',
+  'height': 'calc(100% - 60px)',
+  'paddingTop':'0px',
+  'overflow':'hidden'
+}
 
 class MainWindow extends Component {
 
@@ -55,7 +61,7 @@ class MainWindow extends Component {
           tabs={tabs}
         />
       </Grid.Column>
-      <Grid.Column width={8} >
+      <Grid.Column width={8} style={{'overflowY':'auto', 'height':'100%'}}>
         <CurrentView user={this.props.user}/>
       </Grid.Column>
       <Grid.Column floated='right' width={4} style={{'height':'100%'}}>
