@@ -1,4 +1,3 @@
-import Fullscreen from './Fullscreen';
 import LiveChatPanel from './LiveChatPanel';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -8,7 +7,6 @@ import UserManager from './UserManager';
 import UploadView from './UploadView';
 
 export {
-  Fullscreen,
   LiveChatPanel,
   LoginForm,
   RegisterForm,

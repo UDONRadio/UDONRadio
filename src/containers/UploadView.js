@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
-import { Divider, Dimmer, Icon, Message, Input } from 'semantic-ui-react';
+import { Divider, Icon, Message, Input, List, Container, Loader, Dimmer, Segment, Header } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+
+import { SERVER } from '../networkGenerics';
+
+const UploadPadding = (props) => (
+  <div style={{'paddingRight': '20px', 'paddingLeft': '20px'}}>
+    {props.children}
+  </div>
+)
 
 class FileUploader extends Component {
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
       last_rejected : [],
       url_value : '',
@@ -35,7 +43,10 @@ class FileUploader extends Component {
   }
 
   render () {
-    return <div>
+    return <Segment>
+      <Dimmer>
+        <Loader/>
+      </Dimmer>
       <Dropzone onDrop={this.onDrop} accept="audio/*">
         <Icon name='upload' size='massive'/>
       </Dropzone>
@@ -53,24 +64,35 @@ class FileUploader extends Component {
           this.state.last_rejected.map((file) => (file.name + ': is not an audio file'))
         } header='Some files were ommited'/>
       }
-    </div>
+    </Segment>
   }
 }
 
 
 const UploadStatus = (props) => (
-  <a>salam</a>
+  <List celled relaxed>
+  {
+    props.pending.map((pending) => (
+      <List.Item
+        key={pending.id}
+        header={pending.up_from || pending.audio}
+        icon='loading'
+        description='Waiting for server processing'
+      />
+    ))
+  }
+  </List>
 )
 
-const SongMaker = (props) => (
-  <a>wesh</a>
-)
 
 class UploadView extends Component {
 
-  constructor () {
-    super()
-    this.state = {}
+  constructor (props) {
+    super(props)
+    this.state = {
+      pending: [],
+    }
+    this.getPending()
   }
 
   uploadFile = (file) => {
@@ -81,15 +103,32 @@ class UploadView extends Component {
     console.log('accepted: ' + url)
   }
 
+  getPending = () => {
+    this.props.user.request(SERVER.api_url + '/upload/files/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((data) => {
+      this.setState({pending: data})
+    })
+  }
+
+  addPending = (pending) => {
+    this.setState({pending: this.state.pending.concat(pending)})
+  }
+
   render () {
-    return <div>
-      <Divider horizontal> Nouvel Upload </Divider>
-      <FileUploader uploadFile={this.uploadFile} uploadLink={this.uploadLink}/>
+    return <Container style={{'marginTop': '2em'}}>
+      <Header dividing> Nouvel Upload </Header>
+      <UploadPadding>
+        <FileUploader uploadFile={this.uploadFile} uploadLink={this.uploadLink}/>
+      </UploadPadding>
       <Divider horizontal> Uploads en cours </Divider>
-      <UploadStatus/>
-      <Divider horizontal> Categoriser </Divider>
-      <SongMaker/>
-    </div>
+      <UploadPadding>
+        <UploadStatus pending={this.state.pending}/>
+      </UploadPadding>
+    </Container>
   };
 
 }

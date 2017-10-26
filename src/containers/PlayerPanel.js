@@ -56,8 +56,8 @@ const DisplayMetadata = (props) => (
 
 class PlayerPanel extends Component {
 
-  constructor () {
-    super();
+  constructor (props) {
+    super(props);
     this.state = {
       playing: false,
       volume: -1,

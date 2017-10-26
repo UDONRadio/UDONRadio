@@ -8,7 +8,7 @@ const grid_style = {'position': 'absolute', 'top': '60px', 'height': 'calc(100% 
 
 class MainWindow extends Component {
 
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       current_view: 'On Air',
@@ -56,7 +56,7 @@ class MainWindow extends Component {
         />
       </Grid.Column>
       <Grid.Column width={8} >
-        <CurrentView/>
+        <CurrentView user={this.props.user}/>
       </Grid.Column>
       <Grid.Column floated='right' width={4} style={{'height':'100%'}}>
         <LiveChatPanel user={this.props.user}/>

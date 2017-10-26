@@ -145,7 +145,9 @@ class UserManager extends Component {
     return <div>
       <MainWindow
         user={{
-          'logout': this.logout, ...this.state,
+          'logout': this.logout,
+          'request': this.request,
+          ...this.state,
         }}
       />
       <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
