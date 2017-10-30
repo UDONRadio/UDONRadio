@@ -4,7 +4,7 @@ import { SERVER } from '../networkGenerics';
 
 const AdmView = (props) => (
   <iframe
-    src={SERVER.api_url + '/admin'}
+    src={SERVER.admin_url}
     id="adm-view"
     className="max-height max-width"
     title="adm"
