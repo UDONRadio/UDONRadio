@@ -4,12 +4,6 @@ import Dropzone from 'react-dropzone';
 
 import { SERVER } from '../networkGenerics';
 
-const UploadPadding = (props) => (
-  <div style={{'paddingRight': '20px', 'paddingLeft': '20px'}}>
-    {props.children}
-  </div>
-)
-
 
 class FileUploader extends Component {
 
@@ -72,7 +66,7 @@ class FileUploader extends Component {
 
 const UploadStatus = (props) => {
 
-  return (props.uploads || props.pending ) && <Segment.Group>
+  return (props.uploads || props.pending ) && <Segment.Group id="upload-list">
     {
       props.pending.map((id) => (
         <Segment key={id}>
@@ -158,19 +152,19 @@ class UploadView extends Component {
   }
 
   render () {
-    return <Container style={{'height':'100%'}}>
+    return <Container id="upload-view" className="max-height">
       <Header dividing> Nouvel Upload </Header>
-      <UploadPadding>
+      <div className="padded-x">
         <FileUploader upload={this.upload}/>
-      </UploadPadding>
+      </div>
       <Header dividing> Uploads en cours </Header>
-      <UploadPadding>
+      <div className="dynamic padded-x max-height no-min-height">
         <UploadStatus
           pending={this.state.pending}
           uploads={this.state.uploads}
           loaded_uploads={this.state.loaded_uploads}
         />
-      </UploadPadding>
+      </div >
     </Container>
   };
 

@@ -1,0 +1,93 @@
+html, body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.max-width {
+  width:100%;
+}
+.max-height {
+  height:100%;
+}
+.no-min-height {
+  min-height: 0px;
+}
+
+.padded-x {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+#layout {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+#player-panel {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  height: 60px;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.4);
+}
+
+#panel-container {
+  width: 100%;
+  padding-top:0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+#left-panel {
+  width: 210px;
+}
+#right-panel {
+  width: 340px;
+  border-left: 1px solid rgba(34, 36, 38, 0.15);
+}
+#middle-panel {
+  min-width: 0px;
+  padding: 20px;
+}
+
+#live-chat-panel {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  padding: 20px;
+}
+
+/* Flex classes */
+
+.fixed {
+  flex: none
+}
+
+.dynamic {
+  flex: auto
+}
+
+/* ************* */
+
+.nav-extra-padding {
+  padding-left: 20px;
+}
+
+/* Upload */
+
+#upload-view {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+#upload-list {
+  height: 100%;
+  overflow-y: auto;
+}

@@ -1,17 +1,17 @@
 import LiveChatPanel from './LiveChatPanel';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import MainWindow from './MainWindow';
 import PlayerPanel from './PlayerPanel';
 import UserManager from './UserManager';
 import UploadView from './UploadView';
+import Layout from './Layout';
 
 export {
   LiveChatPanel,
   LoginForm,
   RegisterForm,
-  MainWindow,
   PlayerPanel,
   UserManager,
   UploadView,
+  Layout
 };

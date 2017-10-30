@@ -4,7 +4,6 @@ import ReactAudioPlayer from 'react-audio-player';
 
 import { SERVER } from '../networkGenerics';
 
-
 const getVolumeIconName = (volume, muted) => {
   if (volume <= 0 || muted)
     return ("volume off");
@@ -16,23 +15,25 @@ const getVolumeIconName = (volume, muted) => {
 
 
 const IconButton = (props) => (
-  <Button style={{"background": "transparent"}} onClick={props.onClick}>
+  <Button onClick={props.onClick} style={{'backgroundColor':'transparent'}}>
     <Icon name={props.name} size={props.size}/>
   </Button>
 )
 
 
 const PlayPauseButton = (props) => (
-  <IconButton
-    name={props.playing ? 'pause': 'play'}
-    size='big'
-    onClick={props.onClick}
-  />
+  <div className="fixed">
+    <IconButton
+      name={props.playing ? 'pause': 'play'}
+      size='big'
+      onClick={props.onClick}
+    />
+  </div>
 )
 
 
 const VolumeControl = (props) => (
-  <div style={{'position':'absolute', 'top':'0','right':'0', 'marginRight':'20px'}}>
+  <div className="fixed">
     <IconButton
       onClick={props.onMuteToggle}
       size='big'
@@ -47,7 +48,7 @@ const VolumeControl = (props) => (
 
 
 const DisplayMetadata = (props) => (
-  <inline>
+  <inline className="dynamic">
     <Header>Titre</Header>
     Nom de l artiste ou autre...
   </inline>
@@ -132,7 +133,7 @@ class PlayerPanel extends Component {
 
   render () {
     this.updateVolume();
-    return <Menu fixed='top' style={{'height':'60px'}}>
+    return <div id="player-panel" className="fixed">
       <ReactAudioPlayer
         onPlay={this.onPlay}
         onPause={this.onPause}
@@ -153,7 +154,7 @@ class PlayerPanel extends Component {
         volume={this.state.volume}
         muted={this.state.muted}
       />
-    </Menu>
+    </div>
   }
 }
 

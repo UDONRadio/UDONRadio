@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Menu } from 'semantic-ui-react';
 
 import 'whatwg-fetch';
-import { LoginForm, RegisterForm, MainWindow } from './';
+import { LoginForm, RegisterForm, Layout} from './';
 import { Logo, RecoverForm } from '../components';
 import { request, SERVER } from '../networkGenerics';
 
@@ -142,14 +142,15 @@ class UserManager extends Component {
       'recover': RecoverForm,
     };
     const CurrentForm = forms[this.state.__activeModalForm];
-    return <div>
-      <MainWindow
-        user={{
+    const user = {
           'logout': this.logout,
           'request': this.request,
           ...this.state,
-        }}
-      />
+    }
+    return <div style={{'width': '100%', 'height':'100%'}}>
+
+      <Layout user={user}/>
+
       <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
         <Modal.Content>
           <Logo/>

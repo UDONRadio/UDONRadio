@@ -7,15 +7,15 @@ import { SERVER } from '../networkGenerics';
 const ChatMessages = (props) => {
 
   const makeMessage = (msg, index) => (
-    <List.Item key={index}>
+    <List.Item key={index} className='max-width'>
       <List.Content>
         <List.Header>{msg.user}</List.Header>
-        <List.Description>{msg.content}</List.Description>
+        <List.Description style={{'wordWrap': 'break-word'}}>{msg.content}</List.Description>
       </List.Content>
     </List.Item>
   );
 
-  return <List style={{'maxHeight': 'calc(100% - 150px)', 'overflowY': 'auto'}}>
+  return <List className='dynamic' style={{'minHeight': '0px', overflow:'auto'}}>
     {props.messages.map(makeMessage)}
   </List>
 }
@@ -33,17 +33,20 @@ const ChatInput = (props) => {
 
   var placeholder = (props.logged_in) ? "Allez, viens tchatcher !" : "Register to start chatting !";
 
-  return <div style={{'bottom': '0px', 'width':'100%', 'position':'absolute',}}>
+  return <div className="fixed">
     <form onSubmit={props.onSubmit}>
     <TextArea
       placeholder={placeholder}
       value={props.value}
       onChange={props.onChange}
-      style={{'resize':'none', 'padding':'14px', 'width':'100%'}}
+      style={{'resize':'none', 'padding':'14px', 'width': '100%'}}
       onKeyPress={onKeyPress}
     />
-    <Button type='button' disabled>Like</Button>
-    <Button type='submit' style={{'float':'right'}}>Envoyer</Button>
+    <div style={{'display': 'flex', 'flexFlow': 'row unwrap'}}>
+      <Button type='button' disabled className="fixed">Like</Button>
+      <div className="dynamic"/>
+      <Button type='submit' className="fixed">Envoyer</Button>
+    </div>
     </form>
   </div>
 }
@@ -113,7 +116,7 @@ class LiveChatPanel extends Component {
   }
 
   render () {
-    return <div style={{'height':'100%', 'position': 'relative'}}>
+    return <div id="live-chat-panel" className="max-height max-width">
       <ChatMessages messages={this.state.messages}></ChatMessages>
       <ChatInput
         logged_in={this.props.user.logged_in}
