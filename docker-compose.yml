@@ -28,7 +28,8 @@ services:
     command: sh -c "cd /usr/src/app && npm install && npm run build --production"
     environment:
       - "REACT_APP_STREAM_URL=http://localhost"
-      - "REACT_APP_API_URL=http://radio.theof.fr"
+      - "REACT_APP_API_URL=http://radio.theof.fr/api"
+      - "REACT_APP_ADMIN_URL=http://radio.theof.fr/admin"
       - "REACT_APP_CHAT_URL=http://radio.theof.fr/socketio"
 
 volumes:
