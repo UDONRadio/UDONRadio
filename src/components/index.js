@@ -5,6 +5,7 @@ import OnAirView from './OnAirView';
 import RecoverForm from './RecoverForm';
 import ReplayView from './ReplayView';
 import UserInfo from './UserInfo';
+import UploadStatus from './UploadStatus';
 
 
 export {
@@ -15,4 +16,5 @@ export {
   RecoverForm,
   ReplayView,
   UserInfo,
+  UploadStatus
 };

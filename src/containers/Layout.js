@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Container, Menu } from 'semantic-ui-react';
-import { PlayerPanel, UserManager } from './';
-import { LiveChatPanel, UploadView } from './';
+import { Menu } from 'semantic-ui-react';
+import { PlayerPanel, LiveChatPanel, UploadView } from './';
 import { OnAirView, AboutView, AdmView, ReplayView, Logo, UserInfo } from '../components';
 
 

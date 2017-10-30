@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Menu, Button, Input, Header} from 'semantic-ui-react';
+import { Icon, Button, Input, Header} from 'semantic-ui-react';
 import ReactAudioPlayer from 'react-audio-player';
 
 import { SERVER } from '../networkGenerics';

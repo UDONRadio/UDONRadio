@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Divider, Icon, Message, Input, List, Container, Loader, Dimmer, Segment, Header } from 'semantic-ui-react';
+import { Icon, Message, Input, Container, Loader, Dimmer, Segment, Header } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
-
+import { UploadStatus } from '../components';
 import { SERVER } from '../networkGenerics';
 
 
@@ -61,32 +61,6 @@ class FileUploader extends Component {
       }
     </Segment>
   }
-}
-
-
-const UploadStatus = (props) => {
-
-  return (props.uploads || props.pending ) && <Segment.Group id="upload-list">
-    {
-      props.pending.map((id) => (
-        <Segment key={id}>
-          <Icon name='circle notched' loading/>
-          {id}
-        </Segment>
-      ))
-    }
-    {
-      props.uploads && props.uploads.map((upload) => (
-        <Segment key={upload.id}>
-          <List.Icon name={upload.up_from ? 'youtube' : 'file audio outline'}/>
-          <List.Content>
-            <List.Header content={upload.up_from || upload.audio}/>
-            <List.Description content='Waiting for server processing'/>
-          </List.Content>
-        </Segment>
-      ))
-    }
-  </Segment.Group>
 }
 
 

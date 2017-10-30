@@ -1,7 +1,9 @@
 import React from 'react';
 
 const ReplayView = (props) => (
-  <a>Replays</a>
+  <div id="replay-view">
+    <a>Replays</a>
+  </div>
 );
 
 export default ReplayView;

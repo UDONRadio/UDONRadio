@@ -2,7 +2,9 @@ import React from 'react';
 
 
 const OnAirView = (props) => (
-  <a>On Air</a>
+  <div id="on-air-view">
+    <a>On Air</a>
+  </div>
 );
 
 export default OnAirView;
