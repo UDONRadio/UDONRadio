@@ -8,4 +8,4 @@ class User(AbstractUser):
 
     @property
     def is_adherent(self):
-        return bool(self.groups.filter(name='adherent'))
+        return self.groups.filter(name='adherent').exists()

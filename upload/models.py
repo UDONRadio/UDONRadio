@@ -10,7 +10,10 @@ class FileUpload(models.Model):
         on_delete=models.DO_NOTHING
     )
 
+    created = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
     processed = models.BooleanField(default=False)
+
 
 class Song(models.Model):
 

@@ -103,5 +103,6 @@ ENV/
 #sqlite db
 db.sqlite3
 
-#Django static files
+#Django generated files
 collectstatic/*
+media/*
