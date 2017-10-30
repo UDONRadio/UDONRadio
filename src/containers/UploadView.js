@@ -138,6 +138,7 @@ class UploadView extends Component {
           uploads={this.state.uploads}
           loaded_uploads={this.state.loaded_uploads}
         />
+        <div className="dynamic"/>
       </div >
     </Container>
   };
