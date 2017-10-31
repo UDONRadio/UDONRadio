@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
 	'corsheaders',
     'djoser',
+    'channels',
 
     'udon_back',
     'radio',
@@ -70,6 +71,12 @@ MIDDLEWARE = [
 ]
 CORS_ORIGIN_ALLOW_ALL=True
 ROOT_URLCONF = 'udon_back.urls'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgiref.inmemory.ChannelLayer',
+        'ROUTING': 'udon_back.routing.channel_routing',
+    }
+}
 
 TEMPLATES = [
     {

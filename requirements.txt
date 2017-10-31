@@ -6,3 +6,4 @@ pytz
 django-cors-headers
 djoser
 psycopg2
+channels
