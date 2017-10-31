@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Button, TextArea, List } from 'semantic-ui-react';
-import SocketIO from 'socket.io-client';
 
 import { SERVER } from '../networkGenerics';
 
@@ -8,16 +7,35 @@ const ChatMessages = (props) => {
 
   const makeMessage = (msg, index) => (
     <List.Item key={index} className='max-width'>
-      <List.Content>
-        <List.Header>{msg.user}</List.Header>
-        <List.Description style={{'wordWrap': 'break-word'}}>{msg.content}</List.Description>
-      </List.Content>
+      {
+        msg.type !== 'server' && <List.Content>
+          <List.Header>{(msg.type === 'user') ? <a>{msg.username}</a>: msg.username}</List.Header>
+          <List.Description style={{'wordWrap': 'break-word'}}>{msg.content}</List.Description>
+        </List.Content>
+      }
+      {
+        msg.type === 'server' && <List.Content>
+          <List.Description><i>server</i>: {msg.content}</List.Description>
+        </List.Content>
+      }
     </List.Item>
   );
 
-  return <List className='dynamic' style={{'minHeight': '0px', overflow:'auto'}}>
+  return <List className='dynamic' style={{'minHeight': '0px', overflow:'auto'}} divided>
     {props.messages.map(makeMessage)}
   </List>
+}
+
+const Loading = (props) => {
+  return <div className="dynamic" style={{'display':'flex', 'flexFlow': 'column'}}>
+    <div className="dynamic"/>
+    <div style={{'display': 'flex', 'flexFlow': 'row'}}>
+      <div className="dynamic"/>
+      Loading...
+      <div className="dynamic"/>
+    </div>
+    <div className="dynamic"/>
+  </div>
 }
 
 
@@ -31,7 +49,11 @@ const ChatInput = (props) => {
     }
   }
 
-  var placeholder = (props.logged_in) ? "Allez, viens tchatcher !" : "Register to start chatting !";
+  var placeholder;
+  if (props.logged_in || props.nickname)
+    placeholder = "Allez, viens tchatcher !"
+  else
+    placeholder = "Enter nickname";
 
   return <div className="fixed">
     <form onSubmit={props.onSubmit}>
@@ -45,7 +67,7 @@ const ChatInput = (props) => {
     <div style={{'display': 'flex', 'flexFlow': 'row unwrap'}}>
       <Button type='button' disabled className="fixed">Like</Button>
       <div className="dynamic"/>
-      <Button type='submit' className="fixed">Envoyer</Button>
+      <Button type='submit' className="fixed" disabled={props.disabled}>Envoyer</Button>
     </div>
     </form>
   </div>
@@ -58,71 +80,66 @@ class LiveChatPanel extends Component {
 
     this.state = {
       'messages' : [],
-      'username': null,
       'text': '',
+      'connected': false,
+      'nickname': ''
     };
-    this.socket = SocketIO(SERVER.chat_url);
-    this.socket.on('change username', function (username) {
-      this.setState({
-        username: username
-      });
-    }.bind(this));
-    this.socket.on('chat message', function (name, text) {
-      this.setState({
-        messages: this.state.messages.concat([{user:name, content:text}])
-      })
-    }.bind(this))
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (nextProps.user.username !== this.state.username) {
-      /*
-      ** NOTE: Might need to trigger a disconnect or something similar on node
-      ** side when new username is empty
-      */
-      if (nextProps.user.username !== null)
-        this.socket.emit('change username', nextProps.user.username);
-      else
-        this.socket.emit('logout');
-      this.setState({
-        username: nextProps.user.username
-      });
-    }
+  componentDidMount () {
+    this.props.user.socket.ready(() => {
+      this.props.user.socket.on('chat-message', this.appendMessage)
+      this.props.user.socket.on('chat-anon-name', this.changeNick)
+      this.props.user.socket.emit('chat-join')
+    })
   }
 
-  handleChange (event) {
+  componentWillUnmount () {
+    this.props.user.socket.removeListener('chat-message', this.appendMessage)
+    this.props.user.socket.removeListener('chat-anon-name', this.changeNick)
+  }
+
+  changeNick = ({username}) => {
+    this.setState({nickname: username})
+  }
+
+  appendMessage = (data) => {
+    if (!this.state.connected)
+      this.setState({'connected': true})
+    this.setState({messages: this.state.messages.concat(data)})
+  }
+
+  handleChange = (event) => {
       this.setState({text: event.target.value});
   }
 
-  handleSubmit (event) {
+  handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.text === '')
-      return ;
-    if (this.state.username) {
-      this.socket.emit('chat message', this.state.text);
+    if (this.state.text !== '' && this.state.connected) {
+
+      if (this.props.user.logged_in || this.state.nickname)
+        this.props.user.socket.emit('chat-message', {'content': this.state.text})
+      else
+        this.props.user.socket.emit('chat-anon-name', {'username': this.state.text})
       this.setState({
         text: ''
-      });
-    }
-    else {
-      this.socket.emit('change username', this.state.text);
-      this.setState({
-        text: '',
-        username: this.state.text,
-      });
+      })
     }
   }
 
   render () {
     return <div id="live-chat-panel" className="max-height max-width">
-      <ChatMessages messages={this.state.messages}></ChatMessages>
+      {
+        (this.state.connected && <ChatMessages messages={this.state.messages}/>) ||
+          <Loading/>
+      }
       <ChatInput
         logged_in={this.props.user.logged_in}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         value={this.state.text}
+        disabled={!this.state.connected}
+        nickname={this.state.nickname}
       />
     </div>
   }
