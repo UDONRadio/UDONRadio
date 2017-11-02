@@ -1,20 +1,12 @@
-import AboutView from './AboutView';
-import AdmView from './AdmView';
-import Logo from './Logo';
-import OnAirView from './OnAirView';
-import RecoverForm from './RecoverForm';
-import ReplayView from './ReplayView';
-import UserInfo from './UserInfo';
-import UploadStatus from './UploadStatus';
+/*
+** Reusable components only
+*/
 
-
-export {
-  AboutView,
-  AdmView,
-  Logo,
-  OnAirView,
-  RecoverForm,
-  ReplayView,
-  UserInfo,
-  UploadStatus
-};
+export { default as AboutView } from './AboutView';
+export { default as AdmView } from './AdmView';
+export { default as Logo } from './Logo';
+export { default as OnAirView } from './OnAirView';
+export { default as ReplayView } from './ReplayView';
+export { default as UserInfo } from './UserInfo';
+export { default as UploadStatus } from './UploadStatus';
+export { default as GenericForm } from './GenericForm';

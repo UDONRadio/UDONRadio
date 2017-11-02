@@ -20,6 +20,9 @@ function parseJSON(response) {
       status: response.status,
       ok: response.ok,
       json,
+    })).catch((error) => resolve({
+      ok: false,
+      error
     })));
 }
 

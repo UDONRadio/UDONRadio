@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Modal, Menu } from 'semantic-ui-react';
 
 import 'whatwg-fetch';
-import { LoginForm, RegisterForm, Layout} from './';
-import { Logo, RecoverForm } from '../components';
+import { Layout} from './';
+import { Logo, GenericForm } from '../components';
 import { request, SERVER } from '../networkGenerics';
 
 class UserManager extends Component {
@@ -42,6 +42,9 @@ class UserManager extends Component {
   componentWillUnmount () {
     this.closeConnection();
   }
+
+  login_url = SERVER.api_url + '/auth/token/create/'
+  register_url = SERVER.api_url + '/auth/users/create/'
 
   /* ************************** SOCKET SPECIFIC ***************************** */
 
@@ -144,7 +147,7 @@ class UserManager extends Component {
   }
 
   login = ({ username, password }, onError) => {
-    request(SERVER.api_url + '/auth/token/create/', {
+    request(this.login_url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -162,7 +165,7 @@ class UserManager extends Component {
   }
 
   register = ({ username, password, email }, onError) => {
-    request(SERVER.api_url + '/auth/users/create/', {
+    request(this.register_url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -198,19 +201,66 @@ class UserManager extends Component {
     }) // XXX: Need error handling
   }
 
+  /* ******************************** FORMS ********************************* */
+
+  RecoverForm = (props) => (
+    <a>not implemented</a>
+  )
+
+  LoginForm = (props) => (
+    <div>
+      <GenericForm
+        onSubmit={this.login}
+        url={this.login_url}
+        fields={[
+          {name: "username", attrs: {
+            required: true,
+          }},
+          {name: "password", attrs: {
+            type: "password",
+            required: true
+          }}
+        ]}
+        name="Login"
+      />
+    <a
+      onClick={() => {this.changeModalForm('recover')}}
+      style={{'cursor': 'pointer'}}
+    >mot de passe oublie ?
+    </a>
+    </div>
+  )
+
+  RegisterForm = (props) => (
+    <GenericForm
+      onSubmit={this.register}
+      url={this.register_url}
+      fields={[
+        {name: "username", attrs: {
+          required: true,
+        }},
+        {name: "password", attrs: {
+          type: "password",
+          required: true
+        }},
+        {name: "id", attrs: {
+          "show": false,
+        }}
+      ]}
+      name="Login"
+    />
+  )
+
+  /* ******************************* /FORMS ********************************* */
+
   render () {
-    const forms = {
-      'log in': LoginForm,
-      'register': RegisterForm,
-      'recover': RecoverForm,
-    };
-    const CurrentForm = forms[this.state.__activeModalForm];
     const user = {
           'logout': this.logout,
           'request': this.request,
           'socket': this.socket,
           ...this.state,
     }
+    const form = this.state.__activeModalForm;
     return <div style={{'width': '100%', 'height':'100%'}}>
 
       <Layout user={user}/>
@@ -230,14 +280,11 @@ class UserManager extends Component {
               onClick={() => {this.changeModalForm('register')}}
             />
           </Menu>
-          <CurrentForm
-            login={this.login}
-            register={this.register}
-            recover={this.recover}
-            toggleRecover={() => {this.changeModalForm('recover');}}
-          />
+          {form === 'log in' && <this.LoginForm/>}
+          {form === 'register' && <this.RegisterForm/>}
         </Modal.Content>
       </Modal>
+
     </div>
   }
 }

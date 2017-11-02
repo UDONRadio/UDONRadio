@@ -1,17 +1,5 @@
-import LiveChatPanel from './LiveChatPanel';
-import LoginForm from './LoginForm';
-import RegisterForm from './RegisterForm';
-import PlayerPanel from './PlayerPanel';
-import UserManager from './UserManager';
-import UploadView from './UploadView';
-import Layout from './Layout';
-
-export {
-  LiveChatPanel,
-  LoginForm,
-  RegisterForm,
-  PlayerPanel,
-  UserManager,
-  UploadView,
-  Layout
-};
+export { default as LiveChatPanel } from './LiveChatPanel';
+export { default as PlayerPanel } from './PlayerPanel';
+export { default as UserManager } from './UserManager';
+export { default as UploadView } from './UploadView';
+export { default as Layout } from './Layout';
