@@ -26,9 +26,10 @@ SECRET_KEY = '@86n*v3omab*1ata8mu+&6w*)xd=x3o_=hr1plh6*-4e_&7g6^'
 DEBUG = True if os.environ.get('PRODUCTION', '') != 'True' else False
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_HOSTS', 'localhost').split(':')
+REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
 
 CELERY_RESULT_BACKEND = 'django-db'
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':6379/0'
 
 # Application definition
 
@@ -78,7 +79,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'asgi_redis.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [("localhost", 6379)]
+            'hosts': [(REDIS_HOST, 6379)]
         },
         'ROUTING': 'udon_back.routing.channel_routing',
     }
