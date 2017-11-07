@@ -13,6 +13,7 @@ class FileUploader extends Component {
       last_rejected : [],
       url_value : '',
       bad_link : false,
+      current: null,
     }
   }
 
@@ -73,7 +74,34 @@ class UploadView extends Component {
       uploads: [],
       loaded_uploads: false
     }
-    this.getUploads()
+  }
+
+  componentDidMount () {
+    this.props.user.socket.ready(() => {
+      this.props.user.socket.on('upload-processed', this.setUploadProcessed);
+      this.props.user.socket.emit('upload-subscribe', {});
+      this.getUploads(); // force uploads to be retrieved when socket is ready
+    })
+  }
+
+  componentWillUnmount () {
+    this.props.user.socket.emit('upload-unsubscribe', {});
+    this.props.user.socket.removeListener('upload-processed', this.setUploadProcessed);
+  }
+
+  setUploadProcessed = ({id}) => {
+    var upload = this.state.uploads
+    const index = upload.findIndex((elem) => elem.id === id)
+    if (index !== -1) {
+      upload[index].processed = true
+      this.setState({
+        uploads: upload,
+      })
+    }
+    else {
+      /* In case upload is processed before we can even store its id in state */
+      setTimeout(() => this.setUploadProcessed({id: id}), 4000)
+    }
   }
 
   getUploads = () => {
@@ -137,6 +165,8 @@ class UploadView extends Component {
           pending={this.state.pending}
           uploads={this.state.uploads}
           loaded_uploads={this.state.loaded_uploads}
+          current={this.state.current}
+          onClick={(current) => this.setState({current: current})}
         />
         <div className="dynamic"/>
       </div >
