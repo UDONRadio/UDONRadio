@@ -17,10 +17,6 @@ services:
     environment:
       - "DJANGO_HOSTS=radio.theof.fr"
       - "PRODUCTION=True"
-  chat:
-    build: chat
-    ports:
-      - "127.0.0.1:3000:3000"
   front:
     image: node:latest
     volumes:
