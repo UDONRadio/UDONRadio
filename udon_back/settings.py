@@ -27,6 +27,8 @@ DEBUG = True if os.environ.get('PRODUCTION', '') != 'True' else False
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_HOSTS', 'localhost').split(':')
 
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 # Application definition
 
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
 	'corsheaders',
     'djoser',
     'channels',
+    'django_celery_results',
 
     'udon_back',
     'radio',
@@ -73,7 +76,10 @@ CORS_ORIGIN_ALLOW_ALL=True
 ROOT_URLCONF = 'udon_back.urls'
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'asgiref.inmemory.ChannelLayer',
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [("localhost", 6379)]
+        },
         'ROUTING': 'udon_back.routing.channel_routing',
     }
 }

@@ -2,13 +2,17 @@ from rest_framework import serializers
 from .models import FileUpload
 
 class FileUploadCreateRetrieveSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = FileUpload
-        fields = ('id', 'up_from', 'audio', 'processed', 'created')
+        fields = ('id', 'up_from', 'audio', 'processed', 'created', 'base_name')
         read_only_fields = ('processed', 'created')
         extra_kwargs = {
             'audio': {
-                'use_url': False
+                'write_only': True,
+            },
+            'base_name': {
+                'read_only': True,
             }
         }
 

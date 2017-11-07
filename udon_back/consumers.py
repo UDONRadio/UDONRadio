@@ -5,6 +5,7 @@ from djoser.conf import settings
 import json
 
 #TODO: Better serializing / desierializing model, retrieve objects directly from channel_session
+# Cookie is sent when connection is closed...
 
 def make_chat_message(message, username=None, user=None):
     if user:
@@ -69,6 +70,10 @@ def ws_message(message):
         except:
             message.reply_channel.send({"text": json.dumps({"error": "bad token"})})
 
+    elif action == 'upload-subscribe':
+        Group("upload-subscribe").add(message.reply_channel)
+    elif action == 'upload-unsubscribe':
+        Group("upload-subscribe").discard(message.reply_channel)
     else:
         return
 
@@ -81,3 +86,4 @@ def ws_connect(message):
 @channel_session
 def ws_disconnect(message):
     Group("chat").discard(message.reply_channel)
+    Group("upload-subscribe").discard(message.reply_channel)

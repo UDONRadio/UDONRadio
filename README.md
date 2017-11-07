@@ -1,5 +1,6 @@
 # udon_back
 requires: python3
+Also requires a running redis server
 
 run:
 python3 -m venv env &&
