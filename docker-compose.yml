@@ -5,18 +5,50 @@ services:
     image: postgres
     volumes:
       - dbstorage:/var/lib/postgresql/data
+  redis:
+    image: redis
+
   back:
     build: back
     command: uwsgi --chdir=/usr/src/app --module=udon_back.wsgi:application --socket=0.0.0.0:8000
-    volumes: 
+    volumes:
       - ./back:/usr/src/app
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:
       - db
+      - redis
     environment:
-      - "DJANGO_HOSTS=radio.theof.fr"
+      - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
+      - "REDIS_HOST=redis"
+  wsinterface:
+    build: back
+    command: daphne -b 0.0.0.0 -p 8001 udon_back.asgi:channel_layer
+    volumes:
+      - ./back:/usr/src/app
+    ports:
+      - "127.0.0.1:8001:8001"
+    depends_on:
+      - db
+      - redis
+    environment:
+      - "DJANGO_HOSTS=localhost"
+      - "PRODUCTION=True"
+      - "REDIS_HOST=redis"
+  wsworker:
+    build: back
+    command: python manage.py runworker
+    volumes:
+      - ./back:/usr/src/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - "DJANGO_HOSTS=localhost"
+      - "PRODUCTION=True"
+      - "REDIS_HOST=redis"
+
   front:
     image: node:latest
     volumes:
@@ -24,9 +56,9 @@ services:
     command: sh -c "cd /usr/src/app && npm install && npm run build --production"
     environment:
       - "REACT_APP_STREAM_URL=http://localhost"
-      - "REACT_APP_API_URL=http://radio.theof.fr/api"
-      - "REACT_APP_ADMIN_URL=http://radio.theof.fr/admin"
-      - "REACT_APP_CHAT_URL=http://radio.theof.fr/socketio"
+      - "REACT_APP_API_URL=/api"
+      - "REACT_APP_ADMIN_URL=/admin"
+      - "REACT_APP_CHAT_URL=ws://localhost/ws"
 
 volumes:
   dbstorage:
