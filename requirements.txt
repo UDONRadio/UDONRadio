@@ -1,4 +1,4 @@
--e git+https://github.com/UDONRadio/UDON_scripts.git@master#egg=UDON_scripts
+git+https://github.com/UDONRadio/UDON_scripts.git@master#egg=UDON_scripts
 
 requests
 
