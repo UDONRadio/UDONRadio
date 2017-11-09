@@ -22,6 +22,18 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+  celeryworker:
+    build: back
+    command: celery -A udon_back worker -l info
+    volumes:
+      - ./back:/usr/src/app
+    depends_on:
+      - db
+      - redis
+    environment:
+      - "DJANGO_HOSTS=localhost"
+      - "PRODUCTION=True"
+      - "REDIS_HOST=redis"
   wsinterface:
     build: back
     command: daphne -b 0.0.0.0 -p 8001 udon_back.asgi:channel_layer
@@ -57,7 +69,7 @@ services:
     environment:
       - "REACT_APP_STREAM_URL=http://localhost"
       - "REACT_APP_API_URL=/api"
-      - "REACT_APP_ADMIN_URL=/admin"
+      - "REACT_APP_ADMIN_URL=http://localhost/admin/"
       - "REACT_APP_CHAT_URL=ws://localhost/ws"
 
 volumes:
