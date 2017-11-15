@@ -13,7 +13,10 @@ const UploadSongForm = (props) => (
 )
 
 const Upload = (props) => (
-  <Segment onClick={props.onClick}>
+  <Segment
+    onClick={props.onClick}
+    style={(props.processed) ? {'cursor': 'pointer'} : {}}
+  >
     <Header size="tiny">
       <Icon name={props.up_from ? 'youtube' : 'file audio outline'} />
       <Header.Content>
