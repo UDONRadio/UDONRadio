@@ -15,6 +15,10 @@ const makeField = (props) => {
   input_attrs['type'] = form_types[props.attrs.type]
   if (input_attrs['type'] === 'text' && props.attrs.max_length)
     input_attrs['maxLength'] = props.attrs.max_length;
+  if (props.attrs.value !== undefined) {
+    input_attrs['value'] = props.attrs.value;
+    input_attrs['readOnly'] = true;
+  }
 
   const field = <Form.Field
     key={props.name}
@@ -24,7 +28,10 @@ const makeField = (props) => {
 
     <label>{props.attrs.label}</label>
 
-    <input {...input_attrs} onChange={props.onChange}/>
+    <input
+      onChange={props.onChange}
+      {...input_attrs}
+    />
     { props.errors &&
       <Label basic color='red' pointing>{props.errors}</Label>
     }
@@ -113,7 +120,7 @@ class GenericForm extends Component {
 
     this.getFieldNames()
       //.filter((name) => (this.getFieldAttr(name, "read_only") !== true))
-      .map((name) => ({name: name, value: this.state['field_' + name]}))
+      .map((name) => ({name: name, value: this.getFieldValue(name)}))
       .filter(({name, value}) => value !== undefined)
       .forEach(({name, value}) => {
         data[name] = value;
@@ -130,7 +137,10 @@ class GenericForm extends Component {
         },
         body: form_data
       }).then((data) => {
-        console.log(data);
+        if (this.props.onSuccess)
+          this.props.onSuccess(data);
+        else
+          console.log(data);
       }).catch(this.onError);
     }
   }
@@ -148,6 +158,13 @@ class GenericForm extends Component {
       return (action[attr]);
     else
       return undefined;
+  }
+
+  getFieldValue = (fieldname) => {
+    if (this.getFieldAttr(fieldname, "value") !== undefined)
+      return this.getFieldAttr(fieldname, "value");
+    else
+      return this.state['field_' + fieldname];
   }
 
   makeFieldsArray = () => {

@@ -104,6 +104,17 @@ class UploadView extends Component {
     }
   }
 
+  setUploadDone = ({id}) => {
+    var upload = this.state.uploads
+    const index = upload.findIndex((elem) => elem.id === id)
+    if (index !== -1) {
+      upload[index].done = true
+      this.setState({
+        uploads: upload,
+      })
+    }
+  }
+
   getUploads = () => {
     this.props.user.request(SERVER.api_url + '/upload/files/', {
       method: 'GET',
@@ -167,6 +178,8 @@ class UploadView extends Component {
           loaded_uploads={this.state.loaded_uploads}
           current={this.state.current}
           onClick={(current) => this.setState({current: current})}
+          request={this.props.user.request}
+          setUploadDone={this.setUploadDone}
         />
         <div className="dynamic"/>
       </div >
