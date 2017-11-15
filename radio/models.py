@@ -36,7 +36,7 @@ class AutoPlaylist(Show):
 
     fallible = False
     songs = models.ManyToManyField(
-        'upload.Song',
+        'Song',
         through='AutoPlaylistIndex'
     )
 
@@ -75,7 +75,7 @@ class AutoPlaylistIndex(models.Model):
         Should be 0-indexed
     '''
 
-    song = models.ForeignKey('upload.Song', on_delete=models.CASCADE)
+    song = models.ForeignKey('Song', on_delete=models.CASCADE)
     auto_playlist = models.ForeignKey('AutoPlaylist', on_delete=models.CASCADE)
     index = models.IntegerField()
 
@@ -92,3 +92,18 @@ class LiveStream(Show):
 class CuratedPlaylist(Show):
     pass
 '''
+
+# ################################# FILES #################################### #
+
+class Song(models.Model):
+
+    length = models.DurationField(default=datetime.timedelta(0))
+
+    artist = models.CharField(max_length=128)
+    album = models.CharField(max_length=128)
+    title = models.CharField(max_length=128)
+
+    upload = models.OneToOneField(
+        'upload.FileUpload',
+        on_delete=models.CASCADE
+    )

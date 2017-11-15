@@ -17,18 +17,4 @@ class FileUpload(models.Model):
     processed = models.BooleanField(default=False)
     task = models.ForeignKey(TaskResult, on_delete=models.SET_NULL, null=True)
 
-    CONTENT_RELATED_FIELDS = ['song',]
-
-
-class Song(models.Model):
-
-    length = models.DurationField()
-
-    artist = models.CharField(max_length=128)
-    album = models.CharField(max_length=128)
-    title = models.CharField(max_length=128)
-
-    upload = models.OneToOneField(
-        'FileUpload',
-        on_delete=models.CASCADE
-    )
+    CONTENT_RELATED_FIELDS = ['song',] #XXX Bad app encapsulation
