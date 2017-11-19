@@ -60,6 +60,24 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+  liquidsoap:
+    build: back
+    depends_on:
+      - icecast
+      - db
+      - redis
+    volumes:
+      - ./back:/usr/src/app
+    environment:
+      - "DJANGO_HOSTS=localhost"
+      - "PRODUCTION=True"
+      - "REDIS_HOST=redis"
+    command: liquidsoap liquidsoap/main.liq
+  icecast:
+    image: luzifer/docker-icecast2
+    ports:
+      - "8080:8000"
+
 
   front:
     image: node:latest
@@ -71,6 +89,5 @@ services:
       - "REACT_APP_API_URL=/api"
       - "REACT_APP_ADMIN_URL=http://localhost/admin/"
       - "REACT_APP_CHAT_URL=ws://localhost/ws"
-
 volumes:
   dbstorage:
