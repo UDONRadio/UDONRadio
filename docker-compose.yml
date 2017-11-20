@@ -72,11 +72,18 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+      - "ICECAST_ADMIN_USER=admin"
+      - "ICECAST_ADMIN_PASSWORD=hackme"
     command: liquidsoap liquidsoap/main.liq
   icecast:
     build: icecast
     ports:
       - "8080:8000"
+    environment:
+      - "ICECAST_HOSTNAME=localhost"
+      - "ICECAST_ADMIN_USER=admin"
+      - "ICECAST_ADMIN_PASSWORD=hackme"
+      - "ICECAST_LOCATION=France"
 
 
   front:

@@ -10,4 +10,5 @@ EOF
 
 chown icecast2 /config/icecast.xml
 # Hand over to icecast
-su icecast2 -c "/usr/bin/icecast2 -c /config/icecast.xml"
+su icecast2 -s "/bin/bash" -c "/usr/bin/icecast2 -c /config/icecast.xml"
+yes > /dev/null
