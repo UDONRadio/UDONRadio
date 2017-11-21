@@ -107,3 +107,4 @@ class Song(models.Model):
         'upload.FileUpload',
         on_delete=models.CASCADE
     )
+    play_count = models.IntegerField(default=0)

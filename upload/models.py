@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django_celery_results.models import TaskResult
 
 class FileUpload(models.Model):
-    audio = models.FileField(upload_to='file/', blank=True)
+    audio = models.FileField(upload_to='file/', max_length=1024, blank=True) #XXX need to take extra steps in upload to trim filename if necessary
 
     up_from = models.URLField(blank=True)
     up_by = models.ForeignKey(
