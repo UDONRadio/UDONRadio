@@ -15,9 +15,11 @@ const getVolumeIconName = (volume, muted) => {
 
 
 const IconButton = (props) => (
-  <Button onClick={props.onClick} style={{'backgroundColor':'transparent'}}>
-    <Icon name={props.name} size={props.size}/>
-  </Button>
+  <Button
+    onClick={props.onClick}
+    style={{'backgroundColor':'transparent'}}
+    icon={<Icon name={props.name} size={props.size}/>}
+  />
 )
 
 
@@ -33,7 +35,7 @@ const PlayPauseButton = (props) => (
 
 
 const VolumeControl = (props) => (
-  <div className="fixed">
+  <div className="fixed" className="center-y">
     <IconButton
       onClick={props.onMuteToggle}
       size='big'
@@ -49,8 +51,7 @@ const VolumeControl = (props) => (
 
 const DisplayMetadata = (props) => (
   <inline className="dynamic">
-    <Header>Titre</Header>
-    Nom de l artiste ou autre...
+    <b>Ca marche pas - </b>Pourquoi ca marche paaaaaaas ???? Pourquoi :'(
   </inline>
 )
 

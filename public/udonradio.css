@@ -31,6 +31,7 @@ html, body {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  align-items: center;
   height: 60px;
   border-bottom: 1px solid rgba(34, 36, 38, 0.4);
 }
@@ -60,6 +61,11 @@ html, body {
   flex-direction: column;
   flex-wrap: nowrap;
   padding: 20px;
+}
+
+.center-y {
+  display: flex;
+  align-items: center;
 }
 
 /* Flex classes */
