@@ -9,13 +9,13 @@ class Layout extends Component {
 
   tabs = [
     {
-      name: 'On Air',
+      name: "Actuellement",
       class: OnAirView,
       required: [],
       default: true,
     },
     {
-      name: 'About',
+      name: 'A propos',
       class: AboutView,
       required: [],
       default: false,
@@ -33,7 +33,7 @@ class Layout extends Component {
       default: false,
     },
     {
-      name: 'Adm',
+      name: 'Administration',
       class: AdmView,
       required: ['is_staff'],
       default: false

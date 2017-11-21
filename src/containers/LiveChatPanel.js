@@ -15,7 +15,7 @@ const ChatMessages = (props) => {
       }
       {
         msg.type === 'server' && <List.Content>
-          <List.Description><i>server</i>: {msg.content}</List.Description>
+          <List.Description><i>UDON</i>: {msg.content}</List.Description>
         </List.Content>
       }
     </List.Item>
@@ -31,7 +31,7 @@ const Loading = (props) => {
     <div className="dynamic"/>
     <div style={{'display': 'flex', 'flexFlow': 'row'}}>
       <div className="dynamic"/>
-      Loading...
+      Chargement...
       <div className="dynamic"/>
     </div>
     <div className="dynamic"/>
@@ -53,7 +53,7 @@ const ChatInput = (props) => {
   if (props.logged_in || props.nickname)
     placeholder = "Allez, viens tchatcher !"
   else
-    placeholder = "Enter nickname";
+    placeholder = "C'est quoi ton ptit nom ?";
 
   return <div className="fixed">
     <form onSubmit={props.onSubmit}>
@@ -65,7 +65,7 @@ const ChatInput = (props) => {
       onKeyPress={onKeyPress}
     />
     <div style={{'display': 'flex', 'flexFlow': 'row unwrap'}}>
-      <Button type='button' disabled className="fixed">Like</Button>
+      <Button type='button' disabled className="fixed" style={{'display':'none'}}>Like</Button>
       <div className="dynamic"/>
       <Button type='submit' className="fixed" disabled={props.disabled}>Envoyer</Button>
     </div>

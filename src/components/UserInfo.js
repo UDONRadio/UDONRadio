@@ -8,7 +8,7 @@ const UserInfo = (props) => {
     </span>
   else
     return <a style={{'cursor':'pointer'}} onClick={props.user.showLoginRegisterModal}>
-      Sign in / register
+      Rejoins-nous !
     </a>
 }
 
