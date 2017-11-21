@@ -6,11 +6,11 @@
 # can also be done by passing the -v option to liquidsoap.
 set("log.stdout", true)
 
-fallback_song = single("/usr/src/app/liquidsoap/fallback.mp3")
+fallback_song = mksafe(single("/usr/src/app/liquidsoap/fallback.mp3"))
 
 def request_func() =
   result =
-    list.hd(
+    list.hd(default="",
       get_process_lines("python manage.py getnextsong")
     )
   request.create(result)
