@@ -3,6 +3,7 @@ from channels.sessions import channel_session
 from urllib.parse import parse_qs
 from djoser.conf import settings
 import json
+import random
 
 #TODO: Better serializing / desierializing model, retrieve objects directly from channel_session
 # Cookie is sent when connection is closed...
@@ -39,7 +40,14 @@ def ws_message(message):
 
     if action == 'chat-join':
         Group("chat").add(message.reply_channel)
-        message.reply_channel.send(make_chat_message("welcome to the chat !"))
+        greetings = [
+            "Wesh !",
+            "Salam !",
+            "Bien ou bien ?",
+            "C' est comment ?",
+            "What up booooooy ?"
+        ]
+        message.reply_channel.send(make_chat_message(random.choice(greetings)))
 
     elif action == 'chat-message':
         user = message.channel_session.get('user', None)
