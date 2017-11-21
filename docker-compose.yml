@@ -22,6 +22,7 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+      - "LOCAL_USER_ID=1000"
   celeryworker:
     build: back
     command: celery -A udon_back worker -l info
@@ -34,6 +35,7 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+      - "LOCAL_USER_ID=1000"
   wsinterface:
     build: back
     command: daphne -b 0.0.0.0 -p 8001 udon_back.asgi:channel_layer
@@ -48,6 +50,7 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+      - "LOCAL_USER_ID=1000"
   wsworker:
     build: back
     command: python manage.py runworker
@@ -60,6 +63,33 @@ services:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+      - "LOCAL_USER_ID=1000"
+  liquidsoap:
+    build: back
+    depends_on:
+      - icecast
+      - db
+      - redis
+    volumes:
+      - ./back:/usr/src/app
+    environment:
+      - "DJANGO_HOSTS=localhost"
+      - "PRODUCTION=True"
+      - "REDIS_HOST=redis"
+      - "ICECAST_ADMIN_USER=admin"
+      - "ICECAST_ADMIN_PASSWORD=hackme"
+      - "LOCAL_USER_ID=1000"
+    command: liquidsoap liquidsoap/main.liq
+  icecast:
+    build: icecast
+    ports:
+      - "8080:8000"
+    environment:
+      - "ICECAST_HOSTNAME=localhost"
+      - "ICECAST_ADMIN_USER=admin"
+      - "ICECAST_ADMIN_PASSWORD=hackme"
+      - "ICECAST_LOCATION=France"
+
 
   front:
     image: node:latest
@@ -67,10 +97,9 @@ services:
       - ./front:/usr/src/app
     command: sh -c "cd /usr/src/app && npm install && npm run build --production"
     environment:
-      - "REACT_APP_STREAM_URL=http://localhost"
+      - "REACT_APP_STREAM_URL=http://localhost:8080/udon.mp3"
       - "REACT_APP_API_URL=/api"
       - "REACT_APP_ADMIN_URL=http://localhost/admin/"
       - "REACT_APP_CHAT_URL=ws://localhost/ws"
-
 volumes:
   dbstorage:
