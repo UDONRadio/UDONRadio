@@ -20,12 +20,12 @@ class Layout extends Component {
       required: [],
       default: false,
     },
-    {
+/*    {
       name: 'Replays',
       class: ReplayView,
       required: [],
       default: false,
-    },
+    },*/
     {
       name: 'Uploads',
       class: UploadView,
