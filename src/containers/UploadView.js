@@ -43,8 +43,10 @@ class FileUploader extends Component {
       <Dimmer>
         <Loader/>
       </Dimmer>
-      <Dropzone onDrop={this.onDrop} accept="audio/*">
-        <Icon name='upload' size='massive'/>
+      <Dropzone onDrop={this.onDrop} accept="audio/*" className='upload-dropzone'>
+        <div className="dynamic"/>
+          <Icon name='upload' size='massive' className='fixed'/>
+        <div className="dynamic"/>
       </Dropzone>
       <br/>
       <Input

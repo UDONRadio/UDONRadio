@@ -100,6 +100,16 @@ html, body {
   padding: 20px;
 }
 
+.upload-dropzone {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  border-width: 2px;
+  border-color: rgb(102, 102, 102);
+  border-style: dashed;
+  border-radius: 5px;
+}
+
 #upload-list {
   max-height: 100%;
   overflow-y: auto;
