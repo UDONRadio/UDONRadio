@@ -3,9 +3,21 @@ import { Button, TextArea, List } from 'semantic-ui-react';
 
 import { SERVER } from '../networkGenerics';
 
-const ChatMessages = (props) => {
+class ChatMessages extends Component {
 
-  const makeMessage = (msg, index) => (
+  scrollToBottom = () => {
+    this.end.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  makeMessage = (msg, index) => (
     <List.Item key={index} className='max-width'>
       {
         msg.type !== 'server' && <List.Content>
@@ -21,9 +33,12 @@ const ChatMessages = (props) => {
     </List.Item>
   );
 
-  return <List className='dynamic' style={{'minHeight': '0px', overflow:'auto'}} divided>
-    {props.messages.map(makeMessage)}
-  </List>
+  render = () => (
+      <List className='dynamic' style={{'minHeight': '0px', overflow:'auto'}} divided>
+      {this.props.messages.map(this.makeMessage)}
+      <div ref={(el) => {this.end = el;}}/>
+    </List>
+  )
 }
 
 const Loading = (props) => {
@@ -130,8 +145,11 @@ class LiveChatPanel extends Component {
   render () {
     return <div id="live-chat-panel" className="max-height max-width">
       {
-        (this.state.connected && <ChatMessages messages={this.state.messages}/>) ||
-          <Loading/>
+        (this.state.connected &&
+            <ChatMessages
+              messages={this.state.messages}
+            />) ||
+            <Loading/>
       }
       <ChatInput
         logged_in={this.props.user.logged_in}
