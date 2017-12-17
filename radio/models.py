@@ -100,7 +100,7 @@ class Song(models.Model):
     length = models.DurationField(default=datetime.timedelta(0))
 
     artist = models.CharField(max_length=128)
-    album = models.CharField(max_length=128)
+    album = models.CharField(max_length=128, blank=True)
     title = models.CharField(max_length=128)
 
     upload = models.OneToOneField(
