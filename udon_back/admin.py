@@ -5,5 +5,6 @@ from .models import User
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         'username',
-        'is_adherent'
+        'is_adherent',
+        'is_staff'
     )
