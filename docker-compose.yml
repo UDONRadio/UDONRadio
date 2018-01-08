@@ -64,22 +64,30 @@ services:
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
       - "LOCAL_USER_ID=1000"
-  liquidsoap:
+
+  ls-scheduler:
     build: back
     depends_on:
-      - icecast
-      - db
       - redis
+      - db
     volumes:
       - ./back:/usr/src/app
     environment:
       - "DJANGO_HOSTS=localhost"
       - "PRODUCTION=True"
       - "REDIS_HOST=redis"
+      - "LOCAL_USER_ID=1000"
+  liquidsoap:
+    build: liquidsoap
+    depends_on:
+      - icecast
+      - liquidsoap-scheduler
+    volumes:
+      - ./back/media:/usr/src/app/media
+    environment:
       - "ICECAST_ADMIN_USER=admin"
       - "ICECAST_ADMIN_PASSWORD=hackme"
       - "LOCAL_USER_ID=1000"
-    command: liquidsoap liquidsoap/main.liq
   icecast:
     build: icecast
     ports:
@@ -91,6 +99,7 @@ services:
       - "ICECAST_LOCATION=France"
 
 
+  #Helper container
   front:
     image: node:latest
     volumes:
