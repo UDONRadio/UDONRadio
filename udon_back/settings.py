@@ -28,6 +28,9 @@ DEBUG = True if os.environ.get('PRODUCTION', '') != 'True' else False
 ALLOWED_HOSTS = os.environ.get('DJANGO_HOSTS', 'localhost').split(':')
 REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
 
+# /!\ setting this will enable the liquidsoap bridge urls for anyone
+LIQUIDSOAP_BRIDGE = os.environ.get('LIQUIDSOAP_BRIDGE', None) is not None
+
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':6379/0'
 
