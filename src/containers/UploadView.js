@@ -50,7 +50,13 @@ class FileUploader extends Component {
       </Dropzone>
       <br/>
       <Input
-        action={{ labelPosition:'right', icon:'upload', content:'Youtube', color:'red', onClick:this.onLinkUpload}}
+        action={{
+          labelPosition:'right',
+          icon:'upload',
+          content:'Youtube',
+          color:'red',
+          onClick:this.onLinkUpload
+        }}
         value={this.state.url_value}
         fluid
         placeholder='https://www.youtube.com/watch?v=zgSZAHP89FU'
@@ -106,13 +112,13 @@ class UploadView extends Component {
     }
   }
 
-  setUploadDone = ({id}) => {
-    var upload = this.state.uploads
-    const index = upload.findIndex((elem) => elem.id === id)
+  setUploadDone = ({upload}) => {
+    var tmp_uploads = this.state.uploads;
+    const index = tmp_uploads.findIndex((elem) => elem.id === upload)
     if (index !== -1) {
-      upload[index].done = true
+      tmp_uploads[index].done = true
       this.setState({
-        uploads: upload,
+        uploads: tmp_uploads,
       })
     }
   }
