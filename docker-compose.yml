@@ -5,52 +5,49 @@ services:
     image: postgres
     volumes:
       - dbstorage:/var/lib/postgresql/data
+    networks:
+      - django
   redis:
     image: redis
+    networks:
+      - django
 
   back:
     build: back
-    command: uwsgi --chdir=/usr/src/app --module=udon_back.wsgi:application --socket=0.0.0.0:8000
-    volumes:
-      - ./back:/usr/src/app
     ports:
       - "127.0.0.1:8000:8000"
+    volumes:
+      - ./back:/usr/src/app
+    networks:
+      - django
     depends_on:
       - db
       - redis
-    environment:
-      - "DJANGO_HOSTS=localhost"
-      - "PRODUCTION=True"
-      - "REDIS_HOST=redis"
-      - "LOCAL_USER_ID=1000"
+    env_file: ./django.env
   celeryworker:
     build: back
     command: celery -A udon_back worker -l info
     volumes:
       - ./back:/usr/src/app
+    networks:
+      - django
     depends_on:
       - db
       - redis
-    environment:
-      - "DJANGO_HOSTS=localhost"
-      - "PRODUCTION=True"
-      - "REDIS_HOST=redis"
-      - "LOCAL_USER_ID=1000"
+    env_file: ./django.env
   wsinterface:
     build: back
+    ports:
+      - "127.0.0.1:8001:8001"
     command: daphne -b 0.0.0.0 -p 8001 udon_back.asgi:channel_layer
     volumes:
       - ./back:/usr/src/app
-    ports:
-      - "127.0.0.1:8001:8001"
+    networks:
+      - django
     depends_on:
       - db
       - redis
-    environment:
-      - "DJANGO_HOSTS=localhost"
-      - "PRODUCTION=True"
-      - "REDIS_HOST=redis"
-      - "LOCAL_USER_ID=1000"
+    env_file: ./django.env
   wsworker:
     build: back
     command: python manage.py runworker
@@ -59,56 +56,53 @@ services:
     depends_on:
       - db
       - redis
-    environment:
-      - "DJANGO_HOSTS=localhost"
-      - "PRODUCTION=True"
-      - "REDIS_HOST=redis"
-      - "LOCAL_USER_ID=1000"
+    networks:
+      - django
+    env_file: ./django.env
 
-  ls-scheduler:
+  ls-bridge:
     build: back
+    command: uwsgi --chdir=/usr/src/app --module=udon_back.wsgi:application --http 0.0.0.0:8000
     depends_on:
       - redis
       - db
+    networks:
+      - django
+      - stream
     volumes:
       - ./back:/usr/src/app
+    env_file: ./django.env
     environment:
-      - "DJANGO_HOSTS=localhost"
-      - "PRODUCTION=True"
-      - "REDIS_HOST=redis"
-      - "LOCAL_USER_ID=1000"
+      - LIQUIDSOAP_BRIDGE=yes
+      - "DJANGO_HOSTS=ls-bridge"
   liquidsoap:
     build: liquidsoap
     depends_on:
       - icecast
-      - liquidsoap-scheduler
+      - ls-bridge
+    networks:
+      - stream
     volumes:
-      - ./back/media:/usr/src/app/media
-    environment:
-      - "ICECAST_ADMIN_USER=admin"
-      - "ICECAST_ADMIN_PASSWORD=hackme"
-      - "LOCAL_USER_ID=1000"
+      - ./back/media:/usr/src/app/media:ro
+    env_file: ./stream.env
   icecast:
     build: icecast
     ports:
       - "8080:8000"
-    environment:
-      - "ICECAST_HOSTNAME=localhost"
-      - "ICECAST_ADMIN_USER=admin"
-      - "ICECAST_ADMIN_PASSWORD=hackme"
-      - "ICECAST_LOCATION=France"
-
+    networks:
+      - stream
+    env_file: ./stream.env
 
   #Helper container
   front:
-    image: node:latest
+    build: front
     volumes:
-      - ./front:/usr/src/app
-    command: sh -c "cd /usr/src/app && npm install && npm run build --production"
-    environment:
-      - "REACT_APP_STREAM_URL=http://localhost:8080/udon.mp3"
-      - "REACT_APP_API_URL=/api"
-      - "REACT_APP_ADMIN_URL=http://localhost/admin/"
-      - "REACT_APP_CHAT_URL=ws://localhost/ws"
+      - ./front/build:/usr/src/app/build
+    env_file: ./front.env
+
+networks:
+  django:
+  stream:
+
 volumes:
   dbstorage:
