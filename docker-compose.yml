@@ -35,6 +35,8 @@ services:
       - db
       - redis
     env_file: ./django.env
+    cpu_shares: 64 # Heavily restrict CPU usage for upload processing
+    #                in order to make room for liquidsoap
   wsinterface:
     build: back
     ports:
