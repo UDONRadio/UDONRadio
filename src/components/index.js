@@ -10,3 +10,4 @@ export { default as ReplayView } from './ReplayView';
 export { default as UserInfo } from './UserInfo';
 export { default as UploadStatus } from './UploadStatus';
 export { default as GenericForm } from './GenericForm';
+export { default as IconButton } from './IconButton';

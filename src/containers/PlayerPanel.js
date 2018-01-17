@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Icon, Button, Input, Header} from 'semantic-ui-react';
+import { Input, Header } from 'semantic-ui-react';
 import ReactAudioPlayer from 'react-audio-player';
+import { IconButton } from '../components';
 
 import { SERVER } from '../networkGenerics';
 
@@ -12,15 +13,6 @@ const getVolumeIconName = (volume, muted) => {
   else
     return ("volume down");
 }
-
-
-const IconButton = (props) => (
-  <Button
-    onClick={props.onClick}
-    style={{'backgroundColor':'transparent'}}
-    icon={<Icon name={props.name} size={props.size}/>}
-  />
-)
 
 
 const PlayPauseButton = (props) => (
