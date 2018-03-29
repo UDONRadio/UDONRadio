@@ -1,0 +1,17 @@
+git+https://github.com/UDONRadio/UDON_scripts.git@master#egg=UDON_scripts
+
+requests
+
+django
+psycopg2
+djangorestframework
+Pillow
+pytz
+django-cors-headers
+djoser
+
+channels
+asgi_redis
+
+celery
+django_celery_results
