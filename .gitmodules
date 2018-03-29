@@ -1,9 +1,0 @@
-[submodule "chat"]
-	path = chat
-	url = https://github.com/udonradio/UDON_chat
-[submodule "front"]
-	path = front
-	url = https://github.com/udonradio/UDON_front
-[submodule "back"]
-	path = back
-	url = https://github.com/udonradio/UDON_back
