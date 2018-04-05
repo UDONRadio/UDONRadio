@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import { PlayerPanel, LiveChatPanel, UploadView } from './';
 import { OnAirView, AboutView, AdmView, ReplayView, Logo, UserInfo } from '../components';
+
 
 class Layout extends Component {
   /* This class manages global layout and navigation views */
@@ -11,15 +12,13 @@ class Layout extends Component {
       name: "Actuellement",
       class: OnAirView,
       required: [],
-      default: true,
-      mobile: true,
+      default: false,
     },
     {
       name: 'A propos',
       class: AboutView,
       required: [],
-      default: false,
-      mobile: true,
+      default: true,
     },
 /*    {
       name: 'Replays',
@@ -32,22 +31,12 @@ class Layout extends Component {
       class: UploadView,
       required: ['is_adherent'],
       default: false,
-      mobile: false,
     },
     {
       name: 'Administration',
       class: AdmView,
       required: ['is_staff'],
-      default: false,
-      mobile: false,
-    },
-    {
-      name: 'Chat',
-      class: LiveChatPanel,
-      required: [],
-      default: false,
-      mobile: true,
-      desktop: false,
+      default: false
     }
   ]
 
@@ -101,30 +90,6 @@ class Layout extends Component {
     return (
       <div id="layout" className="max-width max-height">
         <PlayerPanel/>
-        <div id="menu_telephone" className="fixed">
-          <Menu fluid widths={4}>
-            <Menu.Item
-            onClick={() => {this.changeCurrentView(this.tabs[4]);}}
-            >
-              <img src='/logo.png'/>
-            </Menu.Item>
-            <Menu.Item
-            onClick={() => {this.changeCurrentView(this.tabs[0]);}}
-            >
-              <Icon name="list layout" size='large'/>
-            </Menu.Item>
-            <Menu.Item
-            onClick={() => {this.changeCurrentView(this.tabs[1]);}}
-            >
-              <Icon name="question" size='large'/>
-            </Menu.Item>
-            <Menu.Item
-            onClick={() => {this.changeCurrentView(this.tabs[0]);}}
-            >
-              <Icon name="user circle" size='large'/>
-            </Menu.Item>
-          </Menu>
-        </div>
         <div id="panel-container" className="dynamic">
           <div id="left-panel" className="fixed">
             <Menu fluid vertical tabular className='max-height'>
