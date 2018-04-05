@@ -6,14 +6,14 @@ The project is split in 3 main parts:
 - `front` contains the website. That is a simple React app that makes queries to the `back` server.
 - `liquidsoap` contains the Liquidsoap scripts that generate the actual audio stream. It exposes a telnet port so we can control it from the Django backend.
 
-This repository also contains:
+The root folder also contains:
 - a docker-compose file for quick deployment
 - the http server configuration
 - configuration files templates (for secrets)
 - dockerized icecast2
 
 ## Getting started
-Playout is not required to start developing on the Django backend or on the website. Head to those repositories for guidance.
+Playout is not required to start developing on the Django backend or on the website. Head to their respective subfolders for guidance.
 However if you wish to run liquidsoap scripts, you will need:
 - a Django backend running with the `LIQUIDSOAP_BRIDGE` environment variable set to `yes`.
 - a running Icecast server.
