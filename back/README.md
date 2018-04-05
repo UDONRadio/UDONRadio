@@ -8,14 +8,14 @@ or by the [playout engine](../liquidsoap).
 ```sh
 back$ tree -d
 .
-├── media # User-uploaded files go here
-├── radio # App for 
+├── media # user-uploaded files go here
+├── radio # app for radio management (schedule, programs)
 │   ├── management
 │   │   └── commands
 │   └── migrations
 ├── udon_back # main application (users and main URL routing to subapps).
 │   └── migrations
-└── upload # 
+└── upload # app for audio file upload and processing (including metadata updates).
     └── migrations
 
 9 directories
@@ -35,7 +35,7 @@ Websockets work through [Channels](https://github.com/django/channels).
 * `redis-server`
 
 ## Starting redis-server
-MacOS: `brew services start redis`
+MacOS: `brew services start redis`  
 Linux: `service redis start` or `systemctl start redis`
 
 ## Setting up environment
