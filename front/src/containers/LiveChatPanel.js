@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Button, TextArea, List, Icon } from 'semantic-ui-react';
 
-
-import { SERVER } from '../networkGenerics';
-
 class ChatMessages extends Component {
 
   scrollToBottom = () => {
@@ -74,7 +71,7 @@ const ChatInput = (props) => {
     placeholder = "C'est quoi ton ptit nom ?";
 
   return <div className="fixed">
-    <form onSubmit={props.onSubmit} style={{'display': 'flex', 'padding-bottom':'0px'}}>
+    <form onSubmit={props.onSubmit} style={{'display': 'flex', 'paddingBottom':'0px'}}>
     <TextArea
       placeholder={placeholder}
       value={props.value}
