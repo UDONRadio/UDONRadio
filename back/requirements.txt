@@ -10,7 +10,7 @@ pytz
 django-cors-headers
 djoser
 
-channels
+channels<2
 asgi_redis
 
 celery
