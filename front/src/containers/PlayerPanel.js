@@ -43,7 +43,7 @@ const VolumeControl = (props) => (
 
 const DisplayMetadata = (props) => (
   <inline className="dynamic">
-    <b>Ca marche pas - </b>Pourquoi ca marche paaaaaaas ???? Pourquoi :'(
+    <b>UDONradio - </b>Meilleure radio des internets :)
   </inline>
 )
 

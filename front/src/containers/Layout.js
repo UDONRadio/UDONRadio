@@ -12,13 +12,13 @@ class Layout extends Component {
       name: "Actuellement",
       class: OnAirView,
       required: [],
-      default: true,
+      default: false,
     },
     {
       name: 'A propos',
       class: AboutView,
       required: [],
-      default: false,
+      default: true,
     },
 /*    {
       name: 'Replays',
