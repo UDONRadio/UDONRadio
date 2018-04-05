@@ -26,7 +26,7 @@ const AboutView = (props) => (
 
     <Grid.Row>
       <Grid.Column width={16}>
-        <p className="texte">Au-delà de la "simple" aspiration à produire du contenu varié (emissions, sessions live, sets, etc...), UDON chérit un concept en particulier. Celui d''une radio collaborative pour tous: à laquelle *tout le monde* puisse participer.</p>
+        <p className="texte">Au-delà de la "simple" aspiration à produire du contenu varié (emissions, sessions live, sets, etc...), UDON chérit un concept en particulier. Celui d''une radio collaborative pour tous: à laquelle <b>tout le monde</b> puisse participer.</p>
       </Grid.Column>
     </Grid.Row>
 
@@ -39,7 +39,7 @@ const AboutView = (props) => (
         </Modal>
       </Grid.Column>
       <Grid.Column width={13}>
-        <p className="texte">Pour faire simple: *notre* UDON a l''ambition de devenir *votre* radio. Cet objectif, même simplement formulé, reste une tâche compliquée à accomplir. Aussi, si parmi vous qui lisez ces lignes, certains pensent pouvoir nous apporter de l'aide (pour construire le site par exemple :clin_d'œil: ), n'hésitez pas! Envoyez au choix un mail à cette adresse: recrutement@UDON.moncul ou contactez-nous via l'onglet "nous contacter" [liens hypertextes]</p>
+        <p className="texte">Pour faire simple: <b>notre</b> UDON a l''ambition de devenir <b>votre</b> radio. Cet objectif, même simplement formulé, reste une tâche compliquée à accomplir. Aussi, si parmi vous qui lisez ces lignes, certains pensent pouvoir nous apporter de l'aide (pour construire le site par exemple :clin_d'œil: ), n'hésitez pas! Envoyez au choix un mail à cette adresse: recrutement@UDON.moncul ou contactez-nous via l'onglet "nous contacter" [liens hypertextes]</p>
       </Grid.Column>
     </Grid.Row>
 
