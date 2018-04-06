@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
 import { PlayerPanel, LiveChatPanel, UploadView } from './';
-import { OnAirView, AboutView, AdmView, ReplayView, Logo, UserInfo } from '../components';
+import { OnAirView, AboutView, AdmView, /*ReplayView,*/ Logo, UserInfo } from '../components';
 
 
 class Layout extends Component {

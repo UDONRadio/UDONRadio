@@ -1,5 +1,5 @@
 import React from 'react';
-import { Segment, Icon, List, Header } from 'semantic-ui-react';
+import { Segment, Icon, Header } from 'semantic-ui-react';
 import { GenericForm } from './';
 import { SERVER } from '../networkGenerics';
 

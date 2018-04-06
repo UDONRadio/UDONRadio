@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Header } from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 import ReactAudioPlayer from 'react-audio-player';
 import { IconButton } from '../components';
 
@@ -27,7 +27,7 @@ const PlayPauseButton = (props) => (
 
 
 const VolumeControl = (props) => (
-  <div className="fixed" className="center-y">
+  <div className="fixed center-y">
     <IconButton
       onClick={props.onMuteToggle}
       size='big'

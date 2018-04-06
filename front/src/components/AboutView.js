@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Grid, Image, Modal, Header } from 'semantic-ui-react'
+import { Grid, Image, Modal } from 'semantic-ui-react'
 
 
 const AboutView = (props) => (
