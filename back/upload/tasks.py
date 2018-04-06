@@ -1,6 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from UDON_scripts.song_manager import download, postprocess
+from .song_manager import download, postprocess
 from .models import FileUpload
 from channels import Group
 import json
