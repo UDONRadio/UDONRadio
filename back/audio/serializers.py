@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import FileUpload
+from .models import Audio
 
-class FileUploadCreateRetrieveSerializer(serializers.ModelSerializer):
+class AudioCreateRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = FileUpload
+        model = Audio
         fields = ('id', 'up_from', 'audio', 'processed', 'created', 'base_name')
         read_only_fields = ('processed', 'created')
         extra_kwargs = {

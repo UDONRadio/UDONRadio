@@ -22,7 +22,7 @@ const UploadSongForm = (props) => (
         {name: "length", attrs: {
           show: false,
         }},
-        {name: "upload", attrs: {
+        {name: "audio", attrs: {
           show: false,
           type: "integer",
           value: props.id

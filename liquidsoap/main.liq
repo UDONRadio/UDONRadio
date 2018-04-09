@@ -10,7 +10,7 @@ set("log.stdout", true)
 fallback_song = mksafe(single("fallback.mp3"))
 
 def request_func() =
-  data = snd(http.get("http://ls-bridge:8000/api/radio/song/next/"))
+  data = snd(http.get("http://ls-bridge:8000/api/audio/song/next/"))
   next = string.sub(data, start=1, length=(string.length(data) - 2))
   request.create(next)
 end

@@ -15,7 +15,7 @@ back$ tree -d
 │   └── migrations
 ├── udon_back # main application (users and main URL routing to subapps).
 │   └── migrations
-└── upload # app for audio file upload and processing (including metadata updates).
+└── audio # app for audio file upload and processing (including metadata updates).
     └── migrations
 
 9 directories

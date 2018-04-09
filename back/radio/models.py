@@ -103,8 +103,8 @@ class Song(models.Model):
     album = models.CharField(max_length=128, blank=True)
     title = models.CharField(max_length=128)
 
-    upload = models.OneToOneField(
-        'upload.FileUpload',
+    audio = models.OneToOneField(
+        'audio.Audio',
         on_delete=models.CASCADE
     )
     play_count = models.IntegerField(default=0)

@@ -112,19 +112,22 @@ class UploadView extends Component {
     }
   }
 
-  setUploadDone = ({upload}) => {
+  setUploadDone = ({audio}) => {
     var tmp_uploads = this.state.uploads;
-    const index = tmp_uploads.findIndex((elem) => elem.id === upload)
+    const index = tmp_uploads.findIndex((elem) => elem.id === audio)
     if (index !== -1) {
       tmp_uploads[index].done = true
       this.setState({
         uploads: tmp_uploads,
       })
     }
+    else {
+      console.warn('setUploadDone could not find id ' + audio);
+    }
   }
 
   getUploads = () => {
-    this.props.user.request(SERVER.api_url + '/upload/files/', {
+    this.props.user.request(SERVER.api_url + '/audio/files/', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -162,7 +165,7 @@ class UploadView extends Component {
       data.append('up_from', url)
     else
       data.append('audio', file)
-    this.props.user.request(SERVER.api_url + '/upload/files/', {
+    this.props.user.request(SERVER.api_url + '/audio/files/', {
       method: 'POST',
       headers: {
       },

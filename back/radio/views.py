@@ -16,10 +16,10 @@ class SongViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     def next(self, request):
         unplayed = Song.objects.filter(play_count=0)
         if unplayed.exists():
-            song = unplayed.earliest('upload__created')
+            song = unplayed.earliest('audio__created')
         else:
             # Raises an eexception if no song exists
             song = Song.objects.order_by('?')[0]
         song.play_count += 1
         song.save()
-        return Response(song.upload.audio.name)
+        return Response(song.audio.audio.name)

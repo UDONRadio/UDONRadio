@@ -102,6 +102,6 @@ def get_tags(path):
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         res = download(sys.argv[1])
-        print (res)
+        print(res)
         res = postprocess(res)
-	print (res)
+        print(res)

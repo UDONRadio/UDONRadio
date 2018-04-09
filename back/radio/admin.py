@@ -6,7 +6,7 @@ admin.site.register(AutoPlaylist)
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
 
-    date_hierarchy = 'upload__created'
+    date_hierarchy = 'audio__created'
     list_display = (
         'title',
         'artist',
@@ -18,7 +18,7 @@ class SongAdmin(admin.ModelAdmin):
     )
 
     def uploaded_by(self, obj):
-        return obj.upload.up_by
+        return obj.audio.up_by
 
     def uploaded_on(self, obj):
-        return obj.upload.created
+        return obj.audio.created

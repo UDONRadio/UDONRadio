@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
     'udon_back',
     'radio',
-    'upload'
+    'audio'
 ]
 
 REST_FRAMEWORK = {

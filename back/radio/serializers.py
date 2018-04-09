@@ -1,19 +1,19 @@
 from rest_framework import serializers
 from .models import Song
-from upload.models import FileUpload
+from audio.models import Audio
 
 class SongCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Song
-        fields = ('id', 'length', 'artist', 'album', 'title', 'upload')
+        fields = ('id', 'length', 'artist', 'album', 'title', 'audio')
         read_only_fields = ('length',)
 
-    def validate_upload(self, upload):
+    def validate_upload(self, audio):
         dic = {}
-        for related in FileUpload.CONTENT_RELATED_FIELDS:
+        for related in Audio.CONTENT_RELATED_FIELDS:
             dic[related] = None
-        if upload in self.context['request'].user.fileupload_set.filter(**dic):
-            return upload
+        if audio in self.context['request'].user.audio_set.filter(**dic):
+            return audio
         else:
-            raise serializers.ValidationError('upload value should be owned by user and not assigned.')
+            raise serializers.ValidationError('audio value should be owned by user and unassigned.')

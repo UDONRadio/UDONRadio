@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/auth/', include('djoser.urls.authtoken')),
     url(r'^api/auth/', include('djoser.urls.base')),
-    url(r'^api/upload/', include('upload.urls')),
+    url(r'^api/audio/', include('audio.urls')),
     url(r'^api/radio/', include('radio.urls'))
 ]
 
