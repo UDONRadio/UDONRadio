@@ -1,11 +1,11 @@
-youtube_dl==2017.10.29
-ffmpeg_python==2017.06.16
-mutagen==2017.11.05
+youtube_dl
+ffmpeg_python
+mutagen
 
 requests
 
 django
-psycopg2
+psycopg2-binary
 djangorestframework
 Pillow
 pytz
