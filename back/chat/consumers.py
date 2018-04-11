@@ -1,15 +1,49 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
+import random
 import json
+
+def make_chat_message(message, username=None, user=None):
+    if user:
+        type_ = 'user'
+    elif username:
+        type_ = 'anon'
+    else:
+        type_ = 'server'
+    return {
+        "action": "chat-message",
+        "args": {
+            "type": type_,
+            "content": message,
+            "username": username
+        }
+    }
+
+def get_random_greeting():
+    greetings = [
+        "Wesh !",
+        "Salam !",
+        "Bien ou bien ?",
+        "C' est comment ?",
+        "What up booooooy ?"
+    ]
+    return random.choice(greetings)
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_name = "chat"
-        self.room_group_name = 'chat_%s' % self.room_name
 
-        # Join room group
+        # Join chat group
         await self.channel_layer.group_add(
-            self.room_group_name,
+            "chat",
             self.channel_name
+        )
+
+        await self.channel_layer.send(
+            self.channel_name,
+            {
+                'type': 'chat_message',
+                'message': make_chat_message(get_random_greeting())
+            }
         )
 
         await self.accept()
@@ -17,7 +51,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         # Leave room group
         await self.channel_layer.group_discard(
-            self.room_group_name,
+            "chat",
             self.channel_name
         )
 
@@ -28,10 +62,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         # Send message to room group
         await self.channel_layer.group_send(
-            self.room_group_name,
+            "chat",
             {
                 'type': 'chat_message',
-                'message': message
+                'message': make_chat_message(message, username="unimplemented")
             }
         )
 
@@ -40,7 +74,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = event['message']
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
-
+        await self.send(text_data=json.dumps(
+            message
+        ))
