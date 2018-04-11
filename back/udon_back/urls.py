@@ -12,7 +12,8 @@ urlpatterns = [
     url(r'^api/auth/', include('djoser.urls.authtoken')),
     url(r'^api/auth/', include('djoser.urls.base')),
     url(r'^api/audio/', include('audio.urls')),
-    url(r'^api/radio/', include('radio.urls'))
+    url(r'^api/radio/', include('radio.urls')),
+    url(r'^chat/', include('chat.urls'))
 ]
 
 urlpatterns += static('media/', document_root=settings.MEDIA_ROOT)

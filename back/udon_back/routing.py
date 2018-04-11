@@ -1,11 +1,12 @@
-from channels.routing import route, include
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+import chat.routing
 
-routes = [
-    route('websocket.connect', 'udon_back.consumers.ws_connect'),
-    route('websocket.receive', 'udon_back.consumers.ws_message'),
-    route('websocket.disconnect', 'udon_back.consumers.ws_disconnect')
-]
-
-channel_routing = [
-    include(routes, path=r'^/ws')
-]
+application = ProtocolTypeRouter({
+    # http->django views is added by default
+    'websocket': AuthMiddlewareStack(
+        URLRouter(
+            chat.routing.websocket_urlpatterns
+        )
+    ),
+})

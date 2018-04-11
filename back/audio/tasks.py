@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from .song_manager import download, postprocess
 from .models import Audio
-from channels import Group
+#from channels import Group
 import json
 import celery
 from django_celery_results.models import TaskResult
@@ -28,11 +28,11 @@ def process_audio(self, pk):
     )
     obj.processed = True
     obj.save()
-    Group("upload-subscribe".format(obj.pk)).send({
-        "text": json.dumps({
-            "action": "upload-processed",
-            "args": {
-                "id": obj.pk
-            }
-        })
-    })
+#    Group("upload-subscribe".format(obj.pk)).send({
+#        "text": json.dumps({
+#            "action": "upload-processed",
+#            "args": {
+#                "id": obj.pk
+#            }
+#        })
+#    })
