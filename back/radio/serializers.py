@@ -17,3 +17,9 @@ class SongCreateSerializer(serializers.ModelSerializer):
             return audio
         else:
             raise serializers.ValidationError('audio value should be owned by user and unassigned.')
+
+class SongPlaylistSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Song
+        fields = ('artist', 'title', 'album')
