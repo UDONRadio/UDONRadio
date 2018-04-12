@@ -111,7 +111,8 @@ class UserManager extends Component {
 
   /* Make authenticated requests */
   request = (url, data) => {
-    data.headers.Authorization = 'Token ' + this.state.auth_token;
+    if (this.state.logged_in)
+      data.headers.Authorization = 'Token ' + this.state.auth_token;
     return request(url, data);
   }
 
