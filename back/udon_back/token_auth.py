@@ -1,6 +1,7 @@
 from django.utils.http import limited_parse_qsl
 from channels.auth import AuthMiddlewareStack
 from rest_framework.authtoken.models import Token
+from django.db import close_old_connections
 
 class TokenAuthMiddleware:
     """
@@ -20,6 +21,7 @@ class TokenAuthMiddleware:
                     scope['user'] = token.user
                 except Token.DoesNotExist:
                     pass
+        close_old_connections()
         return self.inner(scope)
 
 TokenAuthMiddlewareStack = lambda inner: TokenAuthMiddleware(AuthMiddlewareStack(inner))

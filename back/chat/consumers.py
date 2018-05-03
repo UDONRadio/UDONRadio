@@ -1,35 +1,47 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
-import random
-import json
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from channels.db import database_sync_to_async
+from rest_framework.authtoken.models import Token #FIXME: breaks app encapsulation
+from django.conf import settings
 
-def make_chat_message(message, username=None, user=None):
-    if user:
-        type_ = 'user'
-    elif username:
-        type_ = 'anon'
+from .greetings import get_random_greeting
+
+@database_sync_to_async
+def is_anonymous(user):
+    return user.is_anonymous
+
+@database_sync_to_async
+def username(user):
+    return user.username
+
+async def make_chat_message(message, user=None, server=False):
+
+    args = {
+        "content": message
+    }
+    if server:
+        args["from"] = 'server'
     else:
-        type_ = 'server'
+        if await is_anonymous(user):
+            args["from"] = 'anon'
+        else:
+            args["from"] = 'user'
+            args["username"] = await username(user)
+
     return {
-        "action": "chat-message",
-        "args": {
-            "type": type_,
-            "content": message,
-            "username": username
-        }
+        "action": "chat_message",
+        "args": args
     }
 
-def get_random_greeting():
-    greetings = [
-        "Wesh !",
-        "Salam !",
-        "Bien ou bien ?",
-        "C' est comment ?",
-        "What up booooooy ?"
-    ]
-    return random.choice(greetings)
+@database_sync_to_async
+def auth(message):
+    #FIXME: Breaks app encapsulation
+    try:
+        token = Token.objects.get(key=message)
+        return token.user
+    except Token.DoesNotExist:
+        return None
 
-
-class ChatConsumer(AsyncWebsocketConsumer):
+class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
 
         # Join chat group
@@ -39,10 +51,18 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
         await self.channel_layer.send(
+            self.channel_name, { 'type': 'chat_confirm_auth' }
+        )
+
+        message = await make_chat_message(
+            get_random_greeting(),
+            server=True
+        )
+        await self.channel_layer.send(
             self.channel_name,
             {
                 'type': 'chat_message',
-                'message': make_chat_message(get_random_greeting())
+                'message': message
             }
         )
 
@@ -56,24 +76,64 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from WebSocket
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+    async def receive_json(self, content):
+        action = content.get('action', None)
+        args = content.get('args', {})
 
-        # Send message to room group
-        await self.channel_layer.group_send(
-            "chat",
-            {
-                'type': 'chat_message',
-                'message': make_chat_message(message, username="unimplemented")
+        if type(action) != str:
+            await self.send_json({"error": "malformed action"})
+            return
+
+        if action == "chat_message":
+            message = args.get('content', None)
+            if type(message) == str:
+                answer = await make_chat_message(
+                    message,
+                    user=self.scope['user']
+                )
+                await self.channel_layer.group_send(
+                    "chat",
+                    {
+                        'type': 'chat_message',
+                        'message': answer
+                    }
+                )
+            else:
+                await self.send_json({
+                    "error": "chat_message: malformed message"
+                })
+        elif action == "auth":
+            message = args.get('content', None)
+            if type(message) == str:
+                user = await auth(message)
+                if user != None:
+                    self.scope['user'] = user
+                else:
+                    self.send_json({
+                        "error": "auth: bad token"
+                    })
+                await self.channel_layer.send(
+                    self.channel_name, { 'type': 'chat_confirm_auth' }
+                )
+            else:
+                await self.send_json({"error": "auth: malformed message"})
+        #TODO add a logout option
+        else:
+            self.send_json({"error": "unknown action: " + action})
+
+    async def chat_confirm_auth(self, message):
+        anon = await is_anonymous(self.scope["user"])
+        message = {
+            'action': 'chat_confirm_auth',
+            'args': {
+                'auth': False if anon else True
             }
-        )
+        }
+        await self.send_json(message)
 
     # Receive message from room group
     async def chat_message(self, event):
         message = event['message']
 
         # Send message to WebSocket
-        await self.send(text_data=json.dumps(
-            message
-        ))
+        await self.send_json(message)
