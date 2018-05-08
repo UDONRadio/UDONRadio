@@ -7,7 +7,7 @@ const AboutView = (props) => (
   <Grid textAlign="justified">
     <Grid.Row>
       <Grid.Column width={16}>
-        <p className="texte" id="texte_moins">Définition Wikipédia : "Les udon (うどん/饂飩, udon?) sont, avec les soba, les pâtes les plus consommées au Japon. Elles sont préparées avec de la farine de blé tendre (froment). Ce sont les pâtes japonaises les plus épaisses : de 2 à 4 mm de largeur. Leur couleur varie de blanc à blanc cassé et leur consistance est molle et élastique."</p>
+        <p className="texte" id="texte_moins">"Les udon (うどん/饂飩, udon?) sont, avec les soba, les pâtes les plus consommées au Japon. Elles sont préparées avec de la farine de blé tendre (froment). Ce sont les pâtes japonaises les plus épaisses : de 2 à 4 mm de largeur. Leur couleur varie de blanc à blanc cassé et leur consistance est molle et élastique."</p>
       </Grid.Column>
     </Grid.Row>
 
