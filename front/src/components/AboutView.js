@@ -16,9 +16,9 @@ const AboutView = (props) => (
         <p className="texte">UDON, c'est aussi une petite webradio collaborative, tout juste débarquée au pays des Internets. Constituée d'une bande de potes curieux et amoureux de musiques en tous genres, UDON Radio s'est construite autour d'un projet simple: partager et faire découvrir nos goûts musicaux. C'est tout. La plateforme n'en est pour l'instant qu'à sa génèse: mais jeunesse oblige, nous sommes tout de même pétris d''ambition pour notre petite radio.</p>
       </Grid.Column>
       <Grid.Column width={3}>
-        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/peq.jpg' />} closeIcon>
+        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/placeholder.png' />} closeIcon>
           <Modal.Content>
-            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/peq.jpg' />
+            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/placeholder.png' />
           </Modal.Content>
         </Modal>
       </Grid.Column>
@@ -32,9 +32,9 @@ const AboutView = (props) => (
 
     <Grid.Row>
       <Grid.Column width={3}>
-        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/peq.jpg' />} closeIcon>
+        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/placeholder.png' />} closeIcon>
           <Modal.Content>
-            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/peq.jpg' />
+            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/placeholder.png' />
           </Modal.Content>
         </Modal>
       </Grid.Column>
