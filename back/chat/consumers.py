@@ -51,7 +51,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         )
 
         await self.channel_layer.send(
-            self.channel_name, { 'type': 'chat_confirm_auth' }
+            self.channel_name, { 'type': 'confirm_auth' }
         )
 
         message = await make_chat_message(
@@ -79,7 +79,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def receive_json(self, content):
         action = content.get('action', None)
         args = content.get('args', {})
-
         if type(action) != str:
             await self.send_json({"error": "malformed action"})
             return
@@ -113,18 +112,18 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                         "error": "auth: bad token"
                     })
                 await self.channel_layer.send(
-                    self.channel_name, { 'type': 'chat_confirm_auth' }
+                    self.channel_name, { 'type': 'confirm_auth' }
                 )
             else:
                 await self.send_json({"error": "auth: malformed message"})
         #TODO add a logout option
         else:
-            self.send_json({"error": "unknown action: " + action})
+            await self.send_json({"error": "unknown action: " + action})
 
-    async def chat_confirm_auth(self, message):
+    async def confirm_auth(self, message):
         anon = await is_anonymous(self.scope["user"])
         message = {
-            'action': 'chat_confirm_auth',
+            'action': 'confirm_auth',
             'args': {
                 'auth': False if anon else True
             }
