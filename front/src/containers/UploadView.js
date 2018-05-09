@@ -3,6 +3,7 @@ import { Icon, Message, Input, Container, Loader, Dimmer, Segment, Header } from
 import Dropzone from 'react-dropzone';
 import { UploadStatus } from '../components';
 import { SERVER } from '../networkGenerics';
+import { AuthWebSocketWrapper } from './';
 
 
 class FileUploader extends Component {
@@ -80,26 +81,23 @@ class UploadView extends Component {
     this.state = {
       pending: [],
       uploads: [],
-      loaded_uploads: false
+			loaded_uploads: false,
+			online: false
     }
   }
 
   componentDidMount () {
-    this.props.user.socket.ready(() => {
-      this.props.user.socket.on('upload-processed', this.setUploadProcessed);
-      this.props.user.socket.emit('upload-subscribe', {});
-      this.getUploads(); // force uploads to be retrieved when socket is ready
-    })
+		this.getUploads();
   }
 
-  componentWillUnmount () {
-    this.props.user.socket.emit('upload-unsubscribe', {});
-    this.props.user.socket.removeListener('upload-processed', this.setUploadProcessed);
-  }
+	handleMessage = (msg) => {
+		console.log(msg);
+		this.setUploadProcessed(msg.data.args);
+	}
 
-  setUploadProcessed = ({id}) => {
+  setUploadProcessed = ({pk}) => {
     var upload = this.state.uploads
-    const index = upload.findIndex((elem) => elem.id === id)
+    const index = upload.findIndex((elem) => elem.id === pk)
     if (index !== -1) {
       upload[index].processed = true
       this.setState({
@@ -108,7 +106,7 @@ class UploadView extends Component {
     }
     else {
       /* In case upload is processed before we can even store its id in state */
-      setTimeout(() => this.setUploadProcessed({id: id}), 4000)
+      setTimeout(() => this.setUploadProcessed({id: pk}), 4000)
     }
   }
 
@@ -156,7 +154,6 @@ class UploadView extends Component {
   }
 
   upload = (url, file) => {
-
     const pending = (url) ? url : file.name
 
     this.addPending(pending)
@@ -177,6 +174,11 @@ class UploadView extends Component {
 
   render () {
     return <Container id="upload-view" className="max-height">
+			<AuthWebSocketWrapper
+				url="ws://localhost:8000/ws/audio/"
+				onMessage={this.handleMessage}
+				token={this.props.user.auth_token}
+			/>
       <Header dividing> Nouvel Upload </Header>
       <div className="padded-x">
         <FileUploader upload={this.upload}/>
@@ -193,7 +195,7 @@ class UploadView extends Component {
           setUploadDone={this.setUploadDone}
         />
         <div className="dynamic"/>
-      </div >
+      </div>
     </Container>
   };
 

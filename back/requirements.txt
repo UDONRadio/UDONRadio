@@ -17,3 +17,4 @@ channels_redis
 
 celery
 django_celery_results
+redis

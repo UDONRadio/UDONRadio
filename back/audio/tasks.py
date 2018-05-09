@@ -8,7 +8,8 @@ import celery
 from django_celery_results.models import TaskResult
 from django.conf import settings
 import os
-
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
 
 #throws: expected errors
 @shared_task(bind=True, throws=())
@@ -28,11 +29,8 @@ def process_audio(self, pk):
     )
     obj.processed = True
     obj.save()
-#    Group("upload-subscribe".format(obj.pk)).send({
-#        "text": json.dumps({
-#            "action": "upload-processed",
-#            "args": {
-#                "id": obj.pk
-#            }
-#        })
-#    })
+
+    async_to_sync(get_channel_layer().group_send)(
+        "upload",
+        {"type": "upload_processed", "pk": obj.pk},
+    )
