@@ -175,7 +175,7 @@ class UploadView extends Component {
   render () {
     return <Container id="upload-view" className="max-height">
 			<AuthWebSocketWrapper
-				url="ws://localhost:8000/ws/audio/"
+				url={SERVER.ws_url + "audio/"}
 				onMessage={this.handleMessage}
 				token={this.props.user.auth_token}
 			/>

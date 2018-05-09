@@ -13,16 +13,6 @@ class UserManager extends Component {
   constructor (props) {
     super(props);
     const auth_token = localStorage.getItem('auth_token')
-    this.socket = {
-      _socket: null,
-      _mappings: {
-      },
-      connected: false,
-      ready: this.socketReady,
-      on: this.socketOn,
-      emit: this.socketEmit,
-      removeListener: this.socketRemoveListener,
-    }
     this.state = {
       showLoginRegisterModal: this.showLoginRegisterModal,
       logged_in: false,
@@ -38,66 +28,10 @@ class UserManager extends Component {
   componentDidMount () {
     if (this.state.auth_token !== null)
       this.getUserInfo()
-					//this.initConnection();
-  }
-
-  componentWillUnmount () {
-    this.closeConnection();
   }
 
   login_url = SERVER.api_url + '/auth/token/create/'
   register_url = SERVER.api_url + '/auth/users/create/'
-
-  /* ************************** SOCKET SPECIFIC ***************************** */
-
-  initConnection = () => {
-    this.socket._socket = new WebSocket(SERVER.chat_url);
-    this.socket._socket.onmessage = this.onMessage;
-    this.socket._socket.onopen = () => {
-      this.socket.connected = true;
-      this.onMessage({'data':{'action': 'connect', 'args': {}}})
-    }
-    if (this.socket._socket.readyState === WebSocket.OPEN)
-      this.socket._socket.onopen();
-  }
-
-  socketOn = (action, func) => {
-    if (!this.socket._mappings[action])
-      this.socket._mappings[action] = [func];
-    else
-      this.socket._mappings[action].push(func);
-  }
-
-  /*TODO: Better system to avoid leaking functions into mappings*/
-  socketReady = (func) => {
-    if (this.socket.connected)
-      func();
-    this.socketOn('connect', func);
-  }
-
-  socketEmit = (action, data) => {
-    this.socket._socket.send(JSON.stringify({action: action, args: data}));
-  }
-
-  socketRemoveListener = (action, func) => {
-    if (this.socket._mappings[action])
-      this.socket._mappings[action] = this.socket._mappings[action].filter(
-        (item) => item !== func
-      )
-  }
-
-  closeConnection = () => {
-    this.socket.connected = false;
-    this.onMessage({'data':{'action':'disconnect', 'args': {}}})
-    this.socket.close();
-  }
-
-  onMessage = (event) => {
-    const data = (typeof(event.data) === "object") ? event.data : JSON.parse(event.data);
-    (this.socket._mappings[data['action']] || []).forEach((fun) => fun(data.args))
-  }
-
-  /* ************************* /SOCKET SPECIFIC ***************************** */
 
   showLoginRegisterModal = () => {
     this.setState({__showModal: true});
@@ -131,9 +65,6 @@ class UserManager extends Component {
           is_staff: is_staff,
           is_adherent: is_adherent,
         })
-        this.socket.ready(() => {
-          this.socket.emit('auth', {'token': this.state.auth_token})
-        });
       })
       .catch((err) => {
         if (err.status === 401) {
@@ -259,7 +190,6 @@ class UserManager extends Component {
     const user = {
           'logout': this.logout,
           'request': this.request,
-          'socket': this.socket,
           ...this.state,
     }
     const form = this.state.__activeModalForm;

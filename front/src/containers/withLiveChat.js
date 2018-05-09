@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { AuthWebSocketWrapper } from './';
+import { SERVER } from '../networkGenerics';
 
 function withLiveChat(WrappedComponent) {
 	return class extends Component {
@@ -12,7 +13,6 @@ function withLiveChat(WrappedComponent) {
 				'online': false,
 				'nickname': '',
 				'__ws_send': () => (false),
-
 			}
 		}
 
@@ -58,7 +58,7 @@ function withLiveChat(WrappedComponent) {
 		render () {
 			return <div className="max-height max-width">
 				<AuthWebSocketWrapper
-					url="ws://localhost:8000/ws/chat/"
+					url={SERVER.ws_url + "chat/"}
 					onOpen={this.onOpen}
 					onMessage={this.handleMessage}
 					token={this.props.user.auth_token}
