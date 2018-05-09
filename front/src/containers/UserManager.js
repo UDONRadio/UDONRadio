@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Modal, Menu } from 'semantic-ui-react';
 
 import 'whatwg-fetch';
-import { Layout} from './';
+import { Layout, withLiveChat } from './';
 import { Logo, GenericForm } from '../components';
 import { request, SERVER } from '../networkGenerics';
+
+const LayoutWithLiveChat = withLiveChat(Layout);
 
 class UserManager extends Component {
 
@@ -36,7 +38,7 @@ class UserManager extends Component {
   componentDidMount () {
     if (this.state.auth_token !== null)
       this.getUserInfo()
-    this.initConnection();
+					//this.initConnection();
   }
 
   componentWillUnmount () {
@@ -263,7 +265,7 @@ class UserManager extends Component {
     const form = this.state.__activeModalForm;
     return <div style={{'width': '100%', 'height':'100%'}}>
 
-      <Layout user={user}/>
+      <LayoutWithLiveChat user={user}/>
 
       <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
         <Modal.Content>

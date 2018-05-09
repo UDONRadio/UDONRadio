@@ -3,7 +3,6 @@ import { Menu } from 'semantic-ui-react';
 import { PlayerPanel, LiveChatPanel, UploadView } from './';
 import { OnAirView, AboutView, AdmView, /*ReplayView,*/ Logo, UserInfo } from '../components';
 
-
 class Layout extends Component {
   /* This class manages global layout and navigation views */
 
@@ -110,7 +109,7 @@ class Layout extends Component {
             <CurrentTab.class user={this.props.user}/>
           </div>
           <div id="right-panel" className="fixed">
-            <LiveChatPanel user={this.props.user}/>
+            <LiveChatPanel chat={this.props.chat} user={this.props.user}/>
           </div>
         </div>
       </div>
