@@ -1,0 +1,101 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Chat Test</title>
+</head>
+<body>
+	<h1>Chat</h1>
+	<textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+	<input id="chat-message-input" type="text" size="100"/><br/>
+	<input id="chat-message-submit" type="button" value="Send"/>
+	<h1>Token</h1>
+	<input id="chat-token" type="text" size="100"/><br/>
+	<input id="update" type="button" value="Update"/>
+	<input id="reload" type="button" value="Reload"/>
+</body>
+<script>
+
+	var chatSocket;
+	function chatSocketCreate (token) {
+		var url = 'ws://' + window.location.host + '/ws/chat/';
+		if (token)
+			url += '?token=' + token;
+		chatSocket = new WebSocket(url);
+
+			chatSocket.onmessage = function(e) {
+				var data = JSON.parse(e.data);
+				console.log(data);
+				if (data.error) {
+					alert('server: ' + data.error);
+					return ;
+				}
+				switch (data.action) {
+					case "chat_message":
+						var message = data.args.content;
+						document.querySelector('#chat-log').value += (data.args.from);
+						if (data.args.from == 'user')
+							document.querySelector('#chat-log').value += '(' + data.args.username+ ')';
+						document.querySelector('#chat-log').value += ': ';
+						document.querySelector('#chat-log').value += (message + '\n');
+						break ;
+					case "confirm_auth":
+						if (data.args.auth)
+							alert('successfully logged in');
+						else
+							alert('login failed');
+						break;
+					default:
+						alert('unrecognized action type: ' + data.action + ' from server');
+						break;
+				}
+			};
+
+			chatSocket.onclose = function(e) {
+				console.error('Chat socket closed unexpectedly');
+			};
+	}
+
+	function getToken () {
+		var tokenInputDom = document.querySelector('#chat-token');
+		return (tokenInputDom.value || null);
+	}
+
+	chatSocketCreate();
+
+	document.querySelector('#chat-message-input').focus();
+	document.querySelector('#chat-message-input').onkeyup = function(e) {
+		if (e.keyCode === 13) {  // enter, return
+			document.querySelector('#chat-message-submit').click();
+		}
+	};
+
+	document.querySelector('#chat-message-submit').onclick = function(e) {
+		var messageInputDom = document.querySelector('#chat-message-input');
+		var message = messageInputDom.value;
+		chatSocket.send(JSON.stringify({
+			'action': 'chat_message',
+			'args': {
+				'content': message
+	}}));
+
+		messageInputDom.value = '';
+	};
+
+	document.querySelector('#reload').onclick = function(e) {
+		chatSocket.onclose = () => {console.log("chat socket reloaded");}
+		chatSocket.close();
+		chatSocketCreate(getToken());
+	};
+
+	document.querySelector('#update').onclick = function(e) {
+		chatSocket.send(JSON.stringify({
+			'action': 'auth',
+			'args': {
+				'content': getToken()
+			}}));
+	};
+
+</script>
+</html>

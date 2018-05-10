@@ -1,11 +1,20 @@
-from channels.routing import route, include
+from .token_auth import TokenAuthMiddlewareStack
+from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
+from django.conf.urls import url
+import chat.routing
+import audio.routing
 
-routes = [
-    route('websocket.connect', 'udon_back.consumers.ws_connect'),
-    route('websocket.receive', 'udon_back.consumers.ws_message'),
-    route('websocket.disconnect', 'udon_back.consumers.ws_disconnect')
-]
+ws_router = URLRouter([
+    url(r'^chat/', URLRouter(chat.routing.websocket_urlpatterns)),
+    url(r'^audio/', URLRouter(audio.routing.websocket_urlpatterns))
+])
 
-channel_routing = [
-    include(routes, path=r'^/ws')
-]
+application = ProtocolTypeRouter({
+    # http->django views is added by default
+    'websocket': TokenAuthMiddlewareStack(
+        URLRouter([
+            url(r'^ws/', ws_router),
+        ])
+    ),
+})

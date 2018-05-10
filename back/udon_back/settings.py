@@ -51,16 +51,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-	'rest_framework',
+    'rest_framework',
     'rest_framework.authtoken',
-	'corsheaders',
+    'corsheaders',
     'djoser',
     'channels',
     'django_celery_results',
 
     'udon_back',
     'radio',
-    'audio'
+    'audio',
+    'chat'
 ]
 
 REST_FRAMEWORK = {
@@ -85,13 +86,14 @@ MIDDLEWARE = [
 ]
 CORS_ORIGIN_ALLOW_ALL=True
 ROOT_URLCONF = 'udon_back.urls'
+
+ASGI_APPLICATION = 'udon_back.routing.application'
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
             'hosts': [(REDIS_HOST, 6379)]
         },
-        'ROUTING': 'udon_back.routing.channel_routing',
     }
 }
 

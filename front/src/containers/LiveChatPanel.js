@@ -18,13 +18,13 @@ class ChatMessages extends Component {
   makeMessage = (msg, index) => (
     <List.Item key={index} className='max-width'>
       {
-        msg.type !== 'server' && <List.Content>
-          <List.Header>{(msg.type === 'user') ? <a>{msg.username}</a>: msg.username}</List.Header>
+        msg.from !== 'server' && <List.Content>
+          <List.Header>{(msg.from === 'user') ? <a>{msg.username}</a>: "anonyme"}</List.Header>
           <List.Description style={{'wordWrap': 'break-word'}}>{msg.content}</List.Description>
         </List.Content>
       }
       {
-        msg.type === 'server' && <List.Content>
+        msg.from === 'server' && <List.Content>
           <List.Description><i>UDON</i>: {msg.content}</List.Description>
         </List.Content>
       }
@@ -52,7 +52,6 @@ const Loading = (props) => {
     <div className="dynamic"/>
   </div>
 }
-
 
 const ChatInput = (props) => {
 
@@ -104,34 +103,8 @@ class LiveChatPanel extends Component {
     super(props);
 
     this.state = {
-      'messages' : [],
       'text': '',
-      'connected': false,
-      'nickname': ''
     };
-  }
-
-  componentDidMount () {
-    this.props.user.socket.ready(() => {
-      this.props.user.socket.on('chat-message', this.appendMessage)
-      this.props.user.socket.on('chat-anon-name', this.changeNick)
-      this.props.user.socket.emit('chat-join')
-    })
-  }
-
-  componentWillUnmount () {
-    this.props.user.socket.removeListener('chat-message', this.appendMessage)
-    this.props.user.socket.removeListener('chat-anon-name', this.changeNick)
-  }
-
-  changeNick = ({username}) => {
-    this.setState({nickname: username})
-  }
-
-  appendMessage = (data) => {
-    if (!this.state.connected)
-      this.setState({'connected': true})
-    this.setState({messages: this.state.messages.concat(data)})
   }
 
   handleChange = (event) => {
@@ -140,35 +113,31 @@ class LiveChatPanel extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    if (this.state.text !== '' && this.state.connected) {
-
-      if (this.props.user.logged_in || this.state.nickname)
-        this.props.user.socket.emit('chat-message', {'content': this.state.text})
-      else
-        this.props.user.socket.emit('chat-anon-name', {'username': this.state.text})
+		const { sendMessage } = this.props.chat;
+    if (this.state.text !== '' && sendMessage(this.state.text)) {
       this.setState({
         text: ''
-      })
+      });
     }
   }
 
-  render () {
+	render () {
+		const { chat, user } = this.props;
+		const messages =
+			(chat.online)
+			? <ChatMessages messages={chat.messages}/>
+			: <Loading/>;
+
     return <div id="live-chat-panel" className="max-height max-width">
-      {
-        (this.state.connected &&
-            <ChatMessages
-              messages={this.state.messages}
-            />) ||
-            <Loading/>
-      }
-      <ChatInput
-        logged_in={this.props.user.logged_in}
+      { messages }
+			{ <ChatInput
+        logged_in={user.logged_in}
         onChange={this.handleChange}
         onSubmit={this.handleSubmit}
         value={this.state.text}
-        disabled={!this.state.connected}
-        nickname={this.state.nickname}
-      />
+        disabled={!chat.online}
+        nickname={chat.nickname}
+			/> }
     </div>
   }
 }
