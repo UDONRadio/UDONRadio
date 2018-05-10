@@ -15,7 +15,7 @@ class UserManager extends Component {
     const auth_token = localStorage.getItem('auth_token')
     this.state = {
       showLoginRegisterModal: this.showLoginRegisterModal,
-      logged_in: false,
+      logged_in: (auth_token !== null) ? true : false,
       is_staff: false,
       is_adherent: false,
       auth_token: auth_token,
@@ -91,8 +91,9 @@ class UserManager extends Component {
       .then((response) => {
         localStorage.setItem('auth_token', response.auth_token)
         this.setState({
-          'auth_token': response.auth_token,
-          '__showModal': false
+					'auth_token': response.auth_token,
+					'logged_in': true,
+          '__showModal': false,
         }, this.getUserInfo);
       })
       .catch(onError);
