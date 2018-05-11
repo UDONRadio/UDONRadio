@@ -62,11 +62,10 @@
         <!-- <bind-address>127.0.0.1</bind-address> -->
         <!-- <shoutcast-mount>/stream</shoutcast-mount> -->
     </listen-socket>
-    <!--
     <listen-socket>
-        <port>8001</port>
+        <port>{ICECAST_SPORT}</port>
+	{TLS_SOCKET_OPTS}
     </listen-socket>
-    -->
 
     <!--<master-server>127.0.0.1</master-server>-->
     <!--<master-server-port>8001</master-server-port>-->
@@ -138,6 +137,7 @@
         <logdir>/var/log/icecast2</logdir>
         <webroot>/usr/share/icecast2/web</webroot>
         <adminroot>/usr/share/icecast2/admin</adminroot>
+	{TLS_PATHS_OPTS}
         <!-- <pidfile>/usr/share/icecast2/icecast.pid</pidfile> -->
 
         <!-- Aliases: treat requests for 'source' path as being for 'dest' path
@@ -155,8 +155,8 @@
     </paths>
 
     <logging>
-        <accesslog>access.log</accesslog>
-        <errorlog>error.log</errorlog>
+        <accesslog>-</accesslog>
+        <errorlog>-</errorlog>
         <!-- <playlistlog>playlist.log</playlistlog> -->
       	<loglevel>3</loglevel> <!-- 4 Debug, 3 Info, 2 Warn, 1 Error -->
       	<logsize>10000</logsize> <!-- Max size of a logfile -->

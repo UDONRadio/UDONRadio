@@ -37,11 +37,11 @@ services:
     env_file: ./django.env
     cpu_shares: 64 # Heavily restrict CPU usage for upload processing
     #                in order to make room for liquidsoap
-  wsinterface:
+  websockets:
     build: back
     ports:
       - "127.0.0.1:8001:8001"
-    command: daphne -b 0.0.0.0 -p 8001 udon_back.asgi:channel_layer
+    command: daphne -b 0.0.0.0 -p 8001 udon_back.asgi:application
     volumes:
       - ./back:/usr/src/app
     networks:
@@ -49,17 +49,6 @@ services:
     depends_on:
       - db
       - redis
-    env_file: ./django.env
-  wsworker:
-    build: back
-    command: python manage.py runworker
-    volumes:
-      - ./back:/usr/src/app
-    depends_on:
-      - db
-      - redis
-    networks:
-      - django
     env_file: ./django.env
 
   ls-bridge:
@@ -90,9 +79,11 @@ services:
   icecast:
     build: icecast
     ports:
-      - "8080:8000"
+      - "8080:8001"
     networks:
       - stream
+    volumes:
+      - /etc/letsencrypt/:/etc/letsencrypt/:ro
     env_file: ./stream.env
 
   #Helper container

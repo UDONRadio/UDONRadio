@@ -8,20 +8,21 @@ set("log.file", false)
 set("log.stdout", true)
 
 fallback_song = mksafe(single("fallback.mp3"))
+jingles = playlist("/usr/src/app/jingles.m3u")
 
 def request_func() =
-  data = snd(http.get("http://ls-bridge:8000/api/audio/song/next/"))
+  data = get_process_output("curl http://ls-bridge:8000/api/radio/song/next/")
   next = string.sub(data, start=1, length=(string.length(data) - 2))
   request.create(next)
 end
 
 grand_mix = request.dynamic(request_func)
-
-radio = fallback([grand_mix, fallback_song])
+radio = random(weights=[1,6], [jingles, grand_mix])
+s = fallback([radio, fallback_song])
 
 #output.icecast(%vorbis(quality=-0.1),
 #  host="icecast",port=8000,password="hackme",
 #  mount="udon.ogg",radio)
 output.icecast(%mp3(bitrate=320),
   host="icecast",port=8000,password="hackme",
-  mount="udon.mp3", radio)
+  mount="udon.mp3", s)

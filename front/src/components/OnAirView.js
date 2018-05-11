@@ -28,7 +28,6 @@ class OnAirView extends Component {
         'Content-Type': 'application/json'
       }
     }).then((data) => {
-      console.log(data);
       this.setState({songs: data});
     }).catch(() => {
       this.setState({'songs': null});

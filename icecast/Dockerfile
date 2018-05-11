@@ -1,6 +1,10 @@
 #We want the same base image as back service to minimize space
 FROM python:3-stretch
 
+RUN apt-get -qq -y update && \
+    apt-get -y install wget && \
+wget -qO - http://icecast.org/multimedia-obs.key | apt-key add -
+RUN echo "deb http://download.opensuse.org/repositories/multimedia:/xiph/Debian_9.0/ ./" > /etc/apt/sources.list.d/icecast.list
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y icecast2
 
@@ -25,6 +29,7 @@ ENV ICECAST_ADMIN_USER admin
 ENV ICECAST_ADMIN_PASSWORD hackme
 ENV ICECAST_HOSTNAME localhost
 ENV ICECAST_PORT 8000
+ENV ICECAST_SPORT 8001
 
 
 
