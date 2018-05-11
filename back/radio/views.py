@@ -38,6 +38,6 @@ class SongViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     @list_route(permission_classes=[])
     def played(self, request):
         pks = [int(pk) for pk in settings.REDIS.lrange(LISTKEY, 0, 10)]
-        songs = [Song.objects.get(pk=pk) for pk in pks]
+        songs = Song.objects.filter(pk__in=pks)
         serialized = SongPlaylistSerializer(songs, many=True)
         return Response(serialized.data)
