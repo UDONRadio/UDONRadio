@@ -69,7 +69,8 @@ def postprocess(src, dest_dir=_DEFAULT_OUTPUT):
 
     destination = os.path.join(dest_dir, os.path.basename(src))
     ffmpeg = 'ffmpeg -y -i ' + shellquote(src) + ' -af silenceremove=1:0:-50dB ' + shellquote(destination)
-    os.system(ffmpeg)
+    if os.system(ffmpeg) != 0:
+        raise Exception("ffmpeg failed")
     os.system("rm " + shellquote(src))
     return (destination)
 
