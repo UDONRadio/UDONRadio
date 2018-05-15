@@ -13,10 +13,13 @@ class SongCreateSerializer(serializers.ModelSerializer):
         dic = {}
         for related in Audio.CONTENT_RELATED_FIELDS:
             dic[related] = None
-        if audio in self.context['request'].user.audio_set.filter(**dic):
+        if audio in self.context['request'].user.audio_set.filter(
+                **dic,
+                processed=True):
             return audio
         else:
-            raise serializers.ValidationError('audio value should be owned by user and unassigned.')
+            raise serializers.ValidationError('audio value should be processed,'
+                    ' owned by user and unassigned.')
 
 class SongPlaylistSerializer(serializers.ModelSerializer):
 
