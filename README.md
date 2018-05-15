@@ -39,3 +39,7 @@ We chose not to embed NginX as a service to be able to serve several websites ea
    python3 manage.py createsuperuser # Finally create superuser
    exit
 ```
+
+## Troubleshooting
+
+If you run into issues while uploading files (especially getting a 413 Request Too Large), try setting client_max_body_size in nginx to a upper value.
