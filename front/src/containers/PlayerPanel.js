@@ -94,7 +94,11 @@ class PlayerPanel extends Component {
     if (this.state.playing)
       this.HTMLPlayer.audioEl.pause();
     else
-      this.HTMLPlayer.audioEl.play();
+		{
+			this.setState({'cachebust': new Date().getTime()}, () => (
+				this.HTMLPlayer.audioEl.play()
+			));
+		}
   }
 
   onPlay () {
