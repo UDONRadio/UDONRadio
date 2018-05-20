@@ -41,11 +41,18 @@ const VolumeControl = (props) => (
 )
 
 
-const DisplayMetadata = (props) => (
-  <inline className="dynamic">
-    <b>UDONradio - </b>Meilleure radio des internets :)
+const DisplayMetadata = (props) => {
+	const placeholder = {
+		album: null,
+		title: "Meilleure radio des internets :)",
+		artist: "UDONradio"
+	}
+	const {title, album, artist} = {...placeholder, ...props.lastSong};
+
+  return <inline className="dynamic">
+		<b>{artist} - </b>{title}{album && <i> - {album}</i>}
   </inline>
-)
+}
 
 
 class PlayerPanel extends Component {
@@ -57,6 +64,7 @@ class PlayerPanel extends Component {
       volume: -1,
       muted: false,
       cachebust: new Date().getTime(),
+			last_song: null,
     };
     this.PlayPause = this.PlayPause.bind(this);
     this.onPause = this.onPause.bind(this);
@@ -65,6 +73,34 @@ class PlayerPanel extends Component {
     this.onVolumeChange = this.onVolumeChange.bind(this);
     this.onMuteToggle = this.onMuteToggle.bind(this);
     this.updateVolume = this.updateVolume.bind(this);
+  }
+
+	/*
+	 * The same data is fetched twice: here and in OnAirView.
+	 * TODO: Merge both states
+	*/
+
+	componentDidMount() {
+		this.getLastTrack(); 
+		this.interval = setInterval(this.getLastTrack, 10 * 1000);
+	}
+
+	componentWillUnmount () {
+		clearInterval(this.interval);
+		this.interval = undefined;
+	}
+
+  getLastTrack = () => {
+    this.props.user.request(SERVER.api_url + '/radio/song/played/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((data) => {
+      this.setState({last_song: data[0]});
+    }).catch(() => {
+      this.setState({'songs': null});
+    })
   }
 
   updateVolume () {
@@ -144,7 +180,7 @@ class PlayerPanel extends Component {
         playing={this.state.playing}
         onClick={this.PlayPause}
       />
-      <DisplayMetadata/>
+      <DisplayMetadata lastSong={this.state.last_song}/>
       <VolumeControl
         onChange={this.onVolumeChange}
         onMuteToggle={this.onMuteToggle}

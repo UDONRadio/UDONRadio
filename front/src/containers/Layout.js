@@ -88,7 +88,7 @@ class Layout extends Component {
     )
     return (
       <div id="layout" className="max-width max-height">
-        <PlayerPanel/>
+        <PlayerPanel user={this.props.user}/>
         <div id="panel-container" className="dynamic">
           <div id="left-panel" className="fixed">
             <Menu fluid vertical tabular className='max-height'>
