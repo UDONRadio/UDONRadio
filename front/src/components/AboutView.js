@@ -13,12 +13,12 @@ const AboutView = (props) => (
 
     <Grid.Row>
       <Grid.Column width={13}>
-        <p className="texte">UDON, c'est aussi une petite webradio collaborative, tout juste débarquée au pays des Internets. Constituée d'une bande de potes curieux et amoureux de musiques en tous genres, UDON Radio s'est construite autour d'un projet simple: partager et faire découvrir nos goûts musicaux. C'est tout. La plateforme n'en est pour l'instant qu'à sa génèse: mais jeunesse oblige, nous sommes tout de même pétris d''ambition pour notre petite radio.</p>
+        <p className="texte">UDON, c'est aussi une petite webradio collaborative, tout juste débarquée au pays des Internets. Constituée d'une bande de potes curieux et amoureux de musiques en tous genres, UDON Radio s'est construite autour d'un projet simple: partager et faire découvrir nos goûts musicaux. C'est tout. La plateforme n'en est pour l'instant qu'à sa génèse: mais jeunesse oblige, nous sommes tout de même pétris d'ambition pour notre petite radio.</p>
       </Grid.Column>
       <Grid.Column width={3}>
-        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/placeholder.png' />} closeIcon>
+        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/udon_instantane.jpg' />} closeIcon>
           <Modal.Content>
-            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/placeholder.png' />
+            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/udon_instantane.jpg' />
           </Modal.Content>
         </Modal>
       </Grid.Column>
@@ -32,21 +32,21 @@ const AboutView = (props) => (
 
     <Grid.Row>
       <Grid.Column width={3}>
-        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/placeholder.png' />} closeIcon>
+        <Modal dimmer={'blurring'} trigger={<Image id="image_trigger_modal" src='/udon_cuphead.jpg' />} closeIcon>
           <Modal.Content>
-            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/placeholder.png' />
+            <Image style={{ height: '100%', width: '100%'}} wrapped size='medium' src='/udon_cuphead.jpg' />
           </Modal.Content>
         </Modal>
       </Grid.Column>
       <Grid.Column width={13}>
-        <p className="texte">Pour faire simple: <b>notre</b> UDON a l''ambition de devenir <b>votre</b> radio. Cet objectif, même simplement formulé, reste une tâche compliquée à accomplir. Aussi, si parmi vous qui lisez ces lignes, certains pensent pouvoir nous apporter de l'aide (pour construire le site par exemple :clin_d'œil: ), n'hésitez pas! Envoyez au choix un mail à cette adresse: recrutement@UDON.moncul ou contactez-nous via l'onglet "nous contacter" [liens hypertextes]</p>
+        <p className="texte">Pour faire simple: <b>notre</b> UDON a l'ambition de devenir <b>votre</b> radio. Cet objectif, même simplement formulé, reste une tâche compliquée à accomplir. Aussi, si parmi vous qui lisez ces lignes, certains pensent pouvoir nous apporter de l'aide (pour construire le site par exemple 😉), n'hésitez pas! Envoyez au choix un mail à cette adresse: recrutement@UDON.moncul ou contactez-nous via l'onglet "nous contacter" [liens hypertextes]</p>
       </Grid.Column>
     </Grid.Row>
 
     <Grid.Row>
       <Grid.Column width={13}>
         <p className="texte" id="texte_plus">Ah, et UDON diffuse 24h/24, 7 jours sur 7. Chez nous on bosse bénévolement dans une asso à but non lucratif : nique la pub !</p>
-        <p className="texte" id="texte_plus">Longue vie aux grosses nouilles! :udon:</p>
+        <p className="texte" id="texte_plus">Longue vie aux grosses nouilles!</p>
       </Grid.Column>
     </Grid.Row>
   </Grid>
