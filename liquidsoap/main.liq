@@ -17,7 +17,7 @@ def request_func() =
 end
 
 grand_mix = request.dynamic(request_func)
-radio = random(weights=[1,6], [jingles, grand_mix])
+radio = rotate(weights=[1,5], [jingles, grand_mix])
 s = fallback([radio, fallback_song])
 
 #output.icecast(%vorbis(quality=-0.1),
