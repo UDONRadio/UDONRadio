@@ -13,12 +13,12 @@ class OnAirView extends Component {
 
   componentDidMount () {
     this.getPlaylist();
-    this.timeout = setTimeout(this.getPlaylist, 30 * 1000);
+    this.interval = setInterval(this.getPlaylist, 30 * 1000);
   }
 
   componentWillUnmount () {
-    clearTimeout(this.timeout);
-    this.timeout = undefined;
+    clearInterval(this.interval);
+    this.interval = undefined;
   }
 
   getPlaylist = () => {
