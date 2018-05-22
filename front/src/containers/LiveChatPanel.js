@@ -63,11 +63,7 @@ const ChatInput = (props) => {
     }
   }
 
-  var placeholder;
-  if (props.logged_in || props.nickname)
-    placeholder = "Allez, viens tchatcher !"
-  else
-    placeholder = "C'est quoi ton ptit nom ?";
+  const placeholder = "Allez, viens tchatcher !"
 
   return <div className="fixed">
     <form onSubmit={props.onSubmit} style={{'display': 'flex', 'paddingBottom':'0px'}}>
@@ -136,7 +132,6 @@ class LiveChatPanel extends Component {
         onSubmit={this.handleSubmit}
         value={this.state.text}
         disabled={!chat.online}
-        nickname={chat.nickname}
 			/> }
     </div>
   }
