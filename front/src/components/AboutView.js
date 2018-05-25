@@ -26,7 +26,7 @@ const AboutView = (props) => (
 
     <Grid.Row>
       <Grid.Column width={16}>
-        <p className="texte">Au-delà de la "simple" aspiration à produire du contenu varié (emissions, sessions live, sets, etc...), UDON chérit un concept en particulier. Celui d''une radio collaborative pour tous: à laquelle <b>tout le monde</b> puisse participer.</p>
+        <p className="texte">Au-delà de la "simple" aspiration à produire du contenu varié (emissions, sessions live, sets, etc...), UDON chérit un concept en particulier. Celui d'une radio collaborative pour tous: à laquelle <b>tout le monde</b> puisse participer.</p>
       </Grid.Column>
     </Grid.Row>
 
