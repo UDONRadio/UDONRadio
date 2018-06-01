@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Modal, Menu } from 'semantic-ui-react';
+import { Modal } from 'semantic-ui-react';
 
 import 'whatwg-fetch';
 import { Layout, withLiveChat } from './';
-import { Logo, GenericForm } from '../components';
+import { Logo, UserView } from '../components';
 import { request, SERVER } from '../networkGenerics';
 
 const LayoutWithLiveChat = withLiveChat(Layout);
+
 
 class UserManager extends Component {
 
@@ -21,7 +22,6 @@ class UserManager extends Component {
       auth_token: auth_token,
       username: null,
       __showModal: false,
-      __activeModalForm: 'log in'
     };
   }
 
@@ -39,10 +39,6 @@ class UserManager extends Component {
 
   hideLoginRegisterModal = () => {
     this.setState({__showModal: false});
-  }
-
-  changeModalForm = (form) => {
-    this.setState({__activeModalForm: form});
   }
 
   /* Make authenticated requests */
@@ -136,65 +132,16 @@ class UserManager extends Component {
     }) // XXX: Need error handling
   }
 
-  /* ******************************** FORMS ********************************* */
-
-  RecoverForm = (props) => (
-    <a>not implemented</a>
-  )
-
-  LoginForm = (props) => (
-    <div>
-      <GenericForm
-        onSubmit={this.login}
-        url={this.login_url}
-        fields={[
-          {name: "username", attrs: {
-            required: true,
-          }},
-          {name: "password", attrs: {
-            type: "password",
-            required: true
-          }}
-        ]}
-        name="Login"
-      />
-    <a
-      onClick={() => {this.changeModalForm('recover')}}
-      style={{'cursor': 'pointer'}}
-    >mot de passe oublie ?
-    </a>
-    </div>
-  )
-
-  RegisterForm = (props) => (
-    <GenericForm
-      onSubmit={this.register}
-      url={this.register_url}
-      fields={[
-        {name: "username", attrs: {
-          required: true,
-        }},
-        {name: "password", attrs: {
-          type: "password",
-          required: true
-        }},
-        {name: "id", attrs: {
-          "show": false,
-        }}
-      ]}
-      name="Login"
-    />
-  )
-
-  /* ******************************* /FORMS ********************************* */
-
   render () {
     const user = {
-          'logout': this.logout,
-          'request': this.request,
-          ...this.state,
+			'logout': this.logout,
+			'request': this.request,
+			'login': this.login,
+			'login_url': this.login_url,
+			'register': this.register,
+			'register_url': this.register_url,
+			...this.state,
     }
-    const form = this.state.__activeModalForm;
     return <div style={{'width': '100%', 'height':'100%'}}>
 
       <LayoutWithLiveChat user={user}/>
@@ -202,20 +149,7 @@ class UserManager extends Component {
       <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
         <Modal.Content>
           <Logo/>
-          <Menu pointing secondary>
-            <Menu.Item
-              name='log in'
-              active={this.state.__activeModalForm === 'log in'}
-              onClick={() => {this.changeModalForm('log in')}}
-            />
-            <Menu.Item
-              name='register'
-              active={this.state.__activeModalForm === 'register'}
-              onClick={() => {this.changeModalForm('register')}}
-            />
-          </Menu>
-          {form === 'log in' && <this.LoginForm/>}
-          {form === 'register' && <this.RegisterForm/>}
+					<UserView user={user}/>
         </Modal.Content>
       </Modal>
 

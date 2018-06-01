@@ -33,7 +33,7 @@ const VolumeControl = (props) => (
       size='big'
       name={getVolumeIconName(props.volume, props.muted)}
     />
-    <Input type='range' min='0' max='100'
+    <Input id="volume-slider" type='range' min='0' max='100'
       value={props.muted ? 0 : props.volume}
       onChange={(event) => props.onChange(event.target.value)}
     />
@@ -49,9 +49,9 @@ const DisplayMetadata = (props) => {
 	}
 	const {title, album, artist} = {...placeholder, ...props.lastSong};
 
-  return <inline className="dynamic">
+  return <span className="dynamic">
 		<b>{artist} - </b>{title}{album && <i> - {album}</i>}
-  </inline>
+  </span>
 }
 
 
