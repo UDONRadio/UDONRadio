@@ -26,6 +26,22 @@ html, body {
   flex-direction: column;
   flex-wrap: nowrap;
 }
+@media (max-width: 700px) {
+	#layout {
+    background-image: url("http://udonradio.fr/logo.png"); /*fallback*/
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.6) 100%), url("https://start.duckduckgo.com/?q=udon&t=vivaldi&iax=images&ia=images");
+    background-position: center;
+    background-size: cover; /*seems prettier than "contain". Will depend on the final logo's design.*/
+    background-repeat: no-repeat;
+    display: column;
+
+    /* using a linear-gradient "trick" to vary the background-img's (which is the logo)
+    alpha value so it feels light and subtle */
+    /* unfortunaltely, this doesn't seem to work with older browsers. Added a fallback.
+    The result'll be even prettier when we get a proper logo */
+
+  }
+}
 
 #player-panel {
   display: flex;
@@ -34,6 +50,19 @@ html, body {
   align-items: center;
   height: 60px;
   border-bottom: 1px solid rgba(34, 36, 38, 0.4);
+}
+
+@media (max-width: 700px) {
+  #player-panel {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  	border-top: 1px solid rgba(34, 36, 38, 0.4);
+		border-bottom: none;
+    padding: 10px;
+    order: 3;
+    background-color: rgba(255,255,255,0.99);
+  }
 }
 
 #panel-container {
@@ -45,15 +74,50 @@ html, body {
   overflow: hidden;
 }
 
-#left-panel {
+@media (max-width: 700px) {
+	#panel-container {
+		flex-direction: column;
+	}
+}
+
+#nav-panel {
   width: 210px;
 }
+@media (max-width: 700px) {
+	#nav-panel {
+		width: 100%;
+		overflow-y: hidden;
+	}
+}
+@media (min-width: 700px) {
+	#nav-panel {
+	}
+}
+
+@media (max-width: 700px) {
+	#logo {
+		height: 40px;
+	}
+}
+
 #right-panel {
   width: 300px;
   border-left: 1px solid rgba(34, 36, 38, 0.15);
 }
+@media (max-width: 700px) {
+  #right-panel {
+    display: none;
+	}
+}
+
 #middle-panel {
   min-width: 0px;
+	overflow: scroll;
+}
+@media (max-width: 700px) {
+  #middle-panel {
+    width: 100%;
+	}
 }
 
 #live-chat-panel {
@@ -61,6 +125,15 @@ html, body {
   flex-direction: column;
   flex-wrap: nowrap;
   padding: 20px;
+}
+@media (max-width: 700px) {
+  #live-chat-panel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 2px;
+    order: 2;
+  }
 }
 
 .center-y {
@@ -80,8 +153,22 @@ html, body {
 
 /* ************* */
 
+@media (max-width: 700px) {
+	#volume-slider {
+		display: none;
+	}
+
+  button.ui.icon.button {
+    padding: 15px;
+  }
+  textarea {
+    opacity: 0.8;
+    border: 1px solid rgba(34, 36, 38, 0.25);
+  }
+}
+
 .nav-extra-padding {
-  padding-left: 20px;
+  margin-left: 20px !important;
 }
 
 #on-air-view {
@@ -149,76 +236,16 @@ html, body {
 #adm-view {
   border: none;
 }
+
 #chatbox {
   minHeight: 0px;
   overflow: auto;
 }
-#menu_telephone {
-  display: none;
-}
-
 @media (max-width: 700px) {
-  #menu_telephone {
-    display: flex;
-  }
-  #live-chat-panel {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    padding: 2px;
-    order: 2;
-  }
   #chatbox {
     overflow: auto;
     padding-right: 20px;
     padding-left: 20px;
     padding-top: 10px;
-  }
-  #middle-panel {
-    width: 100%;
-  }
-  #left-panel {
-    display: none;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow: scroll;
-    order: 1;
-  }
-  #right-panel {
-    display: none;
-  }
-  #player-panel {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    height: max-content;
-    border-bottom: none;
-    padding: 10px;
-    order: 3;
-    background-color: rgba(255,255,255,0.99);
-  }
-  input {
-    display: none;
-  }
-  button.ui.icon.button {
-    padding: 15px;
-  }
-  textarea {
-    opacity: 0.8;
-    border: 1px solid rgba(34, 36, 38, 0.25);
-  }
-  #layout {
-    background-image: url("http://udonradio.fr/logo.png"); /*fallback*/
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.6) 100%), url("https://start.duckduckgo.com/?q=udon&t=vivaldi&iax=images&ia=images");
-    background-position: center;
-    background-size: cover; /*seems prettier than "contain". Will depend on the final logo's design.*/
-    background-repeat: no-repeat;
-    display: column;
-
-    /* using a linear-gradient "trick" to vary the background-img's (which is the logo)
-    alpha value so it feels light and subtle */
-    /* unfortunaltely, this doesn't seem to work with older browsers. Added a fallback.
-    The result'll be even prettier when we get a proper logo */
-
   }
 }

@@ -1,120 +1,16 @@
-import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
-import { PlayerPanel, LiveChatPanel, UploadView } from './';
-import { OnAirView, AboutView, AdmView, /*ReplayView,*/ Logo, UserInfo } from '../components';
+import React from 'react';
+import { PlayerPanel, Navigation, LiveChatPanel } from './';
 
-class Layout extends Component {
-  /* This class manages global layout and navigation views */
-
-  tabs = [
-    {
-      name: "Actuellement",
-      class: OnAirView,
-      required: [],
-      default: false,
-    },
-    {
-      name: 'A propos',
-      class: AboutView,
-      required: [],
-      default: true,
-    },
-/*    {
-      name: 'Replays',
-      class: ReplayView,
-      required: [],
-      default: false,
-    },*/
-    {
-      name: 'Uploads',
-      class: UploadView,
-      required: ['is_adherent'],
-      default: false,
-    },
-    {
-      name: 'Administration',
-      class: AdmView,
-      required: ['is_staff'],
-      default: false
-    }
-  ]
-
-  constructor (props) {
-    super(props);
-    this.state = {
-      current_tab_name: this.getDefaultTab().name,
-    }
-  }
-
-  changeCurrentView = (new_tab) => {
-    this.setState({current_tab_name: new_tab.name});
-  }
-
-  getDefaultTab = () => (
-    this.tabs.find((tab) => tab.default)
-  )
-
-  tabCanShow = (tab) => {
-    for (var i = 0; i < tab.required.length; i++) {
-      if (tab.required[i] === 'is_staff' && !this.props.user.is_staff)
-        return (false);
-      if (tab.required[i] === 'is_adherent' && !this.props.user.is_adherent)
-        return (false);
-    }
-    return (true);
-  }
-
-  getCurrentTab = () => {
-    const current_tab = this.tabs.find((tab) => tab.name === this.state.current_tab_name);
-
-    if (this.tabCanShow(current_tab))
-      return (current_tab);
-    else
-      return (this.getDefaultTab());
-  }
-
-  render() {
-    const CurrentTab = this.getCurrentTab();
-    const makeMenuItem = (tab) => (
-      <Menu.Item
-        name={tab.name}
-        active={tab === this.getCurrentTab()}
-        onClick={() => {
-            if (tab.name !== this.state.current_tab_name)
-              this.changeCurrentView(tab);
-        }}
-        key={tab.name}
-      />
-    )
-    return (
-      <div id="layout" className="max-width max-height">
-        <PlayerPanel user={this.props.user}/>
-        <div id="panel-container" className="dynamic">
-          <div id="left-panel" className="fixed">
-            <Menu fluid vertical tabular className='max-height'>
-              <Menu.Item>
-                <Logo/>
-              </Menu.Item>
-              <div className="nav-extra-padding">
-                {
-                  this.tabs.filter(this.tabCanShow).map(makeMenuItem)
-                }
-                <Menu.Item>
-                  <UserInfo user={this.props.user}/>
-                </Menu.Item>
-              </div>
-            </Menu>
-          </div>
-          <div id="middle-panel" className="dynamic">
-            <CurrentTab.class user={this.props.user}/>
-          </div>
-          <div id="right-panel" className="fixed">
-            <LiveChatPanel chat={this.props.chat} user={this.props.user}/>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+const Layout = (props) => (
+	<div id="layout" className="max-width max-height">
+		<PlayerPanel user={props.user}/>
+		<div id="panel-container" className="dynamic">
+			<Navigation chat={props.chat} user={props.user}/>
+			<div id="right-panel" className="fixed">
+				<LiveChatPanel chat={props.chat} user={props.user}/>
+			</div>
+		</div>
+	</div>
+);
 
 export default Layout;

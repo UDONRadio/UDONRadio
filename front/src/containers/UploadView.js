@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Icon, Message, Input, Container, Loader, Dimmer, Segment, Header } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import Responsive from 'react-responsive';
 import { UploadStatus } from '../components';
 import { SERVER } from '../networkGenerics';
 import { AuthWebSocketWrapper } from './';
@@ -40,6 +41,21 @@ class FileUploader extends Component {
   }
 
   render () {
+		const	input_props = {
+			action: {
+          labelPosition:'right',
+          icon:'upload',
+          color:'red',
+          onClick:this.onLinkUpload
+      },
+			value: this.state.url_value,
+			fluid: true,
+      placeholder: 'https://www.youtube.com/watch?v=zgSZAHP89FU',
+      onSubmit: this.onLinkUpload,
+      onChange: this.onChange,
+			error: this.state.bad_link
+		}
+
     return <Segment>
       <Dimmer>
         <Loader/>
@@ -50,21 +66,15 @@ class FileUploader extends Component {
         <div className="dynamic"/>
       </Dropzone>
       <br/>
-      <Input
-        action={{
-          labelPosition:'right',
-          icon:'upload',
-          content:'Youtube',
-          color:'red',
-          onClick:this.onLinkUpload
-        }}
-        value={this.state.url_value}
-        fluid
-        placeholder='https://www.youtube.com/watch?v=zgSZAHP89FU'
-        onSubmit={this.onLinkUpload}
-        onChange={this.onChange}
-        error={this.state.bad_link}
-      />
+			<Responsive minWidth={700}>
+				<Input {...{
+					...input_props,
+					action: {...input_props.action, content: 'Youtube'}
+				}}/>
+			</Responsive>
+			<Responsive maxWidth={700}>
+	      <Input {...input_props}/>
+			</Responsive>
       {this.state.last_rejected.length !== 0 && <Message warning list={
           this.state.last_rejected.map((file) => (file.name + ': is not an audio file'))
         } header='Some files were ommited'/>
