@@ -26,6 +26,9 @@
         <burst-size>{ICECAST_BURST_SIZE}</burst-size>
     </limits>
 
+    <http-headers>
+        <header name="Access-Control-Allow-Origin" value="*"/>
+    </http-headers>
     <authentication>
         <!-- Sources log in with username 'source' -->
         <source-password>{ICECAST_SOURCE_PASSWORD}</source-password>
