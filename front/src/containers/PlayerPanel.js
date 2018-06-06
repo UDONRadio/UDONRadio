@@ -72,7 +72,7 @@ class PlayerPanel extends Component {
     this.fadeInVolume = this.fadeInVolume.bind(this);
     this.onVolumeChange = this.onVolumeChange.bind(this);
     this.onMuteToggle = this.onMuteToggle.bind(this);
-    this.updateVolume = this.updateVolume.bind(this);
+    this.getVolume = this.getVolume.bind(this);
   }
 
 	/*
@@ -103,12 +103,12 @@ class PlayerPanel extends Component {
     })
   }
 
-  updateVolume () {
+  getVolume () {
     if (this.HTMLPlayer) {
       if (this.state.muted)
-        this.HTMLPlayer.audioEl.volume = 0;
+        return(0);
       else if (this.state.volume >= 0)
-        this.HTMLPlayer.audioEl.volume = this.state.volume / 100;
+        return(this.state.volume / 100);
     }
   }
 
@@ -165,7 +165,6 @@ class PlayerPanel extends Component {
   }
 
   render () {
-    this.updateVolume();
     return <div id="player-panel" className="fixed">
       <ReactAudioPlayer
         onPlay={this.onPlay}
@@ -173,6 +172,7 @@ class PlayerPanel extends Component {
         onError={(e) => alert("Error while fetching audio stream...")}
         controls={false}
         autoPlay={true}
+	volume={this.getVolume()}
         ref={(c) => this.HTMLPlayer = c}
         src={ SERVER.stream_url + "?cache-buster=" + this.state.cachebust}
       />
