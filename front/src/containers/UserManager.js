@@ -13,20 +13,20 @@ class UserManager extends Component {
 
   constructor (props) {
     super(props);
-    const auth_token = localStorage.getItem('auth_token')
     this.state = {
       showLoginRegisterModal: this.showLoginRegisterModal,
-      logged_in: (auth_token !== null) ? true : false,
+      logged_in: false,
       is_staff: false,
       is_adherent: false,
-      auth_token: auth_token,
+      auth_token: null,
       username: null,
       __showModal: false,
     };
   }
 
   componentDidMount () {
-    if (this.state.auth_token !== null)
+    const auth_token = localStorage.getItem('auth_token')
+    if (auth_token !== null)
       this.getUserInfo()
   }
 
