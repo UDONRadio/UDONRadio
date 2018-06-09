@@ -42,7 +42,7 @@ Linux: `service redis start` or `systemctl start redis`
 Follow those steps:
 * `python3 -m venv env`: Create a virtual environment so system/user-wide modules do not infer.
 * `source env/bin/activate`: Activate the newly created environment.
-* `pip install requirements.txt`: Install required python modules.
+* `pip install -r requirements.txt`: Install required python modules.
 * `python manage.py migrate`: Set up the database scheme.
 * `python manage.py createsuperuser`: Create a Django superuser: follow the steps
 
