@@ -27,7 +27,7 @@ class FileUploader extends Component {
   }
 
   isValidLink = (url) => {
-    return /((http|https):\/\/)?(www\.)?(youtube\.com)(\/)?([a-zA-Z0-9-.]+)\/?/.test(url)
+    return /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/.test(url)
   }
 
   onLinkUpload = () => {
