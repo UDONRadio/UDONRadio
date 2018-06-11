@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'semantic-ui-react';
+import { Input, Icon, Statistic, Popup, Grid} from 'semantic-ui-react';
 import ReactAudioPlayer from 'react-audio-player';
 import { IconButton } from '../components';
 
@@ -48,12 +48,19 @@ const DisplayMetadata = (props) => {
 		artist: "UDONradio"
 	}
 	const {title, album, artist} = {...placeholder, ...props.lastSong};
-
-  return <span className="dynamic">
-		<b>{artist} - </b>{title}{album && <i> - {album}</i>}
-  </span>
+  const is_new = (props.lastSong) ? props.lastSong.new : false;
+  return <React.Fragment>
+    <Grid.Column>
+        <Popup
+          trigger={<Icon name='headphones' loading size='large' circular color='red'/>}
+          content='This Song Has Just Been Uploaded'
+        />
+    </Grid.Column>
+    <span className="dynamic">
+		  <b>{artist} - </b>{title}{album && <i> - {album}</i>}
+    </span>
+  </React.Fragment>
 }
-
 
 class PlayerPanel extends Component {
 
@@ -81,7 +88,7 @@ class PlayerPanel extends Component {
 	*/
 
 	componentDidMount() {
-		this.getLastTrack(); 
+		this.getLastTrack();
 		this.interval = setInterval(this.getLastTrack, 10 * 1000);
 	}
 
@@ -97,7 +104,7 @@ class PlayerPanel extends Component {
         'Content-Type': 'application/json'
       }
     }).then((data) => {
-      this.setState({last_song: data[0]});
+      this.setState({last_song: { ...data[0], "new": true} });
     }).catch(() => {
       this.setState({'songs': null});
     })
