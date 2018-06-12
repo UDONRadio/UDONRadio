@@ -5,16 +5,6 @@ import { IconButton } from '../components';
 
 import { SERVER } from '../networkGenerics';
 
-const getVolumeIconName = (volume, muted) => {
-  if (volume <= 0 || muted)
-    return ("volume off");
-  else if (volume > 75)
-    return ("volume up");
-  else
-    return ("volume down");
-}
-
-
 const PlayPauseButton = (props) => (
   <div className="fixed">
     <IconButton
@@ -26,19 +16,28 @@ const PlayPauseButton = (props) => (
 )
 
 
-const VolumeControl = (props) => (
-  <div className="fixed center-y">
+const VolumeControl = (props) => {
+
+	var icon_name;
+	if (props.volume <= 0)
+		icon_name = "volume off";
+	else if (props.volume > 75)
+		icon_name = "volume up";
+	else
+		icon_name = "volume down";
+
+  return <div className="fixed center-y">
     <IconButton
       onClick={props.onMuteToggle}
       size='big'
-      name={getVolumeIconName(props.volume, props.muted)}
+      name={icon_name}
     />
     <Input id="volume-slider" type='range' min='0' max='100'
-      value={props.muted ? 0 : props.volume}
+      value={props.volume}
       onChange={(event) => props.onChange(event.target.value)}
     />
   </div>
-)
+}
 
 
 const DisplayMetadata = (props) => {
@@ -61,7 +60,8 @@ class PlayerPanel extends Component {
     super(props);
     this.state = {
       playing: false,
-      volume: -1,
+      volume: 0,
+			fade_in: true,
       muted: false,
       cachebust: new Date().getTime(),
 			last_song: null,
@@ -88,6 +88,9 @@ class PlayerPanel extends Component {
 	componentWillUnmount () {
 		clearInterval(this.interval);
 		this.interval = undefined;
+		if (this.timeout)
+			clearTimeout(this.timeout);
+		this.timeout = undefined;
 	}
 
   getLastTrack = () => {
@@ -104,25 +107,18 @@ class PlayerPanel extends Component {
   }
 
   getVolume () {
-    if (this.HTMLPlayer) {
-      if (this.state.muted)
-        return(0);
-      else if (this.state.volume >= 0)
-        return(this.state.volume / 100);
-    }
+		if (this.state.muted)
+			return(0);
+		else if (this.state.volume >= 0)
+			return(this.state.volume);
   }
 
   fadeInVolume () {
     if (this.state.volume < 100) {
-      if (this.state.volume === -1)
-        this.setState({
-          volume: 0
-        });
-      else
-        this.setState({
-          volume: this.state.volume + 5
-        });
-      setTimeout(this.fadeInVolume, 100);
+			this.setState({
+				volume: this.state.volume + 1
+			});
+      this.timeout = setTimeout(this.fadeInVolume, 20);
     }
   }
 
@@ -137,12 +133,12 @@ class PlayerPanel extends Component {
 		}
   }
 
-  onPlay () {
+	onPlay () {
+		const fade_in = this.state.fade_in;
     this.setState({
       playing: true,
-    });
-    if (this.state.volume === -1)
-      this.fadeInVolume();
+			fade_in: false
+		}, (fade_in) ? this.fadeInVolume : () => (null));
   }
 
   onPause () {
@@ -152,6 +148,8 @@ class PlayerPanel extends Component {
   }
 
   onVolumeChange (value: number) {
+		if (this.timeout)
+			clearTimeout(this.timeout);
     this.setState({
       volume: value,
       muted: false,
@@ -159,6 +157,8 @@ class PlayerPanel extends Component {
   }
 
   onMuteToggle () {
+		if (this.timeout)
+			clearTimeout(this.timeout);
     this.setState({
       muted: !this.state.muted
     });
@@ -172,7 +172,7 @@ class PlayerPanel extends Component {
         onError={(e) => alert("Error while fetching audio stream...")}
         controls={false}
         autoPlay={true}
-	volume={this.getVolume()}
+				volume={this.getVolume() / 100.0}
         ref={(c) => this.HTMLPlayer = c}
         src={ SERVER.stream_url + "?cache-buster=" + this.state.cachebust}
       />
@@ -184,8 +184,7 @@ class PlayerPanel extends Component {
       <VolumeControl
         onChange={this.onVolumeChange}
         onMuteToggle={this.onMuteToggle}
-        volume={this.state.volume}
-        muted={this.state.muted}
+        volume={this.getVolume()}
       />
     </div>
   }
