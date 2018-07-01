@@ -7,6 +7,7 @@ admin.site.register(AutoPlaylist)
 class SongAdmin(admin.ModelAdmin):
 
     date_hierarchy = 'audio__created'
+    search_fields = ('title', 'artist', 'album')
     list_display = (
         'title',
         'artist',
