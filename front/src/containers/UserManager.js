@@ -27,7 +27,7 @@ class UserManager extends Component {
   componentDidMount () {
     const auth_token = localStorage.getItem('auth_token')
     if (auth_token !== null)
-      this.getUserInfo()
+      this.getUserInfo(auth_token)
   }
 
   login_url = SERVER.api_url + '/auth/token/create/'
@@ -48,19 +48,23 @@ class UserManager extends Component {
     return request(url, data);
   }
 
-  getUserInfo = () => {
+  getUserInfo = (auth_token) => {
     this.request(SERVER.api_url + '/auth/me/', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+		  'Content-Type': 'application/json',
+		  'Authorization': 'Token ' + auth_token
       },
     })
       .then(({ username, is_staff, is_adherent }) => {
+        localStorage.setItem('auth_token', auth_token)
         this.setState({
+		  auth_token: auth_token,
           logged_in: true,
           username: username,
           is_staff: is_staff,
           is_adherent: is_adherent,
+		  __showModal: false
         })
       })
       .catch((err) => {
@@ -85,12 +89,7 @@ class UserManager extends Component {
       body: JSON.stringify({'username': username, 'password': password})
     })
       .then((response) => {
-        localStorage.setItem('auth_token', response.auth_token)
-        this.setState({
-					'auth_token': response.auth_token,
-					'logged_in': true,
-          '__showModal': false,
-        }, this.getUserInfo);
+		this.getUserInfo(response.auth_token);
       })
       .catch(onError);
   }
