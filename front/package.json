@@ -6,12 +6,12 @@
     "react": "^16.4.0",
     "react-audio-player": "^0.10.0",
     "react-dom": "^16.4.0",
-    "react-dropzone": "^4.2.10",
+    "react-dropzone": "^5.1.0",
     "react-recaptcha": "^2.3.8",
-    "react-responsive": "^4.1.0",
-    "react-scripts": "^1.1.4",
-    "semantic-ui-react": "^0.80.2",
-    "whatwg-fetch": "^2.0.4"
+    "react-responsive": "^5.0.0",
+    "react-scripts": "^1.1.5",
+    "semantic-ui-react": "^0.82.5",
+    "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
