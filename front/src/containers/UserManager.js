@@ -146,8 +146,8 @@ class UserManager extends Component {
       <LayoutWithLiveChat user={user}/>
 
       <Modal open={this.state.__showModal} onClose={this.hideLoginRegisterModal} size='mini'>
-        <Modal.Content>
-          <Logo/>
+				<Modal.Content>
+					<Logo/>
 					<UserView user={user}/>
         </Modal.Content>
       </Modal>
