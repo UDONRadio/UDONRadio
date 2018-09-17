@@ -53,7 +53,6 @@ class LiveStreamViewSet(viewsets.GenericViewSet):
     @action(detail=False)
     def current(self, request):
         pk = settings.REDIS.get(LIVEKEY)
-        print(pk)
         live = LiveStream.objects.get(pk=int(pk)) if pk else None
         data = LiveStreamSerializer(live).data if live else None
         return Response(data)
