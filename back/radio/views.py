@@ -60,16 +60,16 @@ class LiveStreamViewSet(viewsets.GenericViewSet):
 
     @action(detail=False, methods=['post'], permission_classes=[IsLiquidsoap])
     def connect(self, request):
-        if settings.REDIS.get(LIVEKEY):
-            return Response('Multi-connection is not supported at the moment', status=400)
         try:
-            username=request.query_params.get('user')
+            username=request.data.get('user')
             user = get_user_model().objects.get(username=username)
-            password = request.query_params.get('password')
+            password = request.data.get('password')
             if not user.check_password(password):
                 raise Exception
         except:
             return Response('expected valid user and password params', status=400)
+        if settings.REDIS.get(LIVEKEY):
+            return Response('Multi-connection is not supported at the moment', status=400)
         try:
             live = LiveStream.objects.get(host=user)
         except LiveStream.DoesNotExist:
