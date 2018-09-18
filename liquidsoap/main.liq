@@ -40,10 +40,7 @@ then
   set("harbor.bind_addr", "127.0.0.1")
 else
   set("harbor.bind_addr", "0.0.0.0")
-  set("harbor.ssl.certificate", "TODO")
-  set("harbor.ssl.private_key", "TODO")
 end
-harbor_func = if liquidsoap_debug then input.harbor else input.harbor.ssl end
 
 def auth (login, password) =
   postdata = '{"password":"#{password}", "user":"#{login}"}'
@@ -75,7 +72,7 @@ def live_on_start () =
 end
 
 live = strip_blank(
-  harbor_func(
+  input.harbor(
     port=input_harbor_port,
     auth=auth,
     on_disconnect=harbor_disconnect,

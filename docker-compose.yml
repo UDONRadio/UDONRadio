@@ -76,6 +76,7 @@ services:
     networks:
       - stream
     volumes:
+    #  - /etc/letsencrypt:/etc/letsencrypt/:ro
       - ./back/media:/usr/src/app/media:ro
     env_file: ./stream.env
   icecast:
