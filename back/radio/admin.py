@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AutoPlaylist, AutoPlaylistIndex, Song
+from .models import AutoPlaylist, Song, LiveStream
 
 admin.site.register(AutoPlaylist)
 
@@ -23,3 +23,13 @@ class SongAdmin(admin.ModelAdmin):
 
     def uploaded_on(self, obj):
         return obj.audio.created
+
+@admin.register(LiveStream)
+class LiveStream(admin.ModelAdmin):
+    list_display = (
+        'host',
+        'title'
+    )
+    readonly_fields = (
+        'password',
+    )

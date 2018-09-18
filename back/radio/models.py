@@ -32,6 +32,18 @@ class Show(models.Model):
         raise NotImplementedError()
 
 
+class LiveStream(models.Model):
+
+    host = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    title = models.CharField(max_length=128, null=True)
+    description = models.TextField(null=True, blank=True)
+    password = models.CharField(max_length=8)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.password = get_user_model().objects.make_random_password(length=8)
+        super(LiveStream, self).save(*args, **kwargs)
+
 class AutoPlaylist(Show):
 
     fallible = False
@@ -74,7 +86,7 @@ class AutoPlaylistIndex(models.Model):
     '''
         Should be 0-indexed
     '''
-
+    
     song = models.ForeignKey('Song', on_delete=models.CASCADE)
     auto_playlist = models.ForeignKey('AutoPlaylist', on_delete=models.CASCADE)
     index = models.IntegerField()
@@ -87,8 +99,6 @@ class RecordedShow(Show):
 
 #TODO
 '''
-class LiveStream(Show):
-    pass
 class CuratedPlaylist(Show):
     pass
 '''

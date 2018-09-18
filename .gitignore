@@ -1,1 +1,4 @@
 *.env
+# ignore jingles playlist
+liquidsoap/jingles.m3u
+liquidsoap/jingles

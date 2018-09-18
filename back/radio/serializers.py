@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Song
+from .models import Song, LiveStream
 from audio.models import Audio
 
 class SongCreateSerializer(serializers.ModelSerializer):
@@ -31,3 +31,15 @@ class SongPlaylistSerializer(serializers.ModelSerializer):
 
     def get_new(self, obj):
         return obj.play_count < 3
+
+
+class LiveStreamSerializer(serializers.ModelSerializer):
+
+    host = serializers.SerializerMethodField()
+
+    class Meta:
+        model = LiveStream
+        fields = ('id', 'host', 'title', 'description')
+
+    def get_host(self, obj):
+        return obj.host.username

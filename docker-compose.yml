@@ -68,12 +68,15 @@ services:
       - "DJANGO_HOSTS=ls-bridge"
   liquidsoap:
     build: liquidsoap
+    ports:
+      - "8081:8000"
     depends_on:
       - icecast
       - ls-bridge
     networks:
       - stream
     volumes:
+    #  - /etc/letsencrypt:/etc/letsencrypt/:ro
       - ./back/media:/usr/src/app/media:ro
     env_file: ./stream.env
   icecast:

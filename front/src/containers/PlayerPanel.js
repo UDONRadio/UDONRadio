@@ -48,9 +48,14 @@ const DisplayMetadata = (props) => {
 	}
 	const {title, album, artist} = {...placeholder, ...props.lastSong};
 
-  return <span className="dynamic">
-		<b>{artist} - </b>{title}{album && <i> - {album}</i>}
-  </span>
+	if (!props.live)
+	  return <span className="dynamic">
+			<b>{artist} - </b>{title}{album && <i> - {album}</i>}
+	  </span>
+	else
+		return <span className="dynamic">
+			<b style={{'color':'red'}}>LIVE !</b> by <i>{props.live.host}</i> - {props.live.title}
+		</span>
 }
 
 
@@ -59,6 +64,7 @@ class PlayerPanel extends Component {
   constructor (props) {
     super(props);
     this.state = {
+			live: null,
       playing: false,
       volume: 0,
 			fade_in: true,
@@ -104,6 +110,16 @@ class PlayerPanel extends Component {
     }).catch(() => {
       this.setState({'songs': null});
     })
+		this.props.user.request(SERVER.api_url + '/radio/live/current/', {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}).then((data) => {
+			this.setState({live: data})
+		}).catch(() => {
+			this.setState({live: null})
+		})
   }
 
   getVolume () {
@@ -180,7 +196,7 @@ class PlayerPanel extends Component {
         playing={this.state.playing}
         onClick={this.PlayPause}
       />
-      <DisplayMetadata lastSong={this.state.last_song}/>
+      <DisplayMetadata lastSong={this.state.last_song} live={this.state.live}/>
       <VolumeControl
         onChange={this.onVolumeChange}
         onMuteToggle={this.onMuteToggle}
