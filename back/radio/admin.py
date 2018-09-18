@@ -30,3 +30,6 @@ class LiveStream(admin.ModelAdmin):
         'host',
         'title'
     )
+    readonly_fields = (
+        'password',
+    )

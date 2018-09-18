@@ -37,6 +37,12 @@ class LiveStream(models.Model):
     host = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     title = models.CharField(max_length=128, null=True)
     description = models.TextField(null=True, blank=True)
+    password = models.CharField(max_length=8)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.password = get_user_model().objects.make_random_password(length=8)
+        super(LiveStream, self).save(*args, **kwargs)
 
 class AutoPlaylist(Show):
 

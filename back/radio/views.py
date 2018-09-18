@@ -62,18 +62,18 @@ class LiveStreamViewSet(viewsets.GenericViewSet):
         try:
             username=request.data.get('user')
             user = get_user_model().objects.get(username=username)
-            password = request.data.get('password')
-            if not user.check_password(password):
-                raise Exception
         except:
-            return Response('expected valid user and password params', status=400)
+            return Response('expected valid user', status=400)
         if settings.REDIS.get(LIVEKEY):
             return Response('Multi-connection is not supported at the moment', status=400)
-        try:
-            live = LiveStream.objects.get(host=user)
-        except LiveStream.DoesNotExist:
+        lives = LiveStream.objects.filter(host=user)
+        if not lives.exists():
             return Response('this user is not allowed to livestream at the moment', status=403)
-
+        password = request.data.get('password')
+        lives = lives.filter(password=password)
+        if (password is None) or not lives.exists():
+            return Response('expected valid password', status=400)
+        live = lives[0]
         settings.REDIS.set(LIVEKEY, live.pk)
         return (Response(LiveStreamSerializer(live).data))
 
