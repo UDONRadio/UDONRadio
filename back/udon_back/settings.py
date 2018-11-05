@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import redis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -34,12 +33,6 @@ LIQUIDSOAP_BRIDGE = os.environ.get('LIQUIDSOAP_BRIDGE', None) is not None
 
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':6379/0'
-
-REDIS = redis.StrictRedis(
-    host=REDIS_HOST,
-    port=6379,
-    db=1
-)
 
 # Application definition
 
@@ -72,6 +65,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
+}
+
+CHAT = {
+    'REDIS_HOST': REDIS_HOST
 }
 
 MIDDLEWARE = [

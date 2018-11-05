@@ -7,12 +7,16 @@ from udon_back.permissions import IsAdherentUser, IsLiquidsoap
 from .serializers import SongCreateSerializer, SongPlaylistSerializer, LiveStreamSerializer
 
 import json
+import redis
 from .models import Song, LiveStream
 from rest_framework.decorators import list_route, action
 from rest_framework.response import Response
 
 LISTKEY = 'playlist'
 LIVEKEY = 'livestream'
+
+def get_redis_connection():
+    return redis.StrictRedis(host=settings.REDIS_HOST, port=6379, db=1)
 
 class SongViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAdherentUser,]
@@ -25,12 +29,13 @@ class SongViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
         if unplayed.exists():
             song = unplayed.earliest('audio__created')
         else:
-            # Raises an eexception if no song exists
+            # Raises an exception if no song exists
             song = Song.objects.order_by('?')[0]
         song.play_count += 1
         song.save()
 
-        with settings.REDIS.pipeline() as pipe:
+        r = get_redis_connection()
+        with r.pipeline() as pipe:
             pipe.multi()
             pipe.lpush(LISTKEY, song.pk)
             pipe.ltrim(LISTKEY, 0, 10)
@@ -39,7 +44,8 @@ class SongViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     @list_route(permission_classes=[])
     def played(self, request):
-        pks = [int(pk) for pk in settings.REDIS.lrange(LISTKEY, 0, 10)]
+        r = get_redis_connection()
+        pks = [int(pk) for pk in r.lrange(LISTKEY, 0, 10)]
         #TODO: exception handling for Song.DoesNotExist
         songs = [Song.objects.get(pk=pk) for pk in pks] # Keep it sorted
         serialized = SongPlaylistSerializer(songs, many=True)
@@ -52,7 +58,8 @@ class LiveStreamViewSet(viewsets.GenericViewSet):
 
     @action(detail=False)
     def current(self, request):
-        pk = settings.REDIS.get(LIVEKEY)
+        r = get_redis_connection()
+        pk = r.get(LIVEKEY)
         live = LiveStream.objects.get(pk=int(pk)) if pk else None
         data = LiveStreamSerializer(live).data if live else None
         return Response(data)
@@ -64,7 +71,8 @@ class LiveStreamViewSet(viewsets.GenericViewSet):
             user = get_user_model().objects.get(username=username)
         except:
             return Response('expected valid user', status=400)
-        if settings.REDIS.get(LIVEKEY):
+        r = get_redis_connection()
+        if r.get(LIVEKEY):
             return Response('Multi-connection is not supported at the moment', status=400)
         lives = LiveStream.objects.filter(host=user)
         if not lives.exists():
@@ -74,10 +82,11 @@ class LiveStreamViewSet(viewsets.GenericViewSet):
         if (password is None) or not lives.exists():
             return Response('expected valid password', status=400)
         live = lives[0]
-        settings.REDIS.set(LIVEKEY, live.pk)
+        r.set(LIVEKEY, live.pk)
         return (Response(LiveStreamSerializer(live).data))
 
     @action(detail=False, methods=['post'], permission_classes=[IsLiquidsoap])
     def disconnect(self, request):
-        settings.REDIS.delete(LIVEKEY)
+        r = get_redis_connection()
+        r.delete(LIVEKEY)
         return (Response(None))

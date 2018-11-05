@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 import { Button, TextArea, List, Icon } from 'semantic-ui-react';
 
+const RegularMessage = ({ author, text, created }) => {
+	const date = new Date(created);
+	const f = ((
+		"0" + date.getHours()).slice(-2) +
+		":" +
+		("0" + date.getMinutes()).slice(-2)
+	);
+	return <List.Content>
+		{ f + '    '}
+		<List.Header style={{'display': 'inline-block'}}>
+			{ (author) ? <a>{ author }</a> : "anonyme" }
+		</List.Header>
+		<List.Description style={{'wordWrap': 'break-word'}}>
+			{ text }
+		</List.Description>
+	</List.Content>
+};
+
 class ChatMessages extends Component {
 
   scrollToBottom = () => {
@@ -15,21 +33,11 @@ class ChatMessages extends Component {
     this.scrollToBottom();
   }
 
-  makeMessage = (msg, index) => (
-    <List.Item key={index} className='max-width'>
-      {
-        msg.from !== 'server' && <List.Content>
-          <List.Header>{(msg.from === 'user') ? <a>{msg.username}</a>: "anonyme"}</List.Header>
-          <List.Description style={{'wordWrap': 'break-word'}}>{msg.content}</List.Description>
-        </List.Content>
-      }
-      {
-        msg.from === 'server' && <List.Content>
-          <List.Description><i>UDON</i>: {msg.content}</List.Description>
-        </List.Content>
-      }
+  makeMessage = (msg, index) => {
+    return <List.Item key={index} className='max-width'>
+			<RegularMessage {...msg}/>
     </List.Item>
-  );
+	};
 
   render = () => (
       <List className='dynamic'
@@ -110,11 +118,12 @@ class LiveChatPanel extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
 		const { sendMessage } = this.props.chat;
-    if (this.state.text !== '' && sendMessage(this.state.text)) {
-      this.setState({
-        text: ''
-      });
-    }
+		if (this.state.text !== '')
+			sendMessage(this.state.text, () => {
+	      this.setState({
+	        text: ''
+	      });
+			}, (what) => {console.warn(what)});
   }
 
 	render () {
@@ -125,6 +134,7 @@ class LiveChatPanel extends Component {
 			: <Loading/>;
 
     return <div id="live-chat-panel" className="max-height max-width">
+			<span><b>{ chat.online_count }</b> people online !</span>
       { messages }
 			{ <ChatInput
         logged_in={user.logged_in}

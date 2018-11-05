@@ -8,6 +8,7 @@
 <body>
 	<h1>Chat</h1>
 	<textarea id="chat-log" cols="100" rows="20"></textarea><br/>
+	<h2 id="chat-online-count"></h2>
 	<input id="chat-message-input" type="text" size="100"/><br/>
 	<input id="chat-message-submit" type="button" value="Send"/>
 	<h1>Token</h1>
@@ -25,30 +26,23 @@
 		chatSocket = new WebSocket(url);
 
 			chatSocket.onmessage = function(e) {
-				var data = JSON.parse(e.data);
-				console.log(data);
-				if (data.error) {
-					alert('server: ' + data.error);
-					return ;
-				}
-				switch (data.action) {
-					case "chat_message":
-						var message = data.args.content;
-						document.querySelector('#chat-log').value += (data.args.from);
-						if (data.args.from == 'user')
-							document.querySelector('#chat-log').value += '(' + data.args.username+ ')';
-						document.querySelector('#chat-log').value += ': ';
-						document.querySelector('#chat-log').value += (message + '\n');
-						break ;
-					case "confirm_auth":
-						if (data.args.auth)
-							alert('successfully logged in');
-						else
-							alert('login failed');
-						break;
-					default:
-						alert('unrecognized action type: ' + data.action + ' from server');
-						break;
+				var msg = JSON.parse(e.data);
+				switch (msg.type) {
+				case 'auth':
+					if (msg.auth)
+						console.warn('successfully logged in');
+					else
+						console.warn('login failed');
+					break;
+				case 'messages':
+					document.querySelector('#chat-log').value += (JSON.stringify(msg.messages) + '\n');
+					break;
+				case 'count':
+					document.querySelector('#chat-online-count').innerHTML = msg.count + ' online in chat';
+					break;
+				default:
+					console.warn('unrecognized message type: ' + msg.type);
+					break;
 				}
 			};
 
@@ -72,15 +66,21 @@
 	};
 
 	document.querySelector('#chat-message-submit').onclick = function(e) {
-		var messageInputDom = document.querySelector('#chat-message-input');
-		var message = messageInputDom.value;
-		chatSocket.send(JSON.stringify({
-			'action': 'chat_message',
-			'args': {
-				'content': message
-	}}));
 
-		messageInputDom.value = '';
+		var messageInputDom = document.querySelector('#chat-message-input');
+		const message = messageInputDom.value;
+		const req = new XMLHttpRequest();
+		req.open('POST', 'http://' + window.location.host + '/api/chat/', false); 
+		if (getToken())
+			req.setRequestHeader("Authorization", "Token " + getToken());
+		req.setRequestHeader("Content-Type", "application/json");
+		req.send(JSON.stringify({'text': message}));
+
+		if (req.status === 201) {
+			messageInputDom.value = '';
+		} else {
+			console.log("Status de la réponse: %d (%s)", req.status, req.statusText);
+		}
 	};
 
 	document.querySelector('#reload').onclick = function(e) {

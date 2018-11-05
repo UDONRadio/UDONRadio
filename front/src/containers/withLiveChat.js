@@ -11,41 +11,43 @@ function withLiveChat(WrappedComponent) {
 			this.state = {
 				'messages' : [],
 				'online': false,
-				'nickname': '',
 				'__ws_send': () => (false),
+				'online_count': 0,
 			}
 		}
 
-		changeNick = ({username}) => {
-			this.setState({nickname: username})
-		}
-
-		appendMessage = (data) => {
-			if (!this.state.online)
-				this.setState({'online': true})
-			this.setState({messages: this.state.messages.concat(data)})
-		}
-
-		handleMessage = ({ data }) => {
-			switch (data.action) {
-				case 'chat_message':
-					this.appendMessage(data.args);
-					break;
-				default:
-					console.warn('unrecognized message: ', data);
-					break;
+		handleMessage = ({data}) => {
+			switch (data.type) {
+			case 'auth':
+				// Simply ignore this at the moment
+				break;
+			case 'count':
+				this.setState({online_count : data.count});
+				break;
+			case 'messages':
+				this.setState({messages: this.state.messages.concat(data.messages)});
+				break;
+			default:
+					console.warn(`unsupported msg type: ${data.type}`);
+					console.warn(data);
 			}
 		}
 
-		sendMessage = (text) => {
+		sendMessage = (text, callback, callback_err) => {
 			if (!this.state.online)
-				return (false);
-			return (this.state.__ws_send({
-				'action': "chat_message",
-				'args': {
-					'content': text
-				}
-			}));
+				callback_err('err: chat is offline');
+			else
+			{
+				this.props.user.request(SERVER.api_url + '/chat/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({'text': text})
+				}).then((response) => {
+					callback(response);
+				}).catch(callback_err);
+			}
 		}
 
 		onOpen = (event, send_msg) => this.setState({

@@ -33,12 +33,17 @@ class AuthWebSocketWrapper extends Component {
 		/*
 	  * intercept auth messages and propagate other messages
 		*/
-		if (event.data.action === "confirm_auth") {
-			if (event.data.args.auth)
-				this.props.onAuth();
-			else
-				this.props.onNoAuth();
-			return (true);
+		if (event.data.special) {
+			const payload = JSON.parse(event.data.text);
+			
+			if (payload.action === "confirm_auth")
+			{
+				if (payload.auth)
+					this.props.onAuth();
+				else
+					this.props.onNoAuth();
+				return (true);
+			}
 		}
 		return (this.props.onMessage(event));
   }
