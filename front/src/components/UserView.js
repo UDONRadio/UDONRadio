@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Menu } from 'semantic-ui-react';
-import { GenericForm } from '../components';
+import { GenericForm, BlueSpan } from '../components';
 
 class UserView extends Component {
 
@@ -12,7 +12,7 @@ class UserView extends Component {
 	}
 	/* login login_url */
   RecoverForm = (props) => (
-    <a>not implemented</a>
+    <BlueSpan>not implemented</BlueSpan>
   )
 
   LoginForm = (props) => (
@@ -31,11 +31,11 @@ class UserView extends Component {
         ]}
         name="Login"
       />
-    <a
+    <BlueSpan
       onClick={() => {this.changeCurrentForm('recover')}}
       style={{'cursor': 'pointer'}}
     >mot de passe oublie ?
-    </a>
+    </BlueSpan>
     </div>
   )
 

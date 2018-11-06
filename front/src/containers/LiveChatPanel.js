@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, TextArea, List, Icon } from 'semantic-ui-react';
+import { BlueSpan } from '../components';
 
 const RegularMessage = ({ author, text, created }) => {
 	const date = new Date(created);
@@ -11,7 +12,7 @@ const RegularMessage = ({ author, text, created }) => {
 	return <List.Content>
 		{ f + '    '}
 		<List.Header style={{'display': 'inline-block'}}>
-			{ (author) ? <a>{ author }</a> : "anonyme" }
+			{ (author) ? <BlueSpan>{ author }</BlueSpan> : "<anonyme>" }
 		</List.Header>
 		<List.Description style={{'wordWrap': 'break-word'}}>
 			{ text }

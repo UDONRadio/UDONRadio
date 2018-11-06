@@ -1,8 +1,9 @@
 import React from 'react';
+import { BlueButton } from '../components';
 
 const ReplayView = (props) => (
   <div id="replay-view">
-    <a>Replays</a>
+    <BlueButton>Replays</BlueButton>
   </div>
 );
 

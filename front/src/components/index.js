@@ -12,3 +12,5 @@ export { default as UploadStatus } from './UploadStatus';
 export { default as GenericForm } from './GenericForm';
 export { default as UserView } from './UserView';
 export { default as IconButton } from './IconButton';
+export { default as BlueButton } from './BlueButton';
+export { default as BlueSpan } from './BlueSpan';

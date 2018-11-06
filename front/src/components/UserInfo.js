@@ -1,15 +1,16 @@
 import React from 'react';
+import { BlueButton } from '../components';
 
 const UserInfo = (props) => {
   if (props.user.logged_in)
     return <span className="nav-extra-padding">
       <label><i>Bienvenue, {props.user.username}</i></label>
-      <a style={{'cursor':'pointer', 'float':'right'}} onClick={props.user.logout}>logout</a>
+      <BlueButton style={{'float':'right'}} onClick={props.user.logout}>logout</BlueButton>
     </span>
   else
-    return <a className="nav-extra-padding" style={{'cursor':'pointer'}} onClick={props.user.showLoginRegisterModal}>
+    return <BlueButton className="nav-extra-padding" onClick={props.user.showLoginRegisterModal}>
       Rejoins-nous !
-    </a>
+    </BlueButton>
 }
 
 export default UserInfo;
