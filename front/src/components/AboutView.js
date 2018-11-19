@@ -39,7 +39,7 @@ const AboutView = (props) => (
         </Modal>
       </Grid.Column>
       <Grid.Column width={13}>
-        <p className="texte">Pour faire simple: <b>notre</b> UDON a l'ambition de devenir <b>votre</b> radio. Cet objectif, même simplement formulé, reste une tâche compliquée à accomplir. Aussi, si parmi vous qui lisez ces lignes, certains pensent pouvoir nous apporter de l'aide (pour construire le site par exemple 😉), n'hésitez pas! Envoyez au choix un mail à cette adresse: recrutement@UDON.moncul ou contactez-nous via l'onglet "nous contacter" [liens hypertextes]</p>
+				<p className="texte">Pour faire simple: <b>notre</b> UDON a l'ambition de devenir <b>votre</b> radio. Cet objectif, même simplement formulé, reste une tâche compliquée à accomplir. Aussi, si parmi vous qui lisez ces lignes, certains pensent pouvoir nous apporter de l'aide (pour construire le site par exemple 😉), n'hésitez pas! Envoyez au choix un mail à cette adresse: <a href="mailto:contact@udonradio.fr">contact@udonradio.fr</a></p>
       </Grid.Column>
     </Grid.Row>
 
