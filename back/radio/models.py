@@ -118,3 +118,5 @@ class Song(models.Model):
         on_delete=models.CASCADE
     )
     play_count = models.IntegerField(default=0)
+
+    enabled = models.BooleanField(default=True)

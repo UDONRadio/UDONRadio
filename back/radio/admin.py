@@ -10,6 +10,7 @@ class SongAdmin(admin.ModelAdmin):
     date_hierarchy = 'audio__created'
     search_fields = ('title', 'artist', 'album')
     list_display = (
+        'enabled',
         'title',
         'artist',
         'album',
@@ -24,6 +25,7 @@ class SongAdmin(admin.ModelAdmin):
 
     def uploaded_on(self, obj):
         return obj.audio.created
+
 
 @admin.register(LiveStream)
 class LiveStream(admin.ModelAdmin):

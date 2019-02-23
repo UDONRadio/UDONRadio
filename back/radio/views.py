@@ -25,12 +25,13 @@ class SongViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
     @list_route(permission_classes=[IsLiquidsoap])
     def next(self, request, format=None):
-        unplayed = Song.objects.filter(play_count=0)
+        songs = Song.objects.filter(enabled=True)
+        unplayed = songs.filter(play_count=0)
         if unplayed.exists():
             song = unplayed.earliest('audio__created')
         else:
-            # Raises an exception if no song exists
-            song = Song.objects.order_by('?')[0]
+            # Raises an exception if no enabled song exists
+            song = songs.order_by('?')[0]
         song.play_count += 1
         song.save()
 
