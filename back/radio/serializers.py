@@ -23,14 +23,9 @@ class SongCreateSerializer(serializers.ModelSerializer):
 
 class SongPlaylistSerializer(serializers.ModelSerializer):
 
-    new = serializers.SerializerMethodField()
-
     class Meta:
         model = Song
-        fields = ('artist', 'title', 'album', 'new')
-
-    def get_new(self, obj):
-        return obj.play_count < 3
+        fields = ('artist', 'title', 'album')
 
 
 class LiveStreamSerializer(serializers.ModelSerializer):

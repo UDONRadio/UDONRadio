@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import AutoPlaylist, Song, LiveStream
+from .models import Song, LiveStream
 from django.utils.html import mark_safe
-
-admin.site.register(AutoPlaylist)
 
 @admin.register(Song)
 class SongAdmin(admin.ModelAdmin):
