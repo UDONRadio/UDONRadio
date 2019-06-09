@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import datetime
 
+
+class Archive(models.Model):
+    title = models.CharField(max_length=256, null=True)
+
+
 class LiveStream(models.Model):
 
     host = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -31,3 +36,5 @@ class Song(models.Model):
     play_count = models.IntegerField(default=0)
 
     enabled = models.BooleanField(default=True)
+
+    archive = models.ManyToManyField(Archive)
